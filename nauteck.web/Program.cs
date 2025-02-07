@@ -1,9 +1,14 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Azure;
 
+using MySql.EntityFrameworkCore.Diagnostics;
+
+using nauteck.core.Abstraction;
 using nauteck.core.Features.Account;
+using nauteck.core.Implementation;
 using nauteck.persistence;
 
 using System.Globalization;
@@ -18,7 +23,7 @@ var database = Environment.GetEnvironmentVariable("DB_NAME");
 var user = Environment.GetEnvironmentVariable("DB_USER");
 var password = Environment.GetEnvironmentVariable("DB_PASSWORD");
 
-var dbConnectionString = $"Server={host};port={port};user id={user};password={password};database={database};SslMode=Required;";
+var dbConnectionString = $"Server={host};port={port};user id={user};password={password};database={database};SslMode=Required;CharSet=utf8mb4;";
 
 // Add services to the container.
 var services = builder.Services;
@@ -29,17 +34,24 @@ services
     .AddLogging()
     .AddMemoryCache()
     .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(SignInQuery).Assembly))
+    .AddSingleton<IHelper, Helper>()
     .AddDbContext<AppDbContext>(optionsBuilder =>
     {
+        //optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.DetachedLazyLoadingWarning));
         optionsBuilder.UseMySQL(dbConnectionString, options =>
         {
-            options.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
-            options.EnableRetryOnFailure();
+            options
+                .EnableRetryOnFailure(maxRetryCount: 5,
+                                         maxRetryDelay: TimeSpan.FromSeconds(10),
+                                         errorNumbersToAdd: null)
+                //.MaxBatchSize(100)
+                .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
+                ;
         });
     });
     //.AddAzureClients(config => config.AddBlobServiceClient(azureStorageConnectionString));
 
-// Add services to the container.
+
 builder.Services.AddControllersWithViews();
 
 

@@ -399,3 +399,11 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 launchSettings.json
+
+# Rider
+.idea/
+
+local.settings.json
+*ncrunch*
+
+appsettings.Development.json

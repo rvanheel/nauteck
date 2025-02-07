@@ -4,24 +4,37 @@
 
 <main class="p-5" style="width: 100%; max-width: 640px; margin: auto;">
     <div>
-        @using (Html.BeginForm("Login", "Account", default, FormMethod.Post, antiforgery: true, htmlAttributes: new { id = "form-login" }))
-        {
+        @using (Html.BeginForm("Login", "Account", default, FormMethod.Post, antiforgery: true, htmlAttributes: new { id = "form-login" }))        {
 
-            <h3 class="mb-3 fw-bold">
-                <img class="img-fluid" src="~/images/nauteck_liggend-1.svg" alt="" style="max-width: 100%;" title="Nauteck Flooring">
-            </h3>
-            <div class="m-1">
-                <input autocomplete="email" class="form-control valid" name="User" placeholder="who@are.you" title="Email adres" type="email" value="" aria-invalid="false">
+            <div class="grid">
+                <div class="grid-col-12">
+                    <h3 class="mb-3 fw-bold">
+                        <img class="img-fluid" src="~/images/nauteck_liggend-1.svg" alt="" style="max-width: 100%;" title="Nauteck Flooring">
+                    </h3>
+
+                </div>
+                <!-- ROW -->
+                <div class="grid-col-12">
+                    <label class="fw-bold mb-1">Gebruiker <span class="text-danger">*</span></label>
+                    <input autocomplete="email" class="form-control valid" name="User" placeholder="who@are.you" title="Email adres" type="email" value="" aria-invalid="false">
+                </div>
+                <!-- ROW -->
+                <div class="grid-col-12">
+                    <label class="fw-bold mb-1">Wachtwoord <span class="text-danger">*</span></label>
+                    <input autocomplete="current-password" class="form-control" name="Password" placeholder="wachtwoord" title="Wachtwoord" type="password" value="">
+                </div>
+                <!-- ROW -->
+                <div class="grid-col-12"><span class="text-danger">@ViewData["message"]</span></div>
+                <!-- ROW -->
+                <div class="grid-col-12">
+                    <button class="w-100 btn btn-lg btn-dark mt-2" autofocus type="submit">Sign in</button>
+                </div>
             </div>
-            <div class="m-1">
-                <input autocomplete="current-password" class="form-control" name="Password" placeholder="wachtwoord" title="Wachtwoord" type="password" value="">
-            </div>
-            <button class="w-100 btn btn-lg btn-dark mt-2" autofocus type="submit">Sign in</button>
-            <p class="mt-3 text-secondary"><strong>&copy; 2025 Cloud4U</strong></p>
+            <p class="mt-3 text-secondary"><strong>&copy; @DateTime.Now.Year Cloud4U</strong></p>
         }
     </div>
 </main>
 
 @section Scripts {
-    <script src="js/account/login.js" asp-append-version="true"></script>
+    <script src="~/js/account/login.js" asp-append-version="true"></script>
 }

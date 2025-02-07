@@ -19,7 +19,7 @@ public sealed class AccountController(IMediator mediator) : Controller
     [AllowAnonymous]
     public IActionResult Login(string message = "")
     {
-        ViewData["message"] = message;
+        ViewData["message"] = "";
         return View();
     }
 
@@ -33,7 +33,7 @@ public sealed class AccountController(IMediator mediator) : Controller
         var principal = await mediator.Send(query, cancellationToken);
         if (principal is null)
         {
-            ModelState.AddModelError(string.Empty, "Ongeldige gebruikersnaam of code.");
+            ViewData["message"] = "Ongeldige gebruikersnaam of code.";
             return View();
         }
         var dt = DateTimeOffset.UtcNow;

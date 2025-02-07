@@ -1,0 +1,27 @@
+{
+  "name": "nauteck",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "watch": "webpack -w"
+  },
+  "author": "Cloud4U",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.5.3",
+    "webpack-cli": "^5.1.4"
+  },
+  "devDependencies": {
+    "@types/bootbox": "^5.2.8",
+    "@types/bootstrap": "^5.2.10",
+    "@types/jquery": "^3.5.30",
+    "@types/jquery.datatables": "^1.10.36",
+    "@types/jquery.validation": "^1.16.10",
+    "@types/summernote": "^0.8.10",
+    "@types/toastr": "^2.1.43",
+    "@types/uuid": "^10.0.0"
+  }
+}
