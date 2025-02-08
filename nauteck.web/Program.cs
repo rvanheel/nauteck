@@ -1,3 +1,5 @@
+using MediatR;
+
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +10,7 @@ using MySql.EntityFrameworkCore.Diagnostics;
 
 using nauteck.core.Abstraction;
 using nauteck.core.Features.Account;
+using nauteck.core.Features.Floor.Color;
 using nauteck.core.Implementation;
 using nauteck.persistence;
 

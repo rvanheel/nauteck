@@ -3,7 +3,14 @@
   "configurations": [
     {
       "type": "node-terminal",
-      "name": "Run Script: watch",
+      "name": "DigitalOcean App Platform: Deploy",
+      "request": "launch",
+      "command": "./build.cmd",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "node-terminal",
+      "name": "TypeScript Watch",
       "request": "launch",
       "command": "npm run watch",
       "cwd": "${workspaceFolder}"
