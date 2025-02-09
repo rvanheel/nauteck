@@ -1,6 +1,6 @@
 ﻿namespace nauteck.data.Entities.Floor;
 
-public sealed class FloorLogo : FloorBase
+public sealed class FloorMeasurement : FloorBase
 {
     public bool UponRequest { get; set; }
 }

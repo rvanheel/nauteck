@@ -1,18 +1,17 @@
-﻿@model IEnumerable<nauteck.data.Entities.Floor.FloorLogo>
+﻿@model IEnumerable<nauteck.data.Entities.Floor.FloorDesign>
 
 <div class="m-2 p-2 rounded-3 border shadow-lg">
 
     <div class="row p-2">
         <div class="col">
-            <p class="lead fw-bold text-uppercase">Floor Logo</p>
+            <p class="lead fw-bold text-uppercase">Floor Design</p>
         </div>
         <div class="col">
-            <a class="btn btn-primary text-white float-end" title="Toevoegen"><i class="bi bi-brush"></i>&nbsp;New Floor Logo</a>
+            <a class="btn btn-primary text-white float-end" title="Toevoegen"><i class="bi bi-brush"></i>&nbsp;New Floor Design</a>
         </div>
     </div>
 
-
-    <table class="table table-striped table-bordered" id="table-logos">
+    <table class="table table-striped table-bordered" id="table-design">
         <thead>
             <tr>
                 <th>#</th>
@@ -49,14 +48,13 @@
 
 </div>
 
-
 @section Scripts {
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', ()=>{
-            $("#table-logos").DataTable({
+            $("#table-design").DataTable({
                 autoWidth: false,
                 columnDefs:[
-                    { targets: [0, 5], className: "text-center", orderable: false, searchable: false, width: "2rem"}
+                    { targets: [0, 5], className: "text-center", orderable: false, searchable: false },
                     { targets: [2], type: 'num', width: '8rem' },
                     { targets: [3,4], width: '15rem' }
                 ],

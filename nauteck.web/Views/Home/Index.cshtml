@@ -1,1 +1,79 @@
-﻿
+﻿@model IEnumerable<nauteck.data.Entities.Order.FloorOrder>
+
+<div class="m-2 p-2 rounded-3 border shadow-lg">
+
+    <div class="row p-2">
+        <div class="col">
+            <p class="lead fw-bold text-uppercase">Floor Orders</p>
+        </div>
+    </div>
+
+
+    <table class="table table-striped table-bordered" id="table-orders">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Consumer</th>
+                <th>Boat</th>
+                <th>Invoice</th>
+                <th>Reference</th>                
+                <th>Provision</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var record in Model)
+            {
+                <tr>
+                    <td><a class="btn btn-sm btn-warning" href=""><i class="bi bi-pencil-square"></i></a></td>
+                    <td>@record.Preamble @record.FirstName @record.Infix @record.LastName<br />
+                        <address>
+                            @record.Address @record.Number@record.Infix<br />
+                            @record.Zipcode @record.City<br />
+                            @record.Country
+                        </address>
+                    </td>
+                    <td>@record.BoatBrand<br />@record.BoatType</td>
+                    <td>@record.Total</td>
+                    <td>@record.Reference</td>
+                    <td>@record.Provision</td>
+                    <td>
+                        @if (record.Status == "Afgerond")
+                        {
+                            <span class="badge bg-success"><i class="bi bi-hand-thumbs-up-fill"></i>&nbsp;Afgerond</span>
+                        }
+                        @if (record.Status == "Geannuleerd")
+                        {
+                            <span class="badge bg-danger"><i class="bi bi-trash"></i>&nbsp;Geannuleerd</span>
+                        }
+                        @if (record.Status == "In produktie")
+                        {
+                            <span class="badge bg-info"><i class="bi bi-boxes"></i>&nbsp;In produktie</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', ()=>{
+            $("#table-orders").DataTable({
+                autoWidth: false,
+                columnDefs:[
+                    { targets: [0], className: "text-center", orderable: false, searchable: false, width: "2rem"},
+                    { targets: [3,5], type: 'num', width: '4rem'},
+                    { targets: [4], type: 'num', width: '4rem'},
+                    { targets: [6], className: "text-center", width: "10rem"},
+                ],
+                order: [[1, 'asc']],
+                deferRender: true,
+                processing: true,
+                stateSave: true
+            });
+        });
+    </script>
+}

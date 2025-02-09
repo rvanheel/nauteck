@@ -2,6 +2,8 @@ using System.Diagnostics;
 using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
+
+using nauteck.core.Features.Order;
 using nauteck.web.Models;
 
 namespace nauteck.web.Controllers;
@@ -9,10 +11,13 @@ namespace nauteck.web.Controllers;
 public class HomeController(IMediator mediator) : BaseController(mediator)
 {
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
-        return View();
+        var records = await Mediator.Send(new FloorOrderQuery(), cancellationToken);
+        return View(records);
     }
+
+    public IActionResult Quotation() => View();
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

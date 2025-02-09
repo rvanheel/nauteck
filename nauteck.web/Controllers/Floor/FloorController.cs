@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using System.Threading;
+
+using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,23 +11,38 @@ namespace nauteck.web.Controllers.Floor;
 
 public sealed class FloorController(IMediator mediator) : BaseController(mediator)
 {
-    public IActionResult Index()
+    public async Task<IActionResult> Construction(CancellationToken cancellationToken)
     {
-        return View();
+        var records = await Mediator.Send(new FloorConstructionQuery(), cancellationToken);
+        return View(records);
+    }
+    public async Task<IActionResult> Design(CancellationToken cancellationToken)
+    {
+        var records = await Mediator.Send(new FloorDesignQuery(), cancellationToken);
+        return View(records);
     }
     public async Task<IActionResult> ExclusiveColor(CancellationToken cancellationToken)
     {
         var records = await Mediator.Send(new FloorColorExclusiveQuery(), cancellationToken);
         return View(records);
-    }
-    public async Task<IActionResult> StandardColor(CancellationToken cancellationToken)
+    }    public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
-        var records = await Mediator.Send(new FloorColorQuery(), cancellationToken);
+        var records = await Mediator.Send(new FloorQuery(), cancellationToken);
         return View(records);
     }
     public async Task<IActionResult> Logo(CancellationToken cancellationToken)
     {
         var records = await Mediator.Send(new FloorLogoQuery(), cancellationToken);
+        return View(records);
+    }
+    public async Task<IActionResult> Measurement(CancellationToken cancellationToken)
+    {
+        var records = await Mediator.Send(new FloorMeasurementQuery(), cancellationToken);
+        return View(records);
+    }
+    public async Task<IActionResult> StandardColor(CancellationToken cancellationToken)
+    {
+        var records = await Mediator.Send(new FloorColorQuery(), cancellationToken);
         return View(records);
     }
 }

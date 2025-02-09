@@ -14,7 +14,6 @@ WORKDIR /src
 
 COPY ["nauteck.core/nauteck.core.csproj", "nauteck.core/"]
 COPY ["nauteck.data/nauteck.data.csproj", "nauteck.data/"]
-COPY ["nauteck.persistence/nauteck.persistence.csproj", "nauteck.persistence/"]
 COPY ["nauteck.web/nauteck.web.csproj", "nauteck.web/"]
 
 RUN dotnet restore "./nauteck.web/nauteck.web.csproj"

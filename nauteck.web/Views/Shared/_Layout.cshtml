@@ -24,44 +24,41 @@
 <body class="bg-light">
     <main>
         <div class="d-flex flex-column flex-shrink-0 p-2 text-white bg-dark" style="width: 20rem">
+            <span>Floor</span>
+            <hr style="color: white" />
             <ul class="nav nav-pills flex-column mb-auto">
-                <!--
-                <li class="nav-item"><a aria-current="page" asp-controller="Brand" asp-action="Index" class="nav-link text-white" title="Producten"><i class="bi bi-apple"></i>&nbsp;Merk / Fabrikant</a></li>
-                <li class="nav-item"><a aria-current="page" asp-controller="Category" asp-action="Index" class="nav-link text-white" title="Categorie&euml;n"><i class="bi bi-tags-fill"></i>&nbsp;Categorie&euml;n</a></li>
-                <li class="nav-item"><a aria-current="page" asp-controller="SubCategory" asp-action="Index" class="nav-link text-white" title="SubCategorie&euml;n"><i class="bi bi-bookmarks-fill"></i>&nbsp;SubCategorie&euml;n</a></li>
-                <li class="nav-item"><a aria-current="page" asp-controller="Product" asp-action="Index" class="nav-link text-white" title="Producten"><i class="bi bi-database-fill"></i>&nbsp;Producten</a></li>
-                -->
+                <li class="nav-item"><a aria-current="page" asp-controller="Home" asp-action="Quotation" class="nav-link text-white" title="Floor"><i class="bi bi-apple"></i>&nbsp;Offertes</a></li>
+                <li class="nav-item"><a aria-current="page" asp-controller="Home" asp-action="Index" class="nav-link text-white" title="Floor"><i class="bi bi-apple"></i>&nbsp;Orders</a></li>
+            </ul>
+
+            <span>Administratie</span>
+            <hr style="color: white" />
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item"><a asp-controller="Dealer" asp-action="Index" class="nav-link text-white" aria-current="page" title="Dealers"><i class="bi bi-people"></i>&nbsp;Dealers</a></li>
                 <li class="nav-item"><a aria-current="page" asp-controller="Account" asp-action="Logout" class="nav-link text-white" title="Afmelden"><i class="bi bi-box-arrow-left"></i>&nbsp;Afmelden</a></li>
             </ul>
-            @if (User.IsInRole(nameof(nauteck.data.Enums.RoleType.Administrator)))
-            {
-                <span>Administratie</span>
-                <hr style="color: white" />
-                <ul class="nav nav-pills flex-column mb-auto">
-                    <li class="nav-item"><a asp-controller="Admin" asp-action="Index" class="nav-link text-white" aria-current="page" title="Dealers"><i class="bi bi-people"></i>&nbsp;Dealers</a></li>
-                </ul>
 
-                <span>Floors</span>
-                <hr style="color: white" />
-                <ul class="nav nav-pills flex-column mb-auto">
-                    <li class="nav-item"><a asp-controller="Floor" asp-action="Index" class="nav-link text-white" aria-current="page" title="Floor"><i class="bi bi-file-earmark-medical-fill"></i>&nbsp;Floor</a></li>
-                    <li class="nav-item"><a asp-controller="Floor" asp-action="StandardColor" class="nav-link text-white" aria-current="page" title="Standard Colors"><i class="bi bi-brush"></i>&nbsp;Standard Colors</a></li>
-                    <li class="nav-item"><a asp-controller="Floor" asp-action="ExclusiveColor" class="nav-link text-white" aria-current="page" title="Exclusive Colors"><i class="bi bi-brush"></i>&nbsp;Exclusive Colors</a></li>
-                    <li class="nav-item"><a asp-controller="Floor" asp-action="Index" class="nav-link text-white" aria-current="page" title="Designs"><i class="bi bi-people"></i>&nbsp;Designs</a></li>
-                    <li class="nav-item"><a asp-controller="Floor" asp-action="Logo" class="nav-link text-white" aria-current="page" title="Logos"><i class="bi bi-people"></i>&nbsp;Logos</a></li>
-                    <li class="nav-item"><a asp-controller="Floor" asp-action="Index" class="nav-link text-white" aria-current="page" title="Measurement"><i class="bi bi-people"></i>&nbsp;Measurement</a></li>
-                    <li class="nav-item"><a asp-controller="Floor" asp-action="Index" class="nav-link text-white" aria-current="page" title="Construction"><i class="bi bi-people"></i>&nbsp;Construction</a></li>
-                </ul>
+            <span>Floors</span>
+            <hr style="color: white" />
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item"><a asp-controller="Floor" asp-action="Index" class="nav-link text-white" aria-current="page" title="Floor"><i class="bi bi-file-earmark-medical-fill"></i>&nbsp;Floor</a></li>
+                <li class="nav-item"><a asp-controller="Floor" asp-action="StandardColor" class="nav-link text-white" aria-current="page" title="Standard Colors"><i class="bi bi-brush"></i>&nbsp;Standard Colors</a></li>
+                <li class="nav-item"><a asp-controller="Floor" asp-action="ExclusiveColor" class="nav-link text-white" aria-current="page" title="Exclusive Colors"><i class="bi bi-brush"></i>&nbsp;Exclusive Colors</a></li>
+                <li class="nav-item"><a asp-controller="Floor" asp-action="Design" class="nav-link text-white" aria-current="page" title="Designs"><i class="bi bi-people"></i>&nbsp;Designs</a></li>
+                <li class="nav-item"><a asp-controller="Floor" asp-action="Logo" class="nav-link text-white" aria-current="page" title="Logos"><i class="bi bi-people"></i>&nbsp;Logos</a></li>
+                <li class="nav-item"><a asp-controller="Floor" asp-action="Measurement" class="nav-link text-white" aria-current="page" title="Measurement"><i class="bi bi-people"></i>&nbsp;Measurement</a></li>
+                <li class="nav-item"><a asp-controller="Floor" asp-action="Construction" class="nav-link text-white" aria-current="page" title="Construction"><i class="bi bi-people"></i>&nbsp;Construction</a></li>
+            </ul>
 
-                <span>Articles</span>
-                <hr style="color: white" />
-                <ul class="nav nav-pills flex-column mb-auto">
-                    <li class="nav-item"><a asp-controller="Article" asp-action="Index" class="nav-link text-white" aria-current="page" title="Supplier"><i class="bi bi-people"></i>&nbsp;Supplier</a></li>
-                    <li class="nav-item"><a asp-controller="Article" asp-action="Index" class="nav-link text-white" aria-current="page" title="Category"><i class="bi bi-people"></i>&nbsp;Category</a></li>
-                    <li class="nav-item"><a asp-controller="Article" asp-action="Index" class="nav-link text-white" aria-current="page" title="SubCategory"><i class="bi bi-people"></i>&nbsp;SubCategory</a></li>
-                    <li class="nav-item"><a asp-controller="Article" asp-action="Index" class="nav-link text-white" aria-current="page" title="Article"><i class="bi bi-people"></i>&nbsp;Article</a></li>
-                </ul>
-            }
+            <span>Articles</span>
+            <hr style="color: white" />
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item"><a asp-controller="Article" asp-action="Index" class="nav-link text-white" aria-current="page" title="Supplier"><i class="bi bi-people"></i>&nbsp;Supplier</a></li>
+                <li class="nav-item"><a asp-controller="Article" asp-action="Index" class="nav-link text-white" aria-current="page" title="Category"><i class="bi bi-people"></i>&nbsp;Category</a></li>
+                <li class="nav-item"><a asp-controller="Article" asp-action="Index" class="nav-link text-white" aria-current="page" title="SubCategory"><i class="bi bi-people"></i>&nbsp;SubCategory</a></li>
+                <li class="nav-item"><a asp-controller="Article" asp-action="Index" class="nav-link text-white" aria-current="page" title="Article"><i class="bi bi-people"></i>&nbsp;Article</a></li>
+            </ul>
+
         </div>
         <div class="b-example-divider"></div>
         <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: calc(100vw - 20rem - 0.5rem);">
