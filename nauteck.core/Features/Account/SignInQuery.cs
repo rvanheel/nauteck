@@ -1,24 +1,25 @@
-﻿using System.Security.Claims;
+﻿using System.Data;
+using System.Security.Claims;
 
 using MediatR;
 
-using Microsoft.EntityFrameworkCore;
+using Dapper;
 
 using nauteck.core.Abstraction;
 using nauteck.data.Enums;
-using nauteck.persistence;
+using nauteck.core.Implementation;
 
 namespace nauteck.core.Features.Account;
 
 public sealed record SignInQuery(string? AuthenticationScheme, string? Password, string? UserName) : IRequest<ClaimsPrincipal?>;
 
 
-public sealed class SignInQueryHandler(AppDbContext appDbContext, IHelper helper) : IRequestHandler<SignInQuery, ClaimsPrincipal?>
+public sealed class SignInQueryHandler(IDbConnection dbConnection, IHelper helper) : IRequestHandler<SignInQuery, ClaimsPrincipal?>
 {
     public async Task<ClaimsPrincipal?> Handle(SignInQuery request, CancellationToken cancellationToken)
     {
         // find the user
-        var u = await GetUserByEmail(request.UserName, cancellationToken);
+        var u = await GetUserByEmail(request.UserName);
 
         // verify the user
         if (u is null || !helper.VerifyPassword(request.Password, u.Password)) return default;
@@ -50,11 +51,10 @@ public sealed class SignInQueryHandler(AppDbContext appDbContext, IHelper helper
 
         return [.. claims];
     }
-    private Task<data.Entities.Account.User?> GetUserByEmail(string? email, CancellationToken cancellationToken)
+    private Task<data.Entities.Account.User?> GetUserByEmail(string? email)
     {
-        return appDbContext.Users
-            .AsNoTracking()
-            .FirstOrDefaultAsync(u => u.Email == email && u.Active == true, cancellationToken);
+        var query = $"SELECT * FROM {DbConstants.Tables.User} WHERE Email = @Email AND Active = 1 LIMIT 1";
+        return dbConnection.QueryFirstOrDefaultAsync<data.Entities.Account.User>(query, new { email });
     }
     #endregion
 }

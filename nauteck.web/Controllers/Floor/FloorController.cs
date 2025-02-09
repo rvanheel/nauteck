@@ -2,8 +2,8 @@
 
 using Microsoft.AspNetCore.Mvc;
 
+using nauteck.core.Features.Floor;
 using nauteck.core.Features.Floor.Color;
-using nauteck.data.Entities.Floor.Color;
 
 namespace nauteck.web.Controllers.Floor;
 
@@ -13,19 +13,20 @@ public sealed class FloorController(IMediator mediator) : BaseController(mediato
     {
         return View();
     }
-    #region Exclusive Colors
     public async Task<IActionResult> ExclusiveColor(CancellationToken cancellationToken)
     {
-        var standardColors = await Mediator.Send(new FloorColorExclusiveQuery(), cancellationToken);
-        return View(standardColors);
+        var records = await Mediator.Send(new FloorColorExclusiveQuery(), cancellationToken);
+        return View(records);
     }
-    #endregion
-    #region Standard Colors
     public async Task<IActionResult> StandardColor(CancellationToken cancellationToken)
     {
-        var standardColors = await Mediator.Send(new FloorColorQuery(), cancellationToken);
-        return View(standardColors);
+        var records = await Mediator.Send(new FloorColorQuery(), cancellationToken);
+        return View(records);
     }
-    #endregion
+    public async Task<IActionResult> Logo(CancellationToken cancellationToken)
+    {
+        var records = await Mediator.Send(new FloorLogoQuery(), cancellationToken);
+        return View(records);
+    }
 }
 

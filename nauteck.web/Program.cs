@@ -1,32 +1,33 @@
-using MediatR;
-
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.Extensions.Azure;
+using Microsoft.Extensions.Options;
 
-using MySql.EntityFrameworkCore.Diagnostics;
 
 using nauteck.core.Abstraction;
 using nauteck.core.Features.Account;
-using nauteck.core.Features.Floor.Color;
 using nauteck.core.Implementation;
-using nauteck.persistence;
+using nauteck.data.Configuration;
 
+using System.Data;
 using System.Globalization;
+
+using MySql.Data.MySqlClient;
+using Dapper;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-var azureStorageConnectionString = Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING");
-var host = Environment.GetEnvironmentVariable("DB_HOST");
-var port = Environment.GetEnvironmentVariable("DB_PORT");
-var database = Environment.GetEnvironmentVariable("DB_NAME");
-var user = Environment.GetEnvironmentVariable("DB_USER");
-var password = Environment.GetEnvironmentVariable("DB_PASSWORD");
+builder.Services.AddOptions<DatabaseSettings>()
+    .Configure(options =>
+    {
+        options.Host = Environment.GetEnvironmentVariable("DB_HOST");
+        options.Port = Environment.GetEnvironmentVariable("DB_PORT");
+        options.Database = Environment.GetEnvironmentVariable("DB_NAME");
+        options.User = Environment.GetEnvironmentVariable("DB_USER");
+        options.Password = Environment.GetEnvironmentVariable("DB_PASSWORD");
+    });
 
-var dbConnectionString = $"Server={host};port={port};user id={user};password={password};database={database};SslMode=Required;CharSet=utf8mb4;";
+var azureStorageConnectionString = Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING");
 
 // Add services to the container.
 var services = builder.Services;
@@ -38,21 +39,12 @@ services
     .AddMemoryCache()
     .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(SignInQuery).Assembly))
     .AddSingleton<IHelper, Helper>()
-    .AddDbContext<AppDbContext>(optionsBuilder =>
+    .AddTransient<IDbConnection>(sp =>
     {
-        //optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.DetachedLazyLoadingWarning));
-        optionsBuilder.UseMySQL(dbConnectionString, options =>
-        {
-            options
-                .EnableRetryOnFailure(maxRetryCount: 5,
-                                         maxRetryDelay: TimeSpan.FromSeconds(10),
-                                         errorNumbersToAdd: null)
-                //.MaxBatchSize(100)
-                .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
-                ;
-        });
+        var dbSettings = sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
+        return new MySqlConnection(dbSettings.ConnectionString);
     });
-    //.AddAzureClients(config => config.AddBlobServiceClient(azureStorageConnectionString));
+//.AddAzureClients(config => config.AddBlobServiceClient(azureStorageConnectionString));
 
 
 builder.Services.AddControllersWithViews();

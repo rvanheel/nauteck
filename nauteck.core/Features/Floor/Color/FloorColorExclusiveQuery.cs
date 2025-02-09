@@ -1,20 +1,18 @@
 ﻿using MediatR;
 
-using Microsoft.EntityFrameworkCore;
+using Dapper;
 
 using nauteck.data.Entities.Floor.Color;
-using nauteck.persistence;
-
+using System.Data;
+using nauteck.core.Implementation;
 namespace nauteck.core.Features.Floor.Color;
 
-public sealed record FloorColorExclusiveQuery: IRequest<FloorColorExclusive[]>;
+public sealed record FloorColorExclusiveQuery: IRequest<IEnumerable<FloorColorExclusive>>;
 
-public sealed class FloorColorExclusiveQueryHandler(AppDbContext appDbContext) : IRequestHandler<FloorColorExclusiveQuery, FloorColorExclusive[]>
+public sealed class FloorColorExclusiveQueryHandler(IDbConnection dbConnection) : IRequestHandler<FloorColorExclusiveQuery, IEnumerable<FloorColorExclusive>>
 {
-    public Task<FloorColorExclusive[]> Handle(FloorColorExclusiveQuery request, CancellationToken cancellationToken)
+    public Task<IEnumerable<FloorColorExclusive>> Handle(FloorColorExclusiveQuery request, CancellationToken cancellationToken)
     {
-        return appDbContext.FloorColorExclusive
-            .AsNoTracking()
-            .ToArrayAsync(cancellationToken);
+        return dbConnection.QueryAsync<FloorColorExclusive>($"SELECT * FROM {DbConstants.Tables.FloorColor}");
     }
 }
