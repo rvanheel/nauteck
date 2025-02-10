@@ -5,22 +5,39 @@ using Dapper;
 using MediatR;
 
 using nauteck.core.Implementation;
-using nauteck.data.Entities.Order;
+using nauteck.data.Dto.Order;
 
 namespace nauteck.core.Features.Order;
 
-public sealed record FloorOrderQuery : IRequest<IEnumerable<FloorOrder>>;
+public sealed record FloorOrderQuery : IRequest<IEnumerable<FloorOrderDto>>;
 
-public sealed class FloorOrderQueryHandler(IDbConnection dbConnection) : IRequestHandler<FloorOrderQuery, IEnumerable<FloorOrder>>
-{
-    public Task<IEnumerable<FloorOrder>> Handle(FloorOrderQuery request, CancellationToken cancellationToken)
+public sealed class FloorOrderQueryHandler(IDbConnection dbConnection) : IRequestHandler<FloorOrderQuery, IEnumerable<FloorOrderDto>>
+{   
+
+    private const string modelAndSupplierColumns = @"
+        CAST(o.`Id` AS NCHAR) AS `Id`
+        , o.`Reference`
+        , o.`LastName`
+        , o.`FirstName`
+        , o.`Preamble`
+        , o.`Infix`
+        , o.`Address`
+        , o.`Number`
+        , o.`Extension`
+        , o.`Zipcode`
+        , o.`City`
+        , o.`Country`
+        , o.`BoatBrand`
+        , o.`BoatType`
+        , o.`Total`
+        , o.`Status`
+        , o.`Provision`
+        , o.`CreatedAt`
+        , p.`ConstructionTotal`";
+    private const string modelAndSupplierJoins = "AS o INNER JOIN `floororderparts` p ON o.`Id` = p.`FloorOrderId`";
+
+    public Task<IEnumerable<FloorOrderDto>> Handle(FloorOrderQuery request, CancellationToken cancellationToken)
     {
-        var sql = @$"SELECT CAST(`Id` AS NCHAR) AS `Id`,
-            `Preamble`,`LastName`,`FirstName`,`Infix`,
-            `Address`,`Number`, `Extension`, `Zipcode`, `City`, `Region`, `Country`,
-            `BoatBrand`,`BoatType`,
-            `Provision`,`Reference`,`Status`,`Total`
-            FROM {DbConstants.Tables.FloorOrder}";
-        return dbConnection.QueryAsync<FloorOrder>(sql);
+        return dbConnection.QueryAsync<FloorOrderDto>($"SELECT {modelAndSupplierColumns} FROM {DbConstants.Tables.FloorOrder} {modelAndSupplierJoins}");
     }
 }

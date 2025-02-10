@@ -32,7 +32,7 @@ public sealed class FloorOrder
     public decimal Total { get; set; }
     #endregion
 
-    /*
+    
     public string Phone { get; set; } = "";
     public string Email { get; set; } = "";
     public DateTime CreatedAt { get; set; }
@@ -52,5 +52,5 @@ public sealed class FloorOrder
     public string InvoiceFreeText { get; set; } = "";
     public string CompanyName { get; set; } = "";
     public string VatNumber { get; set; } = "";
-    */
+    
 }

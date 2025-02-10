@@ -2,10 +2,10 @@
     Layout = "_Login";
 }
 
-<main class="p-5" style="width: 100%; max-width: 640px; margin: auto;">
-    <div>
-        @using (Html.BeginForm("Login", "Account", default, FormMethod.Post, antiforgery: true, htmlAttributes: new { id = "form-login" }))        {
-
+<main class="p-5" style="width: 100vw; max-width: 40rem; margin: auto;">
+    <div class="grid">
+        @using (Html.BeginForm("Login", "Account", default, FormMethod.Post, antiforgery: true, htmlAttributes: new { id = "form-login", @class="grid-col-12" }))
+        {
             <div class="grid">
                 <div class="grid-col-12">
                     <h3 class="mb-3 fw-bold">
@@ -29,10 +29,11 @@
                 <div class="grid-col-12">
                     <button class="w-100 btn btn-lg btn-dark mt-2" autofocus type="submit">Sign in</button>
                 </div>
+                <div class="grid-col-12 mt-3 text-secondary fw-bold">&copy; @DateTime.Now.Year Cloud4U</div>
             </div>
-            <p class="mt-3 text-secondary"><strong>&copy; @DateTime.Now.Year Cloud4U</strong></p>
         }
     </div>
+
 </main>
 
 @section Scripts {
