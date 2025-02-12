@@ -5,11 +5,13 @@
     var designs = await Mediator.Send(new nauteck.core.Features.Floor.FloorDesignQuery());
 }
 
+@model nauteck.data.Entities.Order.FloorOrderPart?
+
 <label class="text-muted small" for="Parts.design">Design</label>
 <select class="form-select form-select-sm" name="Parts.design" id="Parts.design">
     <option value=""></option>
     @foreach (var design in designs)
     {
-        <option data-price="@design.Price" value="@design.Description">@design.Description</option>
+        <option data-price="@design.Price" selected="@(design.Description.Equals(Model?.Design, StringComparison.InvariantCultureIgnoreCase))" value="@design.Description">@design.Description</option>
     }
 </select>

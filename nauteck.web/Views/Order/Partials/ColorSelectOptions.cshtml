@@ -10,13 +10,13 @@
 <optgroup label="Standard Colors">
     @foreach (var color in standardColors.Result)
     {
-        <option data-exclusive="false" data-price=@ViewData["standard"] value="@color.Description">@color.Description</option>
+        <option data-exclusive="false" data-price=@ViewData["standard"] selected="@(color.Description.Equals((ViewData["standardSelected"] as string), StringComparison.InvariantCultureIgnoreCase))" value="@color.Description">@color.Description</option>
     }
 </optgroup>
 <optgroup label="Exclusive Colors">
     @foreach (var color in exclusiveColors.Result)
     {
-        <option data-exclusive="true" data-price=@ViewData["exclusive"] value="@color.Description">@color.Description</option>
+        <option data-exclusive="true" data-price=@ViewData["exclusive"] selected="@(color.Description.Equals((ViewData["exclusiveSelected"] as string), StringComparison.InvariantCultureIgnoreCase))" value="@color.Description">@color.Description</option>
     }
 </optgroup>
 

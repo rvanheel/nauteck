@@ -1,0 +1,34 @@
+﻿@using MediatR;
+@inject IMediator Mediator
+
+@model nauteck.data.Entities.Order.FloorOrder
+
+@{
+    var history = await Mediator.Send(new nauteck.core.Features.Order.Queries.FloorOrderStatusQuery(string.IsNullOrEmpty(Model.Id) ? Guid.Empty : Guid.Parse(Model.Id)));
+}
+
+
+<div class="card w-100">
+    <div class="card-header"><i class="bi bi-telegram"></i>&nbsp;Status History</div>
+    <div class="card-body">
+        <table class="table-responsive table">
+            <thead>
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Modified</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in history)
+                {
+                    <tr>
+                        <td class="text-secondary small">@item.CreatedAt</td>
+                        <td>@item.CreatedBy</td>
+                        <td>@item.Status</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

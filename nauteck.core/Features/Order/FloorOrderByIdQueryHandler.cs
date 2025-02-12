@@ -9,12 +9,10 @@ using nauteck.data.Entities.Order;
 
 namespace nauteck.core.Features.Order;
 
-public sealed record FloorOrderByIdQuery(string Id) : IRequest<FloorOrder>;
-
-public sealed class FloorOrderByIdQueryHandler(IDbConnection dbConnection) : IRequestHandler<FloorOrderByIdQuery, FloorOrder>
+public sealed class FloorOrderByIdQueryHandler(IDbConnection dbConnection) : IRequestHandler<Queries.FloorOrderByIdQuery, FloorOrder>
 {
-    private readonly string Columns = @"
-        CAST(`Id` AS NCHAR) AS `Id`
+    private readonly string Columns = @$"
+        CAST({DbConstants.Columns.Id} AS NCHAR) AS {DbConstants.Columns.Id}
         ,`Reference`
         ,`LastName`
         ,`FirstName`
@@ -30,7 +28,7 @@ public sealed class FloorOrderByIdQueryHandler(IDbConnection dbConnection) : IRe
         ,`Country`
         ,`BoatBrand`
         ,`BoatType`
-        ,`CreatedAt`
+        ,{DbConstants.Columns.CreatedAt}
         ,`CreatedBy`
         ,`ModifiedAt`
         ,`ModifiedBy`
@@ -52,8 +50,9 @@ public sealed class FloorOrderByIdQueryHandler(IDbConnection dbConnection) : IRe
         ,`CompanyName`
         ,`VatNumber`";
 	
-    public Task<FloorOrder> Handle(FloorOrderByIdQuery request, CancellationToken cancellationToken)
+    public Task<FloorOrder> Handle(Queries.FloorOrderByIdQuery request, CancellationToken cancellationToken)
     {
-        return dbConnection.QueryFirstAsync<FloorOrder>($"SELECT {Columns} FROM {DbConstants.Tables.FloorOrder} WHERE `Id` = @Id", new { request.Id });
+        var query = $"SELECT {Columns} FROM {DbConstants.Tables.FloorOrder} WHERE {DbConstants.Columns.Id} = @Id";
+        return dbConnection.QueryFirstAsync<FloorOrder>(query, new { request.Id });
     }
 }

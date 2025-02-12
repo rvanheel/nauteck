@@ -1,17 +1,20 @@
 ﻿@model nauteck.data.Entities.Order.FloorOrder
-
+@{
+    var preamble = new[]
+    {
+        new SelectListItem("", "", Model.Preamble == ""),
+        new SelectListItem("Dhr.", "Dhr.", Model.Preamble == "Dhr."),
+        new SelectListItem("Mevr.", "Mevr.", Model.Preamble == "Mevr."),
+        new SelectListItem("Geen", "Geen", Model.Preamble == "Geen")
+    };
+}
 <div class="card w-100">
     <div class="card-header"><i class="bi bi-person-plus"></i>&nbsp;Customer</div>
     <div class="card-body">
         <div class="row">
             <div class="col-auto">
                 <label class="text-muted small" for="preamble">Preamble</label>
-                <select class="form-control form-control-sm" id="preamble" name="preamble">
-                    <option value=""></option>
-                    <option value="Dhr.">Dhr.</option>
-                    <option value="Mevr.">Mevr.</option>
-                    <option value="">Geen</option>
-                </select>
+                @Html.DropDownList("preamble", preamble, new { @class="form-control form-control-sm", @id="preamble"})
             </div>
             <div class="col">
                 <label class="text-muted small" for="lastName">LastName</label>
@@ -23,7 +26,7 @@
             </div>
             <div class="col-2">
                 <label class="text-muted small" for="infix">Infix</label>
-                <input type="text" class="form-control form-control-sm" id="infix" name="infix" value="@Model.Infix" maxlength="10">
+                <input type="text" class="form-control form-control-sm" id="infix" name="infix" value="@Model.Infix">
             </div>
         </div>
         <div class="row mt-2">
@@ -43,11 +46,11 @@
             </div>
             <div class="col-3">
                 <label class="text-muted small" for="number">Number</label>
-                <input class="form-control form-control-sm" id="number" name="number" type="text" value="@Model.Number" maxlength="10">
+                <input class="form-control form-control-sm" id="number" name="number" type="text" value="@Model.Number">
             </div>
             <div class="col-2">
                 <label class="text-muted small" for="extension">Extension</label>
-                <input class="form-control form-control-sm" id="extension" name="extension" type="text" value="@Model.Extension" maxlength="5">
+                <input class="form-control form-control-sm" id="extension" name="extension" type="text" value="@Model.Extension">
             </div>
             <div class="col"></div>
         </div>
@@ -106,7 +109,7 @@
                         <option value="India">India</option>
                         <option value="Indonesie">Indonesie</option>
                         <option value="Vietnam">Vietnam</option>
-                        <option value="Thailand">Thailand</option>                       
+                        <option value="Thailand">Thailand</option>
                     </optgroup>
                     <optgroup label="Amerika">
                         <option value="Verenigde Staten">Verenigde Staten</option>
@@ -123,12 +126,12 @@
         </div>
         <div class="row mt-2">
             <div class="col-12 col-lg-6">
-                <label class="text-muted small" for="address">Company Name</label>
-                <input class="form-control form-control-sm" id="address" name="companyName" type="text" value="@Model.CompanyName">
+                <label class="text-muted small" for="CompanyName">Company Name</label>
+                <input class="form-control form-control-sm" id="CompanyName" name="companyName" type="text" value="@Model.CompanyName">
             </div>
             <div class="col-12 col-lg-6">
-                <label class="text-muted small" for="city">VAT Number</label>
-                <input class="form-control form-control-sm" id="city" name="vatNumber" type="text" value="@Model.VatNumber">
+                <label class="text-muted small" for="VatNumber">VAT Number</label>
+                <input class="form-control form-control-sm" id="VatNumber" name="vatNumber" type="text" value="@Model.VatNumber">
             </div>
         </div>
     </div>

@@ -1,59 +1,68 @@
-﻿@model nauteck.data.Entities.Order.FloorOrder
+﻿@using MediatR
+@inject IMediator Mediator;
+
+@model nauteck.data.Entities.Order.FloorOrder
+
+@{
+    var floorOrderPartQueryTask = Mediator.Send(new nauteck.core.Features.Order.Queries.FloorOrderPartQuery(string.IsNullOrEmpty(Model.Id) ? Guid.Empty : Guid.Parse(Model.Id)));
+    
+    await Task.WhenAll(floorOrderPartQueryTask);
+    var parts = await floorOrderPartQueryTask;
+}
 
 <div class="card w-100">
     <div class="card-header"><i class="bi bi-file-earmark-text"></i>&nbsp;Floor Order</div>
     <div class="card-body">
         <div class="row">
             <div class="col">
-                @await Html.PartialAsync("Partials/FloorSelect")
+                @await Html.PartialAsync("Partials/FloorSelect", parts)
             </div>
             <div class="col-3">
                 <label class="text-muted small" for="Parts.floorQuantity">Quantity m2</label>
-                <input type="number" min="0.01" step="0.01" class="form-control form-control-sm" id="Parts.floorQuantity" name="Parts.floorQuantity" placeholder="" value="">
+                <input type="number" min="0.01" step="0.01" class="form-control form-control-sm" id="Parts.floorQuantity" name="Parts.floorQuantity" value="@parts?.FloorQuantity">
             </div>
         </div>
         <div class="row mt-2">
             <div class="col-6">
                 <label class="text-muted small" for="Parts.floorColorAbove">Color Above</label>
                 <select class="form-select form-select-sm" name="Parts.floorColorAbove" id="Parts.floorColorAbove">
-                    @await Html.PartialAsync("Partials/ColorSelectOptions", new ViewDataDictionary(ViewData) { {"standard", 0.0 },{ "exclusive", 20.0 } }))                    
+                    @await Html.PartialAsync("Partials/ColorSelectOptions", new ViewDataDictionary(ViewData) { {"standard", 0.0 },{ "exclusive", 20.0 }, { "standardSelected" , parts?.FloorColorAbove} }))                    
                 </select>
             </div>
             <div class="col-6">
                 <label class="text-muted small" for="Parts.floorColorBeneath">Color Below</label>
                 <select class="form-select form-select-sm" name="Parts.floorColorBeneath" id="Parts.floorColorBeneath">
-                    @await Html.PartialAsync("Partials/ColorSelectOptions",  new ViewDataDictionary(ViewData) { { "standard", "" }, { "exclusive", "" } }))
+                    @await Html.PartialAsync("Partials/ColorSelectOptions", new ViewDataDictionary(ViewData) { { "standard", "" }, { "exclusive", "" }, { "exclusiveSelected", parts?.FloorColorBeneath } }))
                 </select>
             </div>
         </div>
         <div class="row mt-2">
             <div class="col">
-                @await Html.PartialAsync("Partials/DesignSelect")
+                @await Html.PartialAsync("Partials/DesignSelect", parts)
             </div>
             <div class="col">
-                @await Html.PartialAsync("Partials/MeasurementSelect")
+                @await Html.PartialAsync("Partials/MeasurementSelect", parts)
             </div>
         </div>
         <div class="row mt-2">
             <div class="col">
-
                 <label class="text-muted small" for="constructionByNauteck">Construction by</label><br>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" id="constructionByDealer" name="constructionBy" type="radio" value="dealer">
+                    <input class="form-check-input" checked="@(parts?.Construction == "dealer")" id="constructionByDealer" name="constructionBy" type="radio" value="dealer">
                     <label class="form-check-label" for="constructionByDealer">Dealer</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" id="constructionByNauteck" name="constructionBy" type="radio" value="nauteck">
+                    <input class="form-check-input" checked="@(parts?.Construction == "nauteck")" id="constructionByNauteck" name="constructionBy" type="radio" value="nauteck">
                     <label class="form-check-label" for="constructionByNauteck">Nauteck</label>
                 </div>
             </div>
             <div class="row mt-2">
                 <div class="col">
-                    @await Html.PartialAsync("Partials/ConstructionSelect")
+                    @await Html.PartialAsync("Partials/ConstructionSelect", parts)
                 </div>
                 <div class="col-3">
                     <label class="text-muted small" for="Parts.callOutCostQuantity">CallOut Cost km's</label>
-                    <input type="number" min="0" step="1" class="form-control form-control-sm" id="Parts.callOutCostQuantity" name="Parts.callOutCostQuantity" placeholder="" value="0">
+                    <input type="number" min="0" step="1" class="form-control form-control-sm" id="Parts.callOutCostQuantity" name="Parts.callOutCostQuantity" value="@parts?.CallOutCostQuantity">
                 </div>
             </div>
         </div>

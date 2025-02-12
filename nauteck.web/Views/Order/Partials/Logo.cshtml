@@ -7,6 +7,8 @@
 @{
     var logos = await Mediator.Send(new FloorLogoQuery());
 }
+
+
 <div class="row mt-2">
     <div class="col"><label class="small">Logo</label></div>
     <div class="col text-end"><label class="small">Price</label></div>
@@ -20,7 +22,7 @@
         <div class="col small"><span class="text-muted">@logo.Description</span></div>
         <div class="col small"><span class="text-muted float-end">@logo.Price</span></div>
         <div class="col small">
-            <div class="float-end"><input class="form-control form-control-sm text-end" data-id=@logo.Id data-description=@logo.Description data-price=@logo.Price data-quantity="0" data-type="logo-quantity" type="number" min="0" step="1" value="0" style="width: 75px"></div></div>
+            <div class="float-end"><input class="form-control form-control-sm text-end" data-id=@logo.Id data-description=@logo.Description data-price=@logo.Price data-quantity="0" data-type="logo-quantity" type="number" min="0" step="1" value="" style="width: 75px"></div></div>
         <div class="col small"><span class="text-muted float-end" data-sum="@logo.Id">0.00</span></div>
     </div>
 }

@@ -1,45 +1,68 @@
 ﻿@model nauteck.data.Entities.Order.FloorOrder
 
-<div class="floor">
-    <div class="card w-100">
-        <div class="card-header"><i class="bi bi-person-circle"></i>&nbsp;Dealer Information</div>
-        <div class="card-body">
-            <address>
-                <strong>Nauteck Flooring</strong><br>
-                Spijksedijk&nbsp;3186<br>
-                6917AB&nbsp;&nbsp;Spijk&nbsp;&nbsp;<span class="text-muted">(Gelderland)</span>
-            </address>
+@using (Html.BeginForm("InsertOrUpdate", "Order", FormMethod.Post, default, antiforgery: true, htmlAttributes: new { @id = "form-order" }))
+{
+    <div class="floor">
+        <div class="card w-100">
+            <div class="card-header"><i class="bi bi-person-circle"></i>&nbsp;Dealer Information</div>
+            <div class="card-body">
+                <address>
+                    <strong>Nauteck Flooring</strong><br>
+                    Spijksedijk&nbsp;3186<br>
+                    6917AB&nbsp;&nbsp;Spijk&nbsp;&nbsp;<span class="text-muted">(Gelderland)</span>
+                </address>
+            </div>
         </div>
-    </div>
-    <div class="card w-100">
-        <div class="card-header"><i class="bi bi-wrench"></i>&nbsp;Boat Information</div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col">
-                    <label class="text-muted small" for="Boat.brand">Boat Brand</label>
-                    <input type="text" class="form-control pb-0" id="Boat.brand" name="Boat.brand" value="@Model.BoatBrand">
-                </div>
-                <div class="col">
-                    <label class="text-muted small" for="Boat.type">Boat Type</label>
-                    <input type="text" class="form-control pb-0" id="Boat.type" name="Boat.type" value="@Model.BoatType">
+        <div class="card w-100">
+            <div class="card-header"><i class="bi bi-wrench"></i>&nbsp;Boat Information</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <label class="text-muted small" for="Boat.brand">Boat Brand</label>
+                        <input type="text" class="form-control pb-0" id="Boat.brand" name="Boat.brand" value="@Model.BoatBrand">
+                    </div>
+                    <div class="col">
+                        <label class="text-muted small" for="Boat.type">Boat Type</label>
+                        <input type="text" class="form-control pb-0" id="Boat.type" name="Boat.type" value="@Model.BoatType">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="floor pt-0">
-    @await Html.PartialAsync("Partials/Customer", Model)
-    @await Html.PartialAsync("Partials/Order", Model)
-</div>
-<div class="row mt-2 p-3">
-    <div class="col"><button class="btn btn-primary" type="submit"><i class="bi bi-send-check"></i>&nbsp;Update Order</button></div>
+    <div class="floor pt-0">
+        @await Html.PartialAsync("Partials/Customer", Model)
+        @await Html.PartialAsync("Partials/Order", Model)
+    </div>
+    <div class="row mt-2 p-3">
+        <div class="col"><button class="btn btn-primary" type="submit"><i class="bi bi-send-check"></i>&nbsp;Update Order</button></div>
 
-    <div class="col-auto"><button class="btn btn-danger" id="button-delete" type="button"><i class="bi bi-trash2-fill"></i>&nbsp;Delete</button></div>
+        <div class="col-auto"><button class="btn btn-danger" id="button-delete" type="button"><i class="bi bi-trash2-fill"></i>&nbsp;Delete</button></div>
 
-    <div class="col-6">
-        <div class="form-check">
-            <input class="form-check-input" id="active" name="active" type="checkbox" value="true" checked="checked">
-            <label class="form-check-label" for="active">Active</label>
+        <div class="col-6">
+            <div class="form-check">
+                <input class="form-check-input" id="active" name="active" type="checkbox" value="true" checked="checked">
+                <label class="form-check-label" for="active">Active</label>
+            </div>
         </div>
     </div>
-</div>
+    <div class="row p-3">
+        <div class="col floorstatus">
+            @await Html.PartialAsync("Partials/Status", Model)
+            @await Html.PartialAsync("Partials/StatusHistory", Model)
+            @await Html.PartialAsync("Partials/Attachments", Model)
+        </div>
+        <div class="col">
+            @await Html.PartialAsync("Partials/Dealer", Model)
+        </div>     
+    </div>
+    <div class="row p-3">
+        <div class="col floorstatus">
+            @await Html.PartialAsync("Partials/Summary", Model)
+        </div>
+    </div>
+    <input id="Id" type="hidden" value="@Model.Id" />
+}
+
+@section Scripts {
+    <script src="~/js/order/edit.js" asp-append-version="true"></script>
+}

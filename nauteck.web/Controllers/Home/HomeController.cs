@@ -13,7 +13,7 @@ public class HomeController(IMediator mediator) : BaseController(mediator)
 
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
-        var records = await Mediator.Send(new FloorOrderQuery(), cancellationToken);
+        var records = await Mediator.Send(new Queries.FloorOrderQuery(), cancellationToken);
         return View(records);
     }
 

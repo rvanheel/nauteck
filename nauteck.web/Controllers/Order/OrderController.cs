@@ -10,7 +10,7 @@ public sealed class OrderController(IMediator mediator) : BaseController(mediato
 {
     public async Task<IActionResult> Edit(string Id, CancellationToken cancellationToken)
     {
-        var order = await Mediator.Send(new FloorOrderByIdQuery(Id), cancellationToken);
+        var order = await Mediator.Send(new Queries.FloorOrderByIdQuery(Id), cancellationToken);
         return View(order);
     }
 }
