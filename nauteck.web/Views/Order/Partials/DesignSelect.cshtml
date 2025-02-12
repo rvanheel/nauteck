@@ -1,0 +1,15 @@
+﻿@using MediatR
+@inject IMediator Mediator;
+
+@{
+    var designs = await Mediator.Send(new nauteck.core.Features.Floor.FloorDesignQuery());
+}
+
+<label class="text-muted small" for="Parts.design">Design</label>
+<select class="form-select form-select-sm" name="Parts.design" id="Parts.design">
+    <option value=""></option>
+    @foreach (var design in designs)
+    {
+        <option data-price="@design.Price" value="@design.Description">@design.Description</option>
+    }
+</select>

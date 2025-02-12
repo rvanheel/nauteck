@@ -44,10 +44,10 @@ public sealed class SignInQueryHandler(IDbConnection dbConnection, IHelper helpe
             new(ClaimTypes.Sid, $"{u.Id}")
         };
 
-        claims.AddRange(Enum.GetValues(typeof(RoleType))
+        claims.AddRange(Enum.GetValues<RoleType>()
                 .Cast<RoleType>()
                 .Where(x => u.Roles.HasFlag(x))
-                .Select(x => new Claim(ClaimTypes.Role, Enum.GetName(typeof(RoleType), x) ?? string.Empty)));
+                .Select(x => new Claim(ClaimTypes.Role, Enum.GetName(x) ?? string.Empty)));
 
         return [.. claims];
     }

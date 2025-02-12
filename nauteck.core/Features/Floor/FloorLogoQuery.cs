@@ -15,6 +15,6 @@ public sealed class FloorOrderLogoQueryHandler(IDbConnection dbConnection) : IRe
 {
     public Task<IEnumerable<FloorLogo>> Handle(FloorLogoQuery request, CancellationToken cancellationToken)
     {
-        return dbConnection.QueryAsync<FloorLogo>($"SELECT * FROM {DbConstants.Tables.FloorLogo}");
+        return dbConnection.QueryAsync<FloorLogo>($"SELECT * FROM {DbConstants.Tables.FloorLogo} ORDER BY `Description`");
     }
 }

@@ -13,6 +13,6 @@ public sealed class FloorColorQueryHandler(IDbConnection dbConnection) : IReques
 {
     public Task<IEnumerable<FloorColor>> Handle(FloorColorQuery request, CancellationToken cancellationToken)
     {
-        return dbConnection.QueryAsync<FloorColor>($"SELECT * FROM {DbConstants.Tables.FloorColor}");
+        return dbConnection.QueryAsync<FloorColor>($"SELECT * FROM {DbConstants.Tables.FloorColor} ORDER BY `Description`");
     }
 }

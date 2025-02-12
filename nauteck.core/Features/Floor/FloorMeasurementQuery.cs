@@ -15,6 +15,6 @@ public sealed class FloorMeasurementQueryHandler(IDbConnection dbConnection) : I
 {
     public Task<IEnumerable<FloorMeasurement>> Handle(FloorMeasurementQuery request, CancellationToken cancellationToken)
     {
-        return dbConnection.QueryAsync<FloorMeasurement>($"SELECT * FROM {DbConstants.Tables.FloorMeasurement}");
+        return dbConnection.QueryAsync<FloorMeasurement>($"SELECT * FROM {DbConstants.Tables.FloorMeasurement} ORDER BY `Description`");
     }
 }

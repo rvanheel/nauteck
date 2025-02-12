@@ -15,6 +15,6 @@ public sealed class FloorDesignQueryHandler(IDbConnection dbConnection) : IReque
 {
     public Task<IEnumerable<FloorDesign>> Handle(FloorDesignQuery request, CancellationToken cancellationToken)
     {
-        return dbConnection.QueryAsync<FloorDesign>($"SELECT * FROM {DbConstants.Tables.FloorDesign}");
+        return dbConnection.QueryAsync<FloorDesign>($"SELECT * FROM {DbConstants.Tables.FloorDesign} ORDER BY `Description`");
     }
 }

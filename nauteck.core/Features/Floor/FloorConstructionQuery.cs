@@ -15,6 +15,6 @@ public sealed class FloorConstructionQueryHandler(IDbConnection dbConnection) : 
 {
     public Task<IEnumerable<FloorConstruction>> Handle(FloorConstructionQuery request, CancellationToken cancellationToken)
     {
-        return dbConnection.QueryAsync<FloorConstruction>($"SELECT * FROM {DbConstants.Tables.FloorConstruction}");
+        return dbConnection.QueryAsync<FloorConstruction>($"SELECT * FROM {DbConstants.Tables.FloorConstruction} ORDER BY `Description`");
     }
 }

@@ -1,4 +1,4 @@
-﻿@model nauteck.web.Models.Order.FloorOrderViewModel
+﻿@model nauteck.data.Entities.Order.FloorOrder
 
 <div class="floor">
     <div class="card w-100">
@@ -17,261 +17,29 @@
             <div class="row">
                 <div class="col">
                     <label class="text-muted small" for="Boat.brand">Boat Brand</label>
-                    <input type="text" class="form-control pb-0" id="Boat.brand" name="Boat.brand" required="required" value="@Model.FloorOrder.BoatBrand">
+                    <input type="text" class="form-control pb-0" id="Boat.brand" name="Boat.brand" value="@Model.BoatBrand">
                 </div>
                 <div class="col">
                     <label class="text-muted small" for="Boat.type">Boat Type</label>
-                    <input type="text" class="form-control pb-0" id="Boat.type" name="Boat.type" required="required" value="@Model.FloorOrder.BoatType">
+                    <input type="text" class="form-control pb-0" id="Boat.type" name="Boat.type" value="@Model.BoatType">
                 </div>
             </div>
         </div>
     </div>
 </div>
 <div class="floor pt-0">
-    <div class="card w-100">
-        <div class="card-header"><i class="bi bi-person-plus"></i>&nbsp;Customer</div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-auto">
-                    <label class="text-muted small" for="preamble">Preamble</label>
-                    <select class="form-control form-control-sm" id="preamble" name="preamble">
-                        <option value=""></option>
-                        <option value="Dhr.">Dhr.</option>
-                        <option value="Mevr.">Mevr.</option>
-                        <option value="">Geen</option>
-                    </select>
-                </div>
-                <div class="col">
-                    <label class="text-muted small" for="lastName">LastName</label>
-                    <input type="text" class="form-control form-control-sm" id="lastName" name="lastName" required="required" value="@Model.FloorOrder.LastName">
-                </div>
-                <div class="col">
-                    <label class="text-muted small" for="firstName">FirstName</label>
-                    <input type="text" class="form-control form-control-sm" id="firstName" name="firstName" value="@Model.FloorOrder.FirstName">
-                </div>
-                <div class="col-2">
-                    <label class="text-muted small" for="infix">Infix</label>
-                    <input type="text" class="form-control form-control-sm" id="infix" name="infix" value="@Model.FloorOrder.Infix" maxlength="10">
-                </div>
-            </div>
-            <div class="row mt-2">
-                <div class="col">
-                    <label class="text-muted small" for="email">Email</label>
-                    <input class="form-control form-control-sm" id="email" name="email" type="email" required="required" value="@Model.FloorOrder.Email">
-                </div>
-                <div class="col-4">
-                    <label class="text-muted small" for="phone">Phone</label>
-                    <input class="form-control form-control-sm" id="phone" name="phone" type="tel" value="@Model.FloorOrder.Phone">
-                </div>
-            </div>
-            <div class="row mt-2">
-                <div class="col-3">
-                    <label class="text-muted small" for="zipcode">Zipcode</label>
-                    <input class="form-control form-control-sm" id="zipcode" name="zipcode" type="text" required="required" value="@Model.FloorOrder.Zipcode">
-                </div>
-                <div class="col-3">
-                    <label class="text-muted small" for="number">Number</label>
-                    <input class="form-control form-control-sm" id="number" name="number" type="text" value="@Model.FloorOrder.Number" required="required" maxlength="10">
-                </div>
-                <div class="col-2">
-                    <label class="text-muted small" for="extension">Extension</label>
-                    <input class="form-control form-control-sm" id="extension" name="extension" type="text" value="@Model.FloorOrder.Extension" maxlength="5">
-                </div>
-                <div class="col"></div>
-            </div>
-            <div class="row mt-2">
-                <div class="col-12 col-lg-6">
-                    <label class="text-muted small" for="address">Address</label>
-                    <input class="form-control form-control-sm" id="address" name="address" readonly="readonly" type="text" value="@Model.FloorOrder.Address">
-                </div>
-                <div class="col-12 col-lg-6">
-                    <label class="text-muted small" for="city">City</label>
-                    <input class="form-control form-control-sm" id="city" name="city" readonly="readonly" type="text" value="@Model.FloorOrder.City">
-                </div>
-            </div>
-            <div class="row mt-2">
-                <div class="col-12 col-lg-6">
-                    <label class="text-muted small" for="region">Region</label>
-                    <input class="form-control form-control-sm form-control form-control-sm-sm" id="region" name="region" readonly="readonly" type="text" value="@Model.FloorOrder.Region">
-                </div>
-                <div class="col-12 col-lg-6">
-                    <label class="text-muted small" for="country">Country</label>
-                    <select class="form-control form-control-sm form-control form-control-sm-sm" id="country" name="country" required="required">
-                        <optgroup label="Europa">
-                            <option value="Nederland">Nederland</option>
-                            <option value="Belgie">Belgie</option>
-                            <option value="Duitsland">Duitsland</option>
-                            <option value="Frankrijk">Frankrijk</option>
-                            <option value="Spanje">Spanje</option>
-                            <option value="Oostenrijk">Oostenrijk</option>
-                            <option value="Zwitserland">Zwitserland</option>
-                        </optgroup>
-                        <optgroup label="Azie">
-                            <option value="China">China</option>
-                        </optgroup>
-                    </select>
-                </div>
-            </div>
-            <div class="row mt-2">
-                <div class="col-12 col-lg-6">
-                    <label class="text-muted small" for="address">Company Name</label>
-                    <input class="form-control form-control-sm" id="address" name="companyName" type="text" value="@Model.FloorOrder.CompanyName">
-                </div>
-                <div class="col-12 col-lg-6">
-                    <label class="text-muted small" for="city">VAT Number</label>
-                    <input class="form-control form-control-sm" id="city" name="vatNumber" type="text" value="@Model.FloorOrder.VatNumber">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="card w-100">
-        <div class="card-header"><i class="bi bi-file-earmark-text"></i>&nbsp;Floor Order</div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col">
-                    <label class="text-muted small" for="Parts.floor">Floor</label>
-                    <select class="form-select form-select-sm" id="Parts.floor" name="Parts.floor" required="required">
-                        <option value=""></option>
-                        <option data-price="295" value="Exclusief design">Exclusief design</option>
-                        <option data-price="265" value="Standaard design">Standaard design</option>
-                    </select>
-                </div>
-                <div class="col-3">
-                    <label class="text-muted small" for="Parts.floorQuantity">Quantity m2</label>
-                    <input type="number" min="0.01" step="0.01" class="form-control form-control-sm" id="Parts.floorQuantity" name="Parts.floorQuantity" placeholder="" value="" required="required">
-                </div>
-            </div>
-            <div class="row mt-2">
-                <div class="col-6">
-                    <label class="text-muted small" for="Parts.floorColorAbove">Color Above</label>
-                    <select class="form-select form-select-sm" name="Parts.floorColorAbove" id="Parts.floorColorAbove" required="required">
-                        <option value=""></option>
-                        <optgroup label="Standard Colors">
-                            <option data-exclusive="false" data-price="0.0" value="Donker bruin">Donker bruin</option>
-                            <option data-exclusive="false" data-price="0.0" value="Donker grijs">Donker grijs</option>
-                            <option data-exclusive="false" data-price="0.0" value="Licht bruin">Licht bruin</option>
-                            <option data-exclusive="false" data-price="0.0" value="Licht grijs">Licht grijs</option>
-                            <option data-exclusive="false" data-price="0.0" value="Medium bruin">Medium bruin</option>
-                            <option data-exclusive="false" data-price="0.0" value="Medium grijs">Medium grijs</option>
-                            <option data-exclusive="false" data-price="0.0" value="Wit">Wit</option>
-                            <option data-exclusive="false" data-price="0.0" value="Zwart">Zwart</option>
+    @await Html.PartialAsync("Partials/Customer", Model)
+    @await Html.PartialAsync("Partials/Order", Model)
+</div>
+<div class="row mt-2 p-3">
+    <div class="col"><button class="btn btn-primary" type="submit"><i class="bi bi-send-check"></i>&nbsp;Update Order</button></div>
 
-                        </optgroup>
-                        <optgroup label="Exclusive Colors">
-                            <option data-exclusive="true" data-price="20.0" value="Rood">Rood</option>
-                            <option data-exclusive="true" data-price="20.0" value="Licht blauw">Licht blauw</option>
-                            <option data-exclusive="true" data-price="20.0" value="Camo zwart/wit">Camo zwart/wit</option>
-                            <option data-exclusive="true" data-price="20.0" value="Warm grijs">Warm grijs</option>
-                            <option data-exclusive="true" data-price="20.0" value="Geel">Geel</option>
-                            <option data-exclusive="true" data-price="20.0" value="Oranje">Oranje</option>
-                            <option data-exclusive="true" data-price="20.0" value="Neon groen">Neon groen</option>
-                            <option data-exclusive="true" data-price="20.0" value="Camo blauw">Camo blauw</option>
-                            <option data-exclusive="true" data-price="20.0" value="Donker blauw">Donker blauw</option>
-                            <option data-exclusive="true" data-price="20.0" value="Vanille creme">Vanille creme</option>
-                            <option data-exclusive="true" data-price="20.0" value="Camo groen">Camo groen</option>
-                            <option data-exclusive="true" data-price="20.0" value="Chill grijs">Chill grijs</option>
-                            <option data-exclusive="true" data-price="20.0" value="Camo zand">Camo zand</option>
-                            <option data-exclusive="true" data-price="20.0" value="Antraciet">Antraciet</option>
-                        </optgroup>
-                    </select>
-                </div>
-                <div class="col-6">
-                    <label class="text-muted small" for="Parts.floorColorBeneath">Color Below</label>
-                    <select class="form-select form-select-sm" name="Parts.floorColorBeneath" id="Parts.floorColorBeneath" required="required">
-                        <option value=""></option>
-                        <optgroup label="Standard Colors">
-                            <option data-exclusive="false" value="Donker bruin">Donker bruin</option>
-                            <option data-exclusive="false" value="Donker grijs">Donker grijs</option>
-                            <option data-exclusive="false" value="Licht bruin">Licht bruin</option>
-                            <option data-exclusive="false" value="Licht grijs">Licht grijs</option>
-                            <option data-exclusive="false" value="Medium bruin">Medium bruin</option>
-                            <option data-exclusive="false" value="Medium grijs">Medium grijs</option>
-                            <option data-exclusive="false" value="Wit">Wit</option>
-                            <option data-exclusive="false" value="Zwart">Zwart</option>
-                        </optgroup>
-                        <optgroup label="Exclusive Colors">
-                            <option data-exclusive="true" value="Rood">Rood</option>
-                            <option data-exclusive="true" value="Licht blauw">Licht blauw</option>
-                            <option data-exclusive="true" value="Camo zwart/wit">Camo zwart/wit</option>
-                            <option data-exclusive="true" value="Warm grijs">Warm grijs</option>
-                            <option data-exclusive="true" value="Geel">Geel</option>
-                            <option data-exclusive="true" value="Oranje">Oranje</option>
-                            <option data-exclusive="true" value="Neon groen">Neon groen</option>
-                            <option data-exclusive="true" value="Camo blauw">Camo blauw</option>
-                            <option data-exclusive="true" value="Donker blauw">Donker blauw</option>
-                            <option data-exclusive="true" value="Vanille creme">Vanille creme</option>
-                            <option data-exclusive="true" value="Camo groen">Camo groen</option>
-                            <option data-exclusive="true" value="Chill grijs">Chill grijs</option>
-                            <option data-exclusive="true" value="Camo zand">Camo zand</option>
-                            <option data-exclusive="true" value="Antraciet">Antraciet</option>
+    <div class="col-auto"><button class="btn btn-danger" id="button-delete" type="button"><i class="bi bi-trash2-fill"></i>&nbsp;Delete</button></div>
 
-                        </optgroup>
-                    </select>
-                </div>
-            </div>
-            <div class="row mt-2">
-                <div class="col">
-                    <label class="text-muted small" for="Parts.design">Design</label>
-                    <select class="form-select form-select-sm" name="Parts.design" id="Parts.design" required="required">
-                        <option value=""></option>
-                        <option data-price="0" value="Diamant">Diamant</option>
-                        <option data-price="0" value="Honingraat">Honingraat</option>
-                        <option data-price="0" value="Kader">Kader</option>
-                        <option data-price="0" value="Laser">Laser</option>
-                        <option data-price="0" value="Schubben">Schubben</option>
-                        <option data-price="0" value="Strepen 50mm">Strepen 50mm</option>
-                    </select>
-                </div>
-                <div class="col">
-                    <label class="text-muted small" for="Parts.measurement">Measurement</label>
-                    <select class="form-select form-select-sm" id="Parts.measurement" name="Parts.measurement" required="required">
-                        <option value=""></option>
-                        <option data-price="35" value="Inmeten 00m2 - 01m2">Inmeten 00m2 - 01m2</option>
-                        <option data-price="85" value="Inmeten 01m2 - 02m2">Inmeten 01m2 - 02m2</option>
-                        <option data-price="125" value="Inmeten 02m2 - 05m2">Inmeten 02m2 - 05m2</option>
-                        <option data-price="185" value="Inmeten 05m2 - 10m2">Inmeten 05m2 - 10m2</option>
-                        <option data-price="235" value="Inmeten 10m2 +">Inmeten 10m2 +</option>
-                        <option data-price="0" value="NVT">NVT</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row mt-2">
-                <div class="col">
-
-                    <label class="text-muted small" for="Parts.constructionBy">Construction by</label><br>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" id="constructionByDealer" name="constructionBy" type="radio" value="dealer">
-                        <label class="form-check-label" for="constructionByDealer">Dealer</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" id="constructionByNauteck" name="constructionBy" type="radio" value="nauteck">
-                        <label class="form-check-label" for="constructionByNauteck">Nauteck</label>
-                    </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col">
-                        <label class="text-muted small" for="Parts.construction">Construction</label>
-                        <select class="form-select form-select-sm" id="Parts.construction" name="Parts.construction" required="required">
-                            <option value=""></option>
-                            <option data-price="90" value="Drukknopen vloer 01M2 - 02M2">Drukknopen vloer 01M2 - 02M2</option>
-                            <option data-price="160" value="Drukknopen vloer 02M2 - 05M2">Drukknopen vloer 02M2 - 05M2</option>
-                            <option data-price="50" value="Drukkopen vloer 00M2 - 01M2">Drukkopen vloer 00M2 - 01M2</option>
-                            <option data-price="35" value="Egale vloer 00m2 -  01M2, inclusief ontvetten en primer">Egale vloer 00m2 -  01M2, inclusief ontvetten en primer</option>
-                            <option data-price="85" value="Egale vloer 01m2 -  02M2, inclusief ontvetten en primer">Egale vloer 01m2 -  02M2, inclusief ontvetten en primer</option>
-                            <option data-price="125" value="Egale vloer 02m2 -  05M2, inclusief ontvetten en primer">Egale vloer 02m2 -  05M2, inclusief ontvetten en primer</option>
-                            <option data-price="185" value="Egale vloer 05M2 - 10M2, inclusief ontvetten en primer">Egale vloer 05M2 - 10M2, inclusief ontvetten en primer</option>
-                            <option data-price="235" value="Egale vloer 10M2 +">Egale vloer 10M2 +</option>
-                            <option data-price="0" value="NVT">NVT</option>
-                        </select>
-                    </div>
-                    <div class="col-3">
-                        <label class="text-muted small" for="Parts.callOutCostQuantity">CallOut Cost km's</label>
-                        <input type="number" min="0" step="1" class="form-control form-control-sm" id="Parts.callOutCostQuantity" name="Parts.callOutCostQuantity" placeholder="" value="0">
-                    </div>
-                </div>
-                
-
-            </div>
+    <div class="col-6">
+        <div class="form-check">
+            <input class="form-check-input" id="active" name="active" type="checkbox" value="true" checked="checked">
+            <label class="form-check-label" for="active">Active</label>
         </div>
     </div>
 </div>
