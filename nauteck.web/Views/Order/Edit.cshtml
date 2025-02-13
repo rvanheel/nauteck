@@ -1,6 +1,6 @@
 ﻿@model nauteck.data.Entities.Order.FloorOrder
 
-@using (Html.BeginForm("InsertOrUpdate", "Order", FormMethod.Post, default, antiforgery: true, htmlAttributes: new { @id = "form-order" }))
+@using (Html.BeginForm("InsertOrUpdate", "Order", null, FormMethod.Post, true, new { @id = "form-order" }))
 {
     <div class="floor">
         <div class="card w-100">
@@ -18,12 +18,12 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col">
-                        <label class="text-muted small" for="Boat.brand">Boat Brand</label>
-                        <input type="text" class="form-control pb-0" id="Boat.brand" name="Boat.brand" value="@Model.BoatBrand">
+                        <label class="text-muted small" for="boatBrand">Boat Brand</label>
+                        <input type="text" class="form-control pb-0" id="boatBrand" name="boatBrand" value="@Model.BoatBrand">
                     </div>
                     <div class="col">
-                        <label class="text-muted small" for="Boat.type">Boat Type</label>
-                        <input type="text" class="form-control pb-0" id="Boat.type" name="Boat.type" value="@Model.BoatType">
+                        <label class="text-muted small" for="boatType">Boat Type</label>
+                        <input type="text" class="form-control pb-0" id="boatType" name="boatType" value="@Model.BoatType">
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@
             @await Html.PartialAsync("Partials/Summary", Model)
         </div>
     </div>
-    <input id="Id" type="hidden" value="@Model.Id" />
+    <input type="hidden" id="id" name="id" value="@Model.Id">   
 }
 
 @section Scripts {

@@ -5,7 +5,7 @@ using nauteck.data.Entities.Order;
 
 namespace nauteck.core.Features.Order;
 
-public sealed class Queries
+public static class Queries
 {
     public sealed record FloorOrderAttachmentQuery(Guid Id) : IRequest<IEnumerable<FloorOrderAttachment>>;
     public sealed record FloorOrderQuery : IRequest<IEnumerable<FloorOrderDto>>;

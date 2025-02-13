@@ -4,27 +4,36 @@ public static class DbConstants
 {
     public static class Columns
     {
+        // general
         public const string Id = "`Id`";
-        public const string Reference = "`Reference`";
-        public const string LastName = "`LastName`";
-        public const string FirstName = "`FirstName`";
-        public const string Preamble = "`Preamble`";
-        public const string Infix = "`Infix`";
-        public const string Address = "`Address`";
-        public const string Number = "`Number`";
-        public const string Extension = "`Extension`";
-        public const string Zipcode = "`Zipcode`";
-        public const string City = "`City`";
-        public const string Country = "`Country`";
-        public const string BoatBrand = "`BoatBrand`";
-        public const string BoatType = "`BoatType`";
-        public const string Total = "`Total`";
-        public const string Status = "`Status`";
-        public const string Provision = "`Provision`";
         public const string CreatedAt = "`CreatedAt`";
         public const string CreatedBy = "`CreatedBy`";
+        // order
         public const string ConstructionTotal = "`ConstructionTotal`";
         public const string FloorOrderId = "`FloorOrderId`";
+        public const string Provision = "`Provision`";
+        public const string Reference = "`Reference`";
+        public const string Status = "`Status`";
+        public const string Total = "`Total`";
+
+        public const string CompanyName = "`CompanyName`";
+        public const string VatNumber = "`VatNumber`";
+        // personalia
+        public const string FirstName = "`FirstName`";
+        public const string Infix = "`Infix`";
+        public const string LastName = "`LastName`";
+        public const string Preamble = "`Preamble`";
+        // address
+        public const string Address = "`Address`";
+        public const string City = "`City`";
+        public const string Country = "`Country`";
+        public const string Extension = "`Extension`";
+        public const string Number = "`Number`";
+        public const string Region = "`Region`";
+        public const string Zipcode = "`Zipcode`";
+        // boat
+        public const string BoatBrand = "`BoatBrand`";
+        public const string BoatType = "`BoatType`";
 
     }
     public static class Tables
