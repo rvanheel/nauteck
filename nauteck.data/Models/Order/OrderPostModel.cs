@@ -24,4 +24,18 @@ public sealed class OrderPostModel
     public string? BoatBrand { get; init; }
     public string? BoatType { get; init; }
 
+    public string? Comment { get; init; }
+
+    public decimal Discount { get; init; }
+
+    public string? InvoiceFreeText { get; init; }
+    public string? FreeText { get; init; }
+    public decimal FreePrice { get; init; }
+    public string? FreePriceText { get; init; }
+
+    public decimal Provision { get; set; }
+    
+    public string? CurrentStatus { get; init; }
+    public string? Status { get; init; }
+
 }

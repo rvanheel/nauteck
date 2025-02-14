@@ -3,39 +3,39 @@
 <div class="row">
     <div class="col">
         <label class="text-muted small" for="comment">Dealer Comments</label>
-        <textarea class="form-control" id="comment" name="comment" rows="2"></textarea>
+        <textarea class="form-control" id="comment" name="comment" rows="2">@Model.Comment</textarea>
     </div>
 </div>
 
 <div class="row mt-2">
     <div class="col">
         <label class="text-muted small" for="freePriceText">Nauteck Free Price Text</label>
-        <input class="form-control form-control-sm" id="freePriceText" name="freePriceText" type="text" value="">
+        <input class="form-control form-control-sm" id="freePriceText" name="freePriceText" type="text" value="@Model.FreePriceText">
     </div>
     <div class="col-auto">
         <label class="text-muted small" for="freePrice">Nauteck Free Price</label>
-        <input class="form-control form-control-sm" id="freePrice" name="freePrice" min="0" step="0.25" type="number" value="0">
+        <input class="form-control form-control-sm" id="freePrice" name="freePrice" min="0" step="0.25" type="number" value="@($"{Model.FreePrice:n2}")">
     </div>
 </div>
 
 <div class="row mt-2">
     <div class="col">
         <label class="text-muted small">Order Status</label>
-        <input class="form-control-plaintext" value="Definitieve opdracht">
+        <input class="form-control-plaintext" value="@Model.Status">
     </div>
 </div>
 
 <div class="row mt-2">
     <div class="col">
         <label class="text-muted small" for="freeText">Nauteck Comments</label>
-        <textarea class="form-control" id="freeText" name="freeText" rows="5"></textarea>
+        <textarea class="form-control" id="freeText" name="freeText" rows="5">@Model.FreeText</textarea>
     </div>
 </div>
 
 <div class="row mt-2">
     <div class="col">
         <label class="text-muted small" for="invoiceFreeText">Nauteck Invoice Free Text</label>
-        <textarea class="form-control" id="invoiceFreeText" name="invoiceFreeText" rows="5"></textarea>
+        <textarea class="form-control" id="invoiceFreeText" name="invoiceFreeText" rows="5">@Model.InvoiceFreeText</textarea>
     </div>
 </div>
 <div class="row mt-2">
@@ -45,7 +45,7 @@
     </div>
     <div class="col-auto">
         <label class="text-muted small" for="discount">Discount</label>
-        <input class="form-control form-control-sm" id="discount" name="discount" min="0" step="0.01" type="number" value="371">
+        <input class="form-control form-control-sm" id="discount" name="discount" min="0" step="0.01" type="number" value="@($"{Model.Discount:n2}")">
     </div>
     <div class="col"></div>
 </div>

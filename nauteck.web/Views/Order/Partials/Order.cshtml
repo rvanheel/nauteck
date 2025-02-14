@@ -19,19 +19,19 @@
             </div>
             <div class="col-3">
                 <label class="text-muted small" for="Parts.floorQuantity">Quantity m2</label>
-                <input type="number" min="0.01" step="0.01" class="form-control form-control-sm" id="Parts.floorQuantity" name="Parts.floorQuantity" value="@parts?.FloorQuantity">
+                <input type="number" min="0.01" step="0.01" class="form-control form-control-sm" id="Parts.floorQuantity" name="floorQuantity" value="@parts?.FloorQuantity">
             </div>
         </div>
         <div class="row mt-2">
             <div class="col-6">
                 <label class="text-muted small" for="Parts.floorColorAbove">Color Above</label>
-                <select class="form-select form-select-sm" name="Parts.floorColorAbove" id="Parts.floorColorAbove">
+                <select class="form-select form-select-sm" name="floorColorAbove" id="Parts.floorColorAbove">
                     @await Html.PartialAsync("Partials/ColorSelectOptions", new ViewDataDictionary(ViewData) { {"standard", 0.0 },{ "exclusive", 20.0 }, { "standardSelected" , parts?.FloorColorAbove} }))                    
                 </select>
             </div>
             <div class="col-6">
                 <label class="text-muted small" for="Parts.floorColorBeneath">Color Below</label>
-                <select class="form-select form-select-sm" name="Parts.floorColorBeneath" id="Parts.floorColorBeneath">
+                <select class="form-select form-select-sm" name="floorColorBeneath" id="Parts.floorColorBeneath">
                     @await Html.PartialAsync("Partials/ColorSelectOptions", new ViewDataDictionary(ViewData) { { "standard", "" }, { "exclusive", "" }, { "exclusiveSelected", parts?.FloorColorBeneath } }))
                 </select>
             </div>
@@ -62,7 +62,7 @@
                 </div>
                 <div class="col-3">
                     <label class="text-muted small" for="Parts.callOutCostQuantity">CallOut Cost km's</label>
-                    <input type="number" min="0" step="1" class="form-control form-control-sm" id="Parts.callOutCostQuantity" name="Parts.callOutCostQuantity" value="@parts?.CallOutCostQuantity">
+                    <input type="number" min="0" step="1" class="form-control form-control-sm" id="Parts.callOutCostQuantity" name="callOutCostQuantity" value="@parts?.CallOutCostQuantity">
                 </div>
             </div>
         </div>

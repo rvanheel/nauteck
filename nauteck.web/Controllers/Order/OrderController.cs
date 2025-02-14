@@ -19,7 +19,7 @@ public sealed class OrderController(IMediator mediator) : BaseController(mediato
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> InsertOrUpdate(OrderPostModel orderPostModel,CancellationToken cancellationToken)
     {
-        await Mediator.Send(new Commands.FloorOrderInsertOrUpdateCommand(orderPostModel), cancellationToken);
+        await Mediator.Send(new Commands.FloorOrderInsertOrUpdateCommand(orderPostModel, DateTime.Now, DisplayName), cancellationToken);
         return Redirect("/");
     }
 }

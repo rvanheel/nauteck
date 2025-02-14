@@ -35,6 +35,15 @@ public static class DbConstants
         public const string BoatBrand = "`BoatBrand`";
         public const string BoatType = "`BoatType`";
 
+        public const string Comment = "`Comment`";
+
+        public const string Discount = "`Discount`";
+
+        public const string InvoiceFreeText = "`InvoiceFreeText`";
+        public const string FreeText = "`FreeText`";
+
+        public const string FreePrice = "`FreePrice`";
+        public const string FreePriceText = "`FreePriceText`";
     }
     public static class Tables
     {

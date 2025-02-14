@@ -14,11 +14,29 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDbConnection dbConne
     public async Task Handle(Commands.FloorOrderInsertOrUpdateCommand request, CancellationToken cancellationToken)
     {
         await Update(request.OrderPostModel);
+        await CheckStatus(request.OrderPostModel, request.Timestamp, request.UserName);
     }
 
     #region Private Methods
+    private async Task CheckStatus(OrderPostModel orderPostModel, DateTime timestamp, string userName)
+    {
+        if ($"{orderPostModel.CurrentStatus}".Equals(orderPostModel.Status, StringComparison.InvariantCultureIgnoreCase)) return;
+        var sql = $"INSERT INTO {DbConstants.Tables.FloorOrderStatus} ({DbConstants.Columns.Id},{DbConstants.Columns.Status},{DbConstants.Columns.CreatedAt},{DbConstants.Columns.CreatedBy},{DbConstants.Columns.FloorOrderId}) VALUES (@Id,@Status,@CreatedAt,@CreatedBy,@FloorOrderId)";
+        _ = await dbConnection.ExecuteAsync(sql, new
+        {
+            Id = Guid.NewGuid(),
+            orderPostModel.Status,
+            CreatedAt = timestamp,
+            CreatedBy = userName,
+            FloorOrderId = orderPostModel.Id
+        });
+    }
     private async Task Update(OrderPostModel model)
     {
+        if (model.Status == "Geannuleerd")
+        {
+            model.Provision = 0;
+        }
         var sql = $@"
         UPDATE {DbConstants.Tables.FloorOrder} 
         SET 
@@ -37,6 +55,14 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDbConnection dbConne
             ,{DbConstants.Columns.BoatType}=@BoatType
             ,{DbConstants.Columns.CompanyName}=@CompanyName
             ,{DbConstants.Columns.VatNumber}=@VatNumber
+            ,{DbConstants.Columns.Comment}=@Comment
+            ,{DbConstants.Columns.Discount}=@Discount
+            ,{DbConstants.Columns.InvoiceFreeText}=@InvoiceFreeText
+            ,{DbConstants.Columns.FreeText}=@FreeText
+            ,{DbConstants.Columns.FreePriceText}=@FreePriceText
+            ,{DbConstants.Columns.FreePrice}=@FreePrice
+            ,{DbConstants.Columns.Provision}=@Provision
+            ,{DbConstants.Columns.Status}=@Status
         WHERE {DbConstants.Columns.Id} = @Id";
         _ = await dbConnection.ExecuteAsync(sql, new
         {
@@ -58,7 +84,18 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDbConnection dbConne
             Zipcode = model.Zipcode ?? "",
             // boat
             BoatBrand = model.BoatBrand ?? "",
-            BoatType = model.BoatType ?? ""
+            BoatType = model.BoatType ?? "",
+
+            Comment = model.Comment ?? "",
+            model.Discount,
+                
+            FreeText = model.FreeText ?? "",
+            InvoiceFreeText = model.InvoiceFreeText ?? "",
+            model.FreePrice,
+            FreePriceText = model.FreePriceText ?? "",
+
+            model.Provision,
+            Status = model.Status ?? ""
         });
     }
     #endregion

@@ -6,5 +6,5 @@ namespace nauteck.core.Features.Order;
 
 public static class Commands
 {
-    public sealed record FloorOrderInsertOrUpdateCommand(OrderPostModel OrderPostModel) : IRequest;
+    public sealed record FloorOrderInsertOrUpdateCommand(OrderPostModel OrderPostModel, DateTime Timestamp, string UserName) : IRequest;
 }
