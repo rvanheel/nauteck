@@ -2,11 +2,17 @@
 
 @using MediatR
 @using nauteck.core.Features.Floor
+
 @inject IMediator Mediator;
 
 @{
-    var logos = await Mediator.Send(new FloorLogoQuery());
+
+    var logos = Mediator.Send(new FloorLogoQuery());
+    var selectedLogos = Mediator.Send(new nauteck.core.Features.Order.Queries.FloorOrderLogoQuery(Guid.Parse(Model.Id)));
+
+    await Task.WhenAll(logos, selectedLogos);
 }
+
 
 
 <div class="row mt-2">
@@ -16,13 +22,17 @@
     <div class="col text-end"><label class="small">Total</label></div>
 </div>
 
-@foreach (var logo in logos.Where(l => l.Active))
+@foreach (var logo in logos.Result.Where(l => l.Active))
 {
+    var value = selectedLogos.Result.FirstOrDefault(l => l.Description == logo.Description);
     <div class="row mt-1">
         <div class="col small"><span class="text-muted">@logo.Description</span></div>
         <div class="col small"><span class="text-muted float-end">@logo.Price</span></div>
         <div class="col small">
-            <div class="float-end"><input class="form-control form-control-sm text-end" data-id=@logo.Id data-description=@logo.Description data-price=@logo.Price data-quantity="0" data-type="logo-quantity" type="number" min="0" step="1" value="" style="width: 75px"></div></div>
-        <div class="col small"><span class="text-muted float-end" data-sum="@logo.Id">0.00</span></div>
+            <div class="float-end">
+                <input class="form-control form-control-sm text-end" data-id="@logo.Id" data-description="@logo.Description" data-price="@(value?.Price ?? 0.00m)" data-quantity="0" data-type="logo-quantity" type="number" min="0" step="1" value="@(value?.Quantity ?? 0)" style="width: 75px">
+            </div>
+        </div>
+        <div class="col small"><span class="text-muted float-end" data-sum="@logo.Id">@((value?.Price * value?.Quantity) ?? 0.00m)</span></div>
     </div>
 }

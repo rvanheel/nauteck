@@ -1,4 +1,6 @@
-﻿namespace nauteck.data.Models.Order;
+﻿using nauteck.data.Entities.Order;
+
+namespace nauteck.data.Models.Order;
 
 public sealed class OrderPostModel
 {
@@ -37,5 +39,7 @@ public sealed class OrderPostModel
     
     public string? CurrentStatus { get; init; }
     public string? Status { get; init; }
+
+    //public FloorOrderLogo?[] Logo { get; init; } = [];
 
 }

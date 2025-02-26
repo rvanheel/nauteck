@@ -57,6 +57,7 @@ public static class DbConstants
         public const string FloorMeasurement = "`floormeasurement`";
         public const string FloorOrder = "`floororder`";
         public const string FloorOrderAttachment = "`floororderattachment`";
+        public const string FloorOrderLogo = "`floororderlogo`";
         public const string FloorOrderParts = "`floororderparts`";
         public const string FloorOrderStatus = "`floororderstatus`";
         public const string User = "`user`";
