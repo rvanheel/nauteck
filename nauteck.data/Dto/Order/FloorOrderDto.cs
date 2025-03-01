@@ -30,6 +30,7 @@ public sealed record FloorOrderDto
     public string Reference { get; init; } = "";
     public string Status { get; init; } = "";
     public decimal Total { get; init; }
+    public decimal Discount { get; init; }
     #endregion
 
     public DateTime CreatedAt { get; init; }

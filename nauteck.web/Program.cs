@@ -110,7 +110,10 @@ static void SetUpLocalization(IApplicationBuilder app)
         NumberFormat =
         {
             CurrencyDecimalSeparator = ".",
-            NumberDecimalSeparator = "."
+            CurrencyGroupSeparator = ",",
+            NumberDecimalSeparator = ".",
+            NumberGroupSeparator = ","
+            
         }
     };
     app.UseRequestLocalization(new RequestLocalizationOptions

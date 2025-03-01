@@ -19,9 +19,8 @@
                 <th>Boat</th>
                 <th>Reference</th>
                 <th>Invoice</th>
-                <th>Provision</th>
+                <th>Discount</th>
                 <th>Construction</th>
-                <th>Provision</th>
                 <th>Status</th>
             </tr>
         </thead>
@@ -43,9 +42,8 @@
                     <td>@record.BoatBrand<br />@record.BoatType</td>
                     <td>@record.Reference</td>
                     <td>@record.Total</td>
-                    <td>@record.Total</td>
-                    <td>@record.ConstructionTotal</td>
-                    <td>@record.Provision</td>
+                    <td>@record.Discount</td>
+                    <td>@record.ConstructionTotal</td>                    
                     <td>
                         @switch (record.Status){
                             case "Afgerond":
@@ -77,8 +75,8 @@
                 columnDefs:[
                     { targets: [0], visible: false},
                     { targets: [1], className: "text-center", orderable: false, searchable: false, width: "2rem"},
-                    { targets: [5,6,7,8,9], type: 'num', width: '4rem'},
-                    { targets: [10], className: "text-center", width: "10rem"},
+                    { targets: [5,6,7,8], type: 'num', width: '4rem'},
+                    { targets: [9], className: "text-center", width: "10rem"},
                 ],
                 order: [[0, 'desc']],
                 deferRender: true,

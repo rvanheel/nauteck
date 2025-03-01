@@ -278,6 +278,7 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDbConnection dbConne
             ,{DbConstants.Columns.Status}=@Status
             ,{DbConstants.Columns.ModifiedAt}=@ModifiedAt
             ,{DbConstants.Columns.ModifiedBy}=@ModifiedBy
+            ,{DbConstants.Columns.Total}=@Total
         WHERE {DbConstants.Columns.Id} = @Id";
         _ = await dbConnection.ExecuteAsync(sql, new
         {
@@ -312,7 +313,8 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDbConnection dbConne
             FreePriceText = model.FreePriceText ?? "",
 
             model.Provision,
-            Status = model.Status ?? ""
+            Status = model.Status ?? "",
+            model.Total
         });
     }
     #endregion

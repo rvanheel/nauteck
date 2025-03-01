@@ -14,24 +14,25 @@ public sealed class FloorOrderQueryHandler(IDbConnection dbConnection) : IReques
 
     private const string modelAndSupplierColumns = @$"
         CAST(o.{DbConstants.Columns.Id} AS NCHAR) AS {DbConstants.Columns.Id}
-        , o.`Reference`
-        , o.`LastName`
-        , o.`FirstName`
-        , o.`Preamble`
-        , o.`Infix`
-        , o.`Address`
-        , o.`Number`
-        , o.`Extension`
-        , o.`Zipcode`
-        , o.`City`
-        , o.`Country`
-        , o.`BoatBrand`
-        , o.`BoatType`
-        , o.`Total`
-        , o.`Status`
-        , o.`Provision`
+        , o.{DbConstants.Columns.Reference}
+        , o.{DbConstants.Columns.LastName}
+        , o.{DbConstants.Columns.FirstName}
+        , o.{DbConstants.Columns.Preamble}
+        , o.{DbConstants.Columns.Infix}
+        , o.{DbConstants.Columns.Address}
+        , o.{DbConstants.Columns.Number}
+        , o.{DbConstants.Columns.Extension}
+        , o.{DbConstants.Columns.Zipcode}
+        , o.{DbConstants.Columns.City}
+        , o.{DbConstants.Columns.Country}
+        , o.{DbConstants.Columns.BoatBrand}
+        , o.{DbConstants.Columns.BoatType}
+        , o.{DbConstants.Columns.Total}
+        , o.{DbConstants.Columns.Status}
+        , o.{DbConstants.Columns.Provision}
+        , o.{DbConstants.Columns.Discount}
         , o.{DbConstants.Columns.CreatedAt}
-        , p.`ConstructionTotal`";
+        , p.{DbConstants.Columns.ConstructionTotal}";
     private const string modelAndSupplierJoins = $"AS o INNER JOIN {DbConstants.Tables.FloorOrderParts} p ON o.{DbConstants.Columns.Id} = p.{DbConstants.Columns.FloorOrderId}";
 
     public Task<IEnumerable<FloorOrderDto>> Handle(Queries.FloorOrderQuery request, CancellationToken cancellationToken)
