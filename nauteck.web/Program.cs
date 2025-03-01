@@ -12,23 +12,29 @@ using System.Data;
 using System.Globalization;
 
 using MySql.Data.MySqlClient;
-using Dapper;
+using Microsoft.Extensions.Azure;
 
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddOptions<DatabaseSettings>()
-    .Configure(options =>
+builder.Services.AddOptions<DatabaseSettings>().Configure(options =>
     {
         options.Host = Environment.GetEnvironmentVariable("DB_HOST");
         options.Port = Environment.GetEnvironmentVariable("DB_PORT");
         options.Database = Environment.GetEnvironmentVariable("DB_NAME");
         options.User = Environment.GetEnvironmentVariable("DB_USER");
         options.Password = Environment.GetEnvironmentVariable("DB_PASSWORD");
+
+        ArgumentException.ThrowIfNullOrWhiteSpace(options.Host, nameof(options.Host));
+        ArgumentException.ThrowIfNullOrWhiteSpace(options.Port, nameof(options.Port));
+        ArgumentException.ThrowIfNullOrWhiteSpace(options.Database, nameof(options.Database));
+        ArgumentException.ThrowIfNullOrWhiteSpace(options.User, nameof(options.User));
+        ArgumentException.ThrowIfNullOrWhiteSpace(options.Password, nameof(options.Password));
     });
 
 var azureStorageConnectionString = Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING");
-
+var azureStorageContainerName = Environment.GetEnvironmentVariable("AZURE_STORAGE_CONTAINER_NAME");
+ArgumentException.ThrowIfNullOrWhiteSpace(azureStorageConnectionString, nameof(azureStorageConnectionString));
+ArgumentException.ThrowIfNullOrWhiteSpace(azureStorageContainerName, nameof(azureStorageContainerName));
 // Add services to the container.
 var services = builder.Services;
 
@@ -39,12 +45,16 @@ services
     .AddMemoryCache()
     .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(SignInQuery).Assembly))
     .AddSingleton<IHelper, Helper>()
+    .AddSingleton<IBlobStorage>(sp => {
+        var client = sp.GetRequiredService<Azure.Storage.Blobs.BlobServiceClient>();
+        return new BlobStorage(client, azureStorageContainerName);
+    })
     .AddTransient<IDbConnection>(sp =>
     {
         var dbSettings = sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
         return new MySqlConnection(dbSettings.ConnectionString);
-    });
-//.AddAzureClients(config => config.AddBlobServiceClient(azureStorageConnectionString));
+    })
+    .AddAzureClients(config => config.AddBlobServiceClient(azureStorageConnectionString));
 
 
 builder.Services.AddControllersWithViews();

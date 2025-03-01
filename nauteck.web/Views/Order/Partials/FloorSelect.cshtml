@@ -12,6 +12,6 @@
     <option data-price="0.00" value=""></option>
     @foreach (var floor in floors.Where(f=>f.Active))
     {
-        <option selected="@(Model?.Floor.Equals(floor.Description, StringComparison.InvariantCultureIgnoreCase))" data-price="@floor.Price" value="@floor.Id">@floor.Description</option>
+        <option selected="@(Model?.Floor.Equals(floor.Description, StringComparison.InvariantCultureIgnoreCase))" data-price="@floor.Price" value="@floor.Description">@floor.Description</option>
     }
 </select>

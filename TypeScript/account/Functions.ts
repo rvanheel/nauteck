@@ -7,11 +7,29 @@ class Functions {
     const resp = await fetch(uri.href, { cache: "no-cache" });
     return await resp.json();
   }
-  
+  static GetHtmlInputElement(selector: string): HTMLInputElement {
+    return document.querySelector(selector) as HTMLInputElement;
+  }
+  static GetHtmlInputElementById(id: string): HTMLInputElement {
+    return document.getElementById(id) as HTMLInputElement;
+  }
+  static GetHtmlSelectElement(selector: string): HTMLSelectElement {
+    return document.querySelector(selector) as HTMLSelectElement;
+  }
+  static GetHtmlSelectElementById(id: string): HTMLSelectElement {
+    return document.getElementById(id) as HTMLSelectElement;
+  }  
+  static GetSelectOption(selector:string): HTMLOptionElement {
+    const select = Functions.GetHtmlSelectElementById(selector);
+    return select.options[select.selectedIndex] as HTMLOptionElement;
+}
   static RemoveToastr() {
     toastr.remove();
   }
-  
+  static SetHtmlTextContent(selector: string, text: string) {
+    const element = document.querySelector(selector) as HTMLElement;
+    element.textContent = text;
+  }
   static ShowToastr(text: string = 'Please wait..', title: string = 'LOADING') {
     toastr.info(text, title, {
       closeButton: false,

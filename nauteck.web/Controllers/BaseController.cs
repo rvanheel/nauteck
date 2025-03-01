@@ -17,6 +17,7 @@ public abstract class BaseController(IMediator mediator) : Controller
 
     public string DisplayName { get; set; } = "";
     public string Email { get; set; } = "";
+    public string DealerId { get; set; } = "";
     public Guid Id { get; set; }
 
     public bool IsEditor { get; set; }

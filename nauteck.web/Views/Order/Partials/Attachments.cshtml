@@ -30,7 +30,7 @@
                 @foreach (var item in attachments)
                 {
                     <tr>
-                        <td data-file-url="@item.FileUrl" data-file-name="@item.FileName" data-file-type="application/pdf"><button class="btn btn-warning btn-sm" type="button"><i class="bi bi-download"></i></button></td>
+                        <td><a class="btn btn-warning btn-sm" download="@item.FileUrl" href="@item.FileUrl" title="@item.FileName"><i class="bi bi-download"></i></a></td>
                         <td class="small">@item.FileName</td>
                         <td class="text-end small">@(item.FileSize / 1024) Kb</td>
                     </tr>

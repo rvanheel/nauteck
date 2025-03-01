@@ -41,6 +41,7 @@ public sealed class SignInQueryHandler(IDbConnection dbConnection, IHelper helpe
             new("iat", DateTimeOffset.Now.ToUnixTimeSeconds().ToString()),
             new(ClaimTypes.Email, $"{u.Email}"),
             new(ClaimTypes.Name, helper.GetFullName(u.FirstName, u.Infix, u.LastName)),
+            new(ClaimTypes.PrimaryGroupSid, $"{u.DealerId}"),
             new(ClaimTypes.Sid, $"{u.Id}")
         };
 

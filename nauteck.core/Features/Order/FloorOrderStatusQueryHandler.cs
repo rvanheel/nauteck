@@ -19,13 +19,3 @@ public sealed class FloorOrderStatusQueryHandler(IDbConnection dbConnection) : I
         return dbConnection.QueryAsync<FloorOrderStatus>(query, new { request.Id });
     }
 }
-
-public sealed class FloorOrderPartQueryHandler(IDbConnection dbConnection) : IRequestHandler<Queries.FloorOrderPartQuery, FloorOrderPart?>
-{
-    public Task<FloorOrderPart?> Handle(Queries.FloorOrderPartQuery request, CancellationToken cancellationToken)
-    {
-        if (request.Id == Guid.Empty) return Task.FromResult(default(FloorOrderPart));
-        var query = $"SELECT * FROM {DbConstants.Tables.FloorOrderParts} WHERE {DbConstants.Columns.FloorOrderId} = @Id LIMIT 1";
-        return dbConnection.QueryFirstOrDefaultAsync<FloorOrderPart>(query, new { request.Id });
-    }
-}

@@ -11,28 +11,33 @@
     var selectedLogos = Mediator.Send(new nauteck.core.Features.Order.Queries.FloorOrderLogoQuery(Guid.Parse(Model.Id)));
 
     await Task.WhenAll(logos, selectedLogos);
+    var counter = 0;
 }
 
 
 
-<div class="row mt-2">
-    <div class="col"><label class="small">Logo</label></div>
-    <div class="col text-end"><label class="small">Price</label></div>
-    <div class="col text-end"><label class="small">Quantity</label></div>
-    <div class="col text-end"><label class="small">Total</label></div>
-</div>
+<div class="mt-2" style="display: grid; grid-template-columns: auto minmax(5rem,10rem) 10rem 5rem; gap: 0.25rem;">
+    <div class="col fw-bold"><label class="small">Logo</label></div>
+    <div class="col fw-bold text-end"><label class="small">Price</label></div>
+    <div class="col fw-bold text-end"><label class="small">Quantity</label></div>
+    <div class="col fw-bold text-end"><label class="small">Total</label></div>
 
-@foreach (var logo in logos.Result.Where(l => l.Active))
-{
-    var value = selectedLogos.Result.FirstOrDefault(l => l.Description == logo.Description);
-    <div class="row mt-1">
-        <div class="col small"><span class="text-muted">@logo.Description</span></div>
+    @foreach (var logo in logos.Result.Where(l => l.Active))
+    {
+
+        var value = selectedLogos.Result.FirstOrDefault(l => l.Description == logo.Description);
+        <div class="col small"><label class="text-muted" for="@logo.Id">@logo.Description</label></div>
         <div class="col small"><span class="text-muted float-end">@logo.Price</span></div>
         <div class="col small">
             <div class="float-end">
-                <input class="form-control form-control-sm text-end" data-id="@logo.Id" data-description="@logo.Description" data-price="@(value?.Price ?? 0.00m)" data-quantity="0" data-type="logo-quantity" type="number" min="0" step="1" value="@(value?.Quantity ?? 0)" style="width: 75px">
+                <input class="form-control form-control-sm text-end" data-price="@logo?.Price" data-type="logo" id="@logo?.Id" name="Logo[@counter].quantity" type="number" min="0" step="1" style="width: 75px" value="@(value?.Quantity ?? 0)">
             </div>
         </div>
-        <div class="col small"><span class="text-muted float-end" data-sum="@logo.Id">@((value?.Price * value?.Quantity) ?? 0.00m)</span></div>
-    </div>
-}
+        <div class="col small"><span class="text-muted float-end" data-sum="@logo?.Id">@((value?.Price * value?.Quantity) ?? 0.00m)</span></div>
+        <input name="Logo[@counter].id" type="hidden" value="@Guid.Empty" />
+        <input name="Logo[@counter].description" type="hidden" value="@logo?.Description" />
+        <input name="Logo[@counter].price" type="hidden" value="@logo?.Price" />
+
+        counter++;
+    }
+</div>

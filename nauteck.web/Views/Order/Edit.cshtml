@@ -1,7 +1,6 @@
 ﻿@model nauteck.data.Entities.Order.FloorOrder
 
-@using (Html.BeginForm("InsertOrUpdate", "Order", null, FormMethod.Post, true, new { @id = "form-order" }))
-{
+<form action="@Url.Action("InsertOrUpdate", "Order")" autocomplete="off" id="form-order" method="post">
     <div class="floor">
         <div class="card w-100">
             <div class="card-header"><i class="bi bi-person-circle"></i>&nbsp;Dealer Information</div>
@@ -36,7 +35,7 @@
     <div class="row mt-2 p-3">
         <div class="col"><button class="btn btn-primary" type="submit"><i class="bi bi-send-check"></i>&nbsp;Update Order</button></div>
 
-        <div class="col-auto"><button class="btn btn-danger" id="button-delete" type="button"><i class="bi bi-trash2-fill"></i>&nbsp;Delete</button></div>
+        <div class="col-auto"><button class="btn btn-danger" data-url="@Url.Action("Delete", "Order", new { Id = Model.Id })" id="button-delete" type="button"><i class="bi bi-trash2-fill"></i>&nbsp;Delete</button></div>
 
         <div class="col-6">
             <div class="form-check">
@@ -53,16 +52,18 @@
         </div>
         <div class="col">
             @await Html.PartialAsync("Partials/Dealer", Model)
-        </div>     
+        </div>
     </div>
     <div class="row p-3">
         <div class="col floorstatus">
             @await Html.PartialAsync("Partials/Summary", Model)
         </div>
     </div>
-    <input type="hidden" id="id" name="id" value="@Model.Id">   
+    <input type="hidden" id="id" name="id" value="@Model.Id">
     <input type="hidden" id="currentStatus" name="currentStatus" value="@Model.Status" />
-}
+    @Html.AntiForgeryToken()
+</form>
+
 
 @section Scripts {
     <script src="~/js/order/edit.js" asp-append-version="true"></script>

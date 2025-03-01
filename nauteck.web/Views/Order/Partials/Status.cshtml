@@ -1,16 +1,14 @@
-﻿<div class="card w-100">
+﻿@using nauteck.core.Implementation
+<div class="card w-100">
     <div class="card-header">
         <i class="bi bi-telegram"></i>&nbsp;Status
     </div>
     <div class="card-body">
-        <div class="row">
-            @{
-                string[] statussen = ["Proforma opdracht", "Definitieve opdracht", "Betaald", "Inmeten gepland", "Definitief design", "Montage gepland", "Afgerond", "In produktie", "Geannuleerd"];
-            }
+        <div class="row">           
 
-            @for (var i = 0; i < statussen.Length; i++)
+            @for (var i = 0; i < Constants.Status.ALL.Length; i++)
             {
-                var status = statussen[i];
+                var status = Constants.Status.ALL[i];
 
                 <div class="col-6">
                     <div class="form-check form-check-inline">

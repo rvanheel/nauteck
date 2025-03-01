@@ -1,3 +1,5 @@
+import Functions from "../account/Functions";
+
 class OrderEdit {
   static async AddressCheck(): Promise<void> {
     const form = document.getElementById('form-order') as HTMLFormElement;
@@ -9,7 +11,7 @@ class OrderEdit {
     elements['address'].value = '';
     elements['city'].value = '';
     elements['region'].value = '';
-    if(!elements['country'].value.match(/Nederland/i)) return;
+    if (!elements['country'].value.match(/Nederland/i)) return;
 
     const api = 'https://api.pdok.nl';
     const fields = 'woonplaatsnaam,straatnaam,huisnummer,postcode,provincienaam';
@@ -35,10 +37,149 @@ class OrderEdit {
       return;
     }
   }
+  static async Delete(this: HTMLElement) {
+    const id = window.location.pathname.split('/').pop();
+    bootbox.confirm({
+      message: `<div class="alert alert-warning"><p class="fw-bold">Weet u zeker dat u deze order wilt verwijderen?</p><p><strong>LET OP!</strong> dit kan niet ongedaan worden gemaakt en alle gekoppelde items en documenten worden tevens verwijderd.</p></div>`,
+      buttons: {
+        confirm: {
+          label: 'Ja',
+          className: 'btn-danger'
+        },
+        cancel: {
+          label: 'Nee',
+          className: 'btn-secondary'
+        }
+      },
+      callback: async (result) => {
+        if (!result) return;
+        Functions.ShowToastr();
+        const button = this as HTMLButtonElement;
+        const url = button.dataset.url;
+        const response = await fetch(url, {
+          method: 'DELETE',
+          cache: 'no-cache',
+          redirect: 'follow',
+        });
+        if (!response.ok) {
+          Functions.RemoveToastr();
+          Functions.ToastrError('Error', 'Er is een fout opgetreden bij het verwijderen van de order.');
+          return;
+        }
+        window.location.replace('/');
+      }
+    });
+  }
+  static CallOutCostChanged(this: HTMLInputElement) {
+    const price = +Functions.GetHtmlInputElement('[name="parts.CallOutCostPrice"]').value;
+    const quantity = +this.value;
+    const total = (price * quantity).toFixed(2);
+    Functions.GetHtmlInputElement('[name="parts.CallOutCostTotal"]').value = total;
+    Functions.SetHtmlTextContent('span[data-type="call-out-cost-price"]', total);
+  }
+  static ColorChanged(this: HTMLSelectElement) {
+    const above = Functions.GetSelectOption('Parts.floorColorAbove').dataset.exclusive;
+    const beneath = Functions.GetSelectOption('Parts.floorColorBeneath').dataset.exclusive;
+
+    if (above === "true" || beneath === "true"){
+      const price = +Functions.GetHtmlInputElement('[name="parts.ColorPrice"]').value;
+      const quantity = +Functions.GetHtmlInputElement('[name="parts.FloorQuantity"]').value;
+      const total = Functions.GetHtmlInputElement('[name="parts.ColorTotal"]');
+      total.value = (price * quantity).toFixed(2);
+      Functions.SetHtmlTextContent('span[data-type="color-price"]', total.value);
+      console.log(total.value);
+      
+    }
+  }
+  static ConstructionChanged(this: HTMLSelectElement) {
+    const selectedOption = this.options[this.selectedIndex];
+    const price = +selectedOption.dataset.price;
+
+    OrderEdit.SetPrice('parts.Construction', price);
+  }
+  static DesignChanged(this: HTMLSelectElement) {
+    const selectedOption = this.options[this.selectedIndex];
+    const price = +selectedOption.dataset.price;
+
+    OrderEdit.SetPrice('parts.Design', price);
+  }
+  static FloorChanged(this: HTMLSelectElement) {
+    const selectedOption = this.options[this.selectedIndex];
+
+    const price = +selectedOption.dataset.price;
+    const quantity = Functions.GetHtmlInputElementById('Parts.floorQuantity') as HTMLInputElement;
+
+    var floorTotal = (+quantity.value * +price).toFixed(2);
+    Functions.GetHtmlInputElement('[name="parts.FloorPrice"]').value = price.toFixed(2);
+    Functions.GetHtmlInputElement('[name="parts.FloorTotal"]').value = floorTotal;
+    Functions.SetHtmlTextContent('span[data-type="floor"]', selectedOption.textContent);
+    Functions.SetHtmlTextContent('span[data-type="floor-quantity"]', (+quantity.value).toFixed(2));
+    Functions.SetHtmlTextContent('span[data-type="floor-price"]', (+price).toFixed(2));
+    Functions.SetHtmlTextContent('span[data-type="floor-sum"]', floorTotal);
+  }
   static Initialize() {
     document.getElementById("country").addEventListener('change', OrderEdit.AddressCheck, false);
     document.getElementById("zipcode").addEventListener('blur', OrderEdit.AddressCheck, false);
     document.getElementById("number").addEventListener('blur', OrderEdit.AddressCheck, false);
+    document.getElementById("button-delete").addEventListener('click', OrderEdit.Delete, false);
+    document.getElementById("Parts.Floor").addEventListener('change', OrderEdit.FloorChanged, false);
+    document.querySelectorAll('input[data-type="logo"]').forEach((element) => element.addEventListener('change', OrderEdit.LogoChanged, false));
+
+    document.querySelectorAll('select[name="parts.FloorColorAbove"],select[name="parts.Parts.floorColorBeneath"]').forEach((element) => element.addEventListener('change', OrderEdit.ColorChanged, false));
+    
+    Functions.GetHtmlInputElementById('Parts.callOutCostQuantity').addEventListener('change', OrderEdit.CallOutCostChanged, false);	
+    Functions.GetHtmlSelectElementById('Parts.design').addEventListener('change', OrderEdit.DesignChanged, false);
+    Functions.GetHtmlSelectElementById('Parts.construction').addEventListener('change', OrderEdit.ConstructionChanged, false);
+    Functions.GetHtmlSelectElementById('Parts.measurement').addEventListener('change', OrderEdit.MeasurementChanged, false);
+
+    OrderEdit.InitForm();
+  }
+  static InitForm() {
+    $("#form-order").validate({
+      messages: {
+
+      },
+      rules: {
+      },
+      submitHandler(form, event) {
+        event.preventDefault();
+        const elements = form;
+        var data = new FormData(form);
+        const uri = new URL(form.action, window.location.origin);
+        fetch(uri.href, {
+          body: data,
+          method: 'POST',
+        }).then(response => {
+          if (!response.ok) {
+            Functions.ToastrError('Error', 'Er is een fout opgetreden bij het opslaan van de order.');
+            return;
+          }
+          window.location.replace('/');
+        });
+
+      },
+    });
+  }
+  static LogoChanged(this: HTMLInputElement) {
+    const sum = document.querySelector(`span[data-sum="${this.id}`) as HTMLSpanElement;
+    sum.textContent = (+this.value * +this.dataset.price).toFixed(2);
+
+    let totalSum = 0;
+    const sumElements = document.querySelectorAll('span[data-sum]');
+    sumElements.forEach((element) => {
+      totalSum += parseFloat(element.textContent) || 0;
+    });
+    Functions.GetHtmlInputElement('[name="parts.LogoTotal"]').value = totalSum.toFixed(2);
+  }
+  static MeasurementChanged(this: HTMLSelectElement) {
+    const selectedOption = this.options[this.selectedIndex];
+    const price = +selectedOption.dataset.price;
+
+    OrderEdit.SetPrice('parts.Measurement', price);
+  }
+  static SetPrice(identifier:string, price: number) {
+    Functions.GetHtmlInputElement(`[name="${identifier}Price"]`).value = price.toFixed(2);
+    Functions.GetHtmlInputElement(`[name="${identifier}Total"]`).value = price.toFixed(2);
   }
 }
 document.addEventListener('DOMContentLoaded', OrderEdit.Initialize);
