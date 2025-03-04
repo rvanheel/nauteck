@@ -15,19 +15,19 @@
                 @await Html.PartialAsync("Partials/FloorSelect", parts)
             </div>
             <div class="col-3">
-                <label class="text-muted small" for="Parts.floorQuantity">Quantity m2</label>
+                <label class="text-muted small" for="Parts.floorQuantity">Quantity m2</label>&nbsp;<span class="text-danger">*</span>
                 <input type="number" min="0.01" step="0.01" class="form-control form-control-sm" id="Parts.floorQuantity" name="@Html.NameFor(p=>parts.FloorQuantity)" value="@parts?.FloorQuantity" />
             </div>
         </div>
         <div class="row mt-2">
             <div class="col-6">
-                <label class="text-muted small" for="Parts.floorColorAbove">Color Above</label>
+                <label class="text-muted small" for="Parts.floorColorAbove">Color Above</label>&nbsp;<span class="text-danger">*</span>
                 <select class="form-select form-select-sm" name="@Html.NameFor(p=>parts!.FloorColorAbove)" id="Parts.floorColorAbove">
                     @await Html.PartialAsync("Partials/ColorSelectOptions", new ViewDataDictionary(ViewData) { {"standard", 0.0 },{ "exclusive", 20.0 }, { "standardSelected" , parts?.FloorColorAbove} })                  
                 </select>
             </div>
             <div class="col-6">
-                <label class="text-muted small" for="Parts.floorColorBeneath">Color Below</label>
+                <label class="text-muted small" for="Parts.floorColorBeneath">Color Below</label>&nbsp;<span class="text-danger">*</span>
                 <select class="form-select form-select-sm" name="@Html.NameFor(p=>parts!.FloorColorBeneath)" id="Parts.floorColorBeneath">
                     @await Html.PartialAsync("Partials/ColorSelectOptions", new ViewDataDictionary(ViewData) { { "standard", "" }, { "exclusive", "" }, { "exclusiveSelected", parts?.FloorColorBeneath } })
                 </select>
@@ -43,7 +43,7 @@
         </div>
         <div class="row mt-2">
             <div class="col">
-                <label class="text-muted small" for="constructionByNauteck">Construction by</label><br>
+                <label class="text-muted small" for="constructionByNauteck">Construction by</label>&nbsp;<span class="text-danger">*</span><br>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" checked="@(Model?.ConstructionBy.Equals("dealer", StringComparison.InvariantCultureIgnoreCase))" id="constructionByDealer" name="@Html.NameFor(m=>m.ConstructionBy)" type="radio" value="dealer">
                     <label class="form-check-label" for="constructionByDealer">Dealer</label>

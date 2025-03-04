@@ -7,7 +7,7 @@
     var floors = await Mediator.Send(new nauteck.core.Features.Floor.FloorQuery());    
 }
 
-<label class="text-muted small" for="Parts.Floor">Floor</label>
+<label class="text-muted small" for="Parts.Floor">Floor</label>&nbsp;<span class="text-danger">*</span>
 <select class="form-select form-select-sm" id="Parts.Floor" name="Parts.Floor" title="Floor">
     <option data-price="0.00" value=""></option>
     @foreach (var floor in floors.Where(f=>f.Active))

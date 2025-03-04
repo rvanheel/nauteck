@@ -167,9 +167,42 @@ class OrderEdit {
   static InitForm() {
     $("#form-order").validate({
       messages: {
-
+        "boatBrand": "merk is vereist",
+        "boatType": "type is vereist",
+        "email": "email is vereist",
+        "lastName": "achternaam is vereist",
+        "zipcode": "postcode is vereist",
+        "number": "huisnummer is vereist",
+        "ConstructionBy": "",
+        "Parts.construction": "constructie is vereist",
+        "Parts.design": "ontwerp is vereist",
+        "Parts.measurement": "meting is vereist",
+        "Parts.Floor": "vloer is vereist",
+        "Parts.floorQuantity": {
+          required: "hoeveelheid is vereist",
+          min: "hoeveelheid moet groter zijn dan 0"
+        },
+        "Parts.floorColorAbove": "kleur is vereist",
+        "Parts.floorColorBeneath": "kleur is vereist",
       },
       rules: {
+        "boatBrand": "required",
+        "boatType": "required",
+        "email": "required",
+        "lastName": "required",
+        "zipcode": "required",
+        "number": "required",
+        "ConstructionBy": "required",
+        "Parts.construction": "required",
+        "Parts.design": "required",
+        "Parts.measurement": "required",
+        "Parts.Floor": "required",
+        "Parts.floorQuantity": {
+          required: true,
+          min: 0.01
+        },
+        "Parts.floorColorAbove": "required",
+        "Parts.floorColorBeneath": "required",
       },
       submitHandler(form, event) {
         event.preventDefault();

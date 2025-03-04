@@ -52,6 +52,7 @@ public sealed class FloorOrderByIdQueryHandler(IDbConnection dbConnection) : IRe
 	
     public Task<FloorOrder> Handle(Queries.FloorOrderByIdQuery request, CancellationToken cancellationToken)
     {
+        if (request.Id == Guid.Empty.ToString()) return Task.FromResult(new FloorOrder { Id = Guid.Empty.ToString() });
         var query = $"SELECT {Columns} FROM {DbConstants.Tables.FloorOrder} WHERE {DbConstants.Columns.Id} = @Id";
         return dbConnection.QueryFirstAsync<FloorOrder>(query, new { request.Id });
     }

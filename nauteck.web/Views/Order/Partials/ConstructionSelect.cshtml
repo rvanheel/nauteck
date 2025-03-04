@@ -7,7 +7,7 @@
 
 @model nauteck.data.Entities.Order.FloorOrderPart?
 
-<label class="text-muted small" for="Parts.construction">Construction</label>
+<label class="text-muted small" for="Parts.construction">Construction</label>&nbsp;<span class="text-danger">*</span>
 <select class="form-select form-select-sm" id="Parts.construction" name="Parts.construction">
     <option value=""></option>
     @foreach (var construction in constructions)

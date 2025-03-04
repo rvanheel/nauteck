@@ -7,7 +7,7 @@
 
 @model nauteck.data.Entities.Order.FloorOrderPart?
 
-<label class="text-muted small" for="Parts.measurement">Measurement</label>
+<label class="text-muted small" for="Parts.measurement">Measurement</label>&nbsp;<span class="text-danger">*</span>
 <select class="form-select form-select-sm" id="Parts.measurement" name="Parts.measurement">
     <option value=""></option>
     @foreach (var measurement in measurements)

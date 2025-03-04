@@ -17,7 +17,7 @@
                 @Html.DropDownList("preamble", preamble, new { @class="form-control form-control-sm", @id="preamble"})
             </div>
             <div class="col">
-                <label class="text-muted small" for="lastName">LastName</label>
+                <label class="text-muted small" for="lastName">LastName</label>&nbsp;<span class="text-danger">*</span>
                 <input type="text" class="form-control form-control-sm" id="lastName" name="lastName" value="@Model.LastName">
             </div>
             <div class="col">
@@ -31,7 +31,7 @@
         </div>
         <div class="row mt-2">
             <div class="col">
-                <label class="text-muted small" for="email">Email</label>
+                <label class="text-muted small" for="email">Email</label>&nbsp;<span class="text-danger">*</span>
                 <input class="form-control form-control-sm" id="email" name="email" type="email" value="@Model.Email">
             </div>
             <div class="col-4">
@@ -41,11 +41,11 @@
         </div>
         <div class="row mt-2">
             <div class="col-3">
-                <label class="text-muted small" for="zipcode">Zipcode</label>
+                <label class="text-muted small" for="zipcode">Zipcode</label>&nbsp;<span class="text-danger">*</span>
                 <input class="form-control form-control-sm" id="zipcode" name="zipcode" type="text" value="@Model.Zipcode">
             </div>
             <div class="col-3">
-                <label class="text-muted small" for="number">Number</label>
+                <label class="text-muted small" for="number">Number</label>&nbsp;<span class="text-danger">*</span>
                 <input class="form-control form-control-sm" id="number" name="number" type="text" value="@Model.Number">
             </div>
             <div class="col-2">
@@ -70,7 +70,7 @@
                 <input class="form-control form-control-sm form-control form-control-sm-sm" id="region" name="region" readonly="readonly" type="text" value="@Model.Region">
             </div>
             <div class="col-12 col-lg-6">
-                <label class="text-muted small" for="country">Country</label>
+                <label class="text-muted small" for="country">Country</label>&nbsp;<span class="text-danger">*</span>
                 <select class="form-control form-control-sm form-control form-control-sm-sm" id="country" name="country">
                     <optgroup label="Europa">
                         <option value="Nederland">Nederland</option>
