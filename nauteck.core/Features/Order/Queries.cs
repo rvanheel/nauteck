@@ -13,4 +13,5 @@ public static class Queries
     public sealed record FloorOrderLogoQuery(Guid Id) : IRequest<IEnumerable<FloorOrderLogo>>;
     public sealed record FloorOrderPartQuery(Guid Id) : IRequest<FloorOrderPart>;
     public sealed record FloorOrderStatusQuery(Guid Id) : IRequest<IEnumerable<FloorOrderStatus>>;
+    public sealed record GetInvoiceNumberQuery() : IRequest<string>;
 }

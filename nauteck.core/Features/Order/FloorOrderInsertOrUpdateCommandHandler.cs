@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 
 using Dapper;
 
@@ -16,7 +15,7 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDbConnection dbConne
     public async Task Handle(Commands.FloorOrderInsertOrUpdateCommand request, CancellationToken cancellationToken)
     {
         var isNew = request.OrderPostModel.Id!.Equals(Guid.Empty.ToString());
-        await Insert(isNew, request.OrderPostModel, request.UserName, request.DealerId);
+        await Insert(isNew, request.OrderPostModel, request.UserName, request.DealerId, request.Reference);
         await Update(isNew, request.OrderPostModel, request.UserName);
         await Logos(request.OrderPostModel);
         await Parts(request.OrderPostModel);
@@ -37,10 +36,11 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDbConnection dbConne
             FloorOrderId = orderPostModel.Id
         });
     }
-    private async Task Insert(bool isNew, OrderPostModel model, string userName, string dealerId)
+    private async Task Insert(bool isNew, OrderPostModel model, string userName, string dealerId, string? reference)
     {
         if (!isNew) return;
         model.Id = Guid.NewGuid().ToString();
+        model.Reference = reference;
         var now = helper.AtCurrentTimeZone;
         var sql = $@"INSERT INTO {DbConstants.Tables.FloorOrder} 
         (

@@ -4,9 +4,9 @@ namespace nauteck.data.Models.Order;
 
 public sealed class OrderPostModel
 {
-    public string? Id { get; set; } 
+    public string? Id { get; set; }
+    public string? Reference { get; set; }
     public string? CompanyName { get; init; }
-    public string? Reference { get; init; }
     public string? VatNumber { get; init; }
     // personalia
     public string? FirstName { get; init; } 

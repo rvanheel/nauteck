@@ -6,6 +6,7 @@ using nauteck.core.Features.Order;
 using nauteck.data.Models.Order;
 
 using static nauteck.core.Features.Order.Commands;
+using static nauteck.core.Features.Order.Queries;
 
 namespace nauteck.web.Controllers.Order;
 
@@ -26,7 +27,8 @@ public sealed class OrderController(IMediator mediator) : BaseController(mediato
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> InsertOrUpdate(OrderPostModel orderPostModel,CancellationToken cancellationToken)
     {
-        await Mediator.Send(new FloorOrderInsertOrUpdateCommand(orderPostModel, DateTime.Now, DisplayName, DealerId), cancellationToken);
+        var reference = orderPostModel.Id!.Equals(Guid.Empty.ToString()) ? await Mediator.Send(new GetInvoiceNumberQuery(), cancellationToken) : default;
+        await Mediator.Send(new FloorOrderInsertOrUpdateCommand(orderPostModel, DateTime.Now, DisplayName, DealerId, reference), cancellationToken);
         return Redirect("/");
     }
 }
