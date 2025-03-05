@@ -32,22 +32,34 @@
         @await Html.PartialAsync("Partials/Customer", Model)
         @await Html.PartialAsync("Partials/Order", Model)
     </div>
-    <div class="row mt-2 p-3">
-        <div class="col"><button class="btn btn-primary" type="submit"><i class="bi bi-send-check"></i>&nbsp;Update Order</button></div>
+    @if (!Model.Id.Equals(Guid.Empty.ToString()))
+    {
+        <div class="row mt-2 p-3">
+            <div class="col"><button class="btn btn-primary" type="submit"><i class="bi bi-send-check"></i>&nbsp;Update Order</button></div>
 
-        <div class="col-auto"><button class="btn btn-danger" data-url="@Url.Action("Delete", "Order", new { Id = Model.Id })" id="button-delete" type="button"><i class="bi bi-trash2-fill"></i>&nbsp;Delete</button></div>
+            <div class="col-auto"><button class="btn btn-danger" data-url="@Url.Action("Delete", "Order", new { Id = Model.Id })" id="button-delete" type="button"><i class="bi bi-trash2-fill"></i>&nbsp;Delete</button></div>
 
-        <div class="col-6">
-            <div class="form-check">
-                <input class="form-check-input" id="active" name="active" type="checkbox" value="true" checked="checked">
-                <label class="form-check-label" for="active">Active</label>
+            <div class="col-6">
+                <div class="form-check">
+                    <input class="form-check-input" id="active" name="active" type="checkbox" value="true" checked="checked">
+                    <label class="form-check-label" for="active">Active</label>
+                </div>
             </div>
         </div>
-    </div>
+    } else
+    {
+        <div class="row mt-2 p-3">
+            <div class="col"><button class="btn btn-primary" type="submit"><i class="bi bi-send-check"></i>&nbsp;Send Order to Nauteck Flooring</button></div>
+            <div class="col"></div>
+        </div>
+    }
     <div class="row p-3">
         <div class="col floorstatus">
-            @await Html.PartialAsync("Partials/Status", Model)
-            @await Html.PartialAsync("Partials/StatusHistory", Model)
+            @if (!Model.Id.Equals(Guid.Empty.ToString()))
+            {
+                @await Html.PartialAsync("Partials/Status", Model)
+                @await Html.PartialAsync("Partials/StatusHistory", Model)
+            }
             @await Html.PartialAsync("Partials/Attachments", Model)
         </div>
         <div class="col">
@@ -62,7 +74,7 @@
     <input type="hidden" id="id" name="id" value="@Model.Id">
     <input type="hidden" id="currentStatus" name="currentStatus" value="@Model.Status" />
 
-    @Html.HiddenFor(m=> m.Total)
+    @Html.HiddenFor(m => m.Total)
     @Html.AntiForgeryToken()
 </form>
 

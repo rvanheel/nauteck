@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 
 using Dapper;
 
@@ -14,8 +15,9 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDbConnection dbConne
 {
     public async Task Handle(Commands.FloorOrderInsertOrUpdateCommand request, CancellationToken cancellationToken)
     {
-        await Insert(request.OrderPostModel, request.UserName, request.DealerId);
-        await Update(request.OrderPostModel, request.UserName);
+        var isNew = request.OrderPostModel.Id!.Equals(Guid.Empty.ToString());
+        await Insert(isNew, request.OrderPostModel, request.UserName, request.DealerId);
+        await Update(isNew, request.OrderPostModel, request.UserName);
         await Logos(request.OrderPostModel);
         await Parts(request.OrderPostModel);
         await CheckStatus(request.OrderPostModel, request.Timestamp, request.UserName);
@@ -29,18 +31,18 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDbConnection dbConne
         _ = await dbConnection.ExecuteAsync(sql, new
         {
             Id = Guid.NewGuid(),
-            orderPostModel.Status,
+            Status = orderPostModel.Status ?? Constants.Status.PROFORMA,
             CreatedAt = timestamp,
             CreatedBy = userName,
             FloorOrderId = orderPostModel.Id
         });
     }
-    private async Task Insert(OrderPostModel model, string userName, string dealerId)
+    private async Task Insert(bool isNew, OrderPostModel model, string userName, string dealerId)
     {
-        if (!model.Id!.Equals(Guid.Empty.ToString())) return;
+        if (!isNew) return;
         model.Id = Guid.NewGuid().ToString();
         var now = helper.AtCurrentTimeZone;
-        var sql = $@"INSERT INTO FloorOrder 
+        var sql = $@"INSERT INTO {DbConstants.Tables.FloorOrder} 
         (
             {DbConstants.Columns.Id}, 
             {DbConstants.Columns.Reference},
@@ -79,6 +81,7 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDbConnection dbConne
             {DbConstants.Columns.InvoiceFreeText},
             {DbConstants.Columns.CompanyName},
             {DbConstants.Columns.VatNumber}
+        )
         VALUES (
             @Id,
             @Reference,
@@ -121,7 +124,7 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDbConnection dbConne
         _ = await dbConnection.ExecuteAsync(sql, new
         {
             model.Id,
-            model.Reference,
+            Reference = model.Reference ?? "",
             LastName = model.LastName ?? "",
             FirstName = model.FirstName ?? "",
             Preamble = model.Preamble ?? "",
@@ -142,10 +145,10 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDbConnection dbConne
             ModifiedBy = userName,
             model.Discount,
             model.Total,
-            model.Status,
-            model.StatusAction,
-            model.Comment,
-            model.FreeText,
+            Status = Constants.Status.PROFORMA,
+            StatusAction = model.StatusAction ?? "",
+            Comment = model.Comment ?? "",
+            FreeText = model.FreeText ?? "",
             DealerId = dealerId,
             Infix = model.Infix ?? "",
             model.FreePrice,
@@ -245,9 +248,9 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDbConnection dbConne
             )";
         await dbConnection.ExecuteAsync(sql, model.Parts);
     }
-    private async Task Update(OrderPostModel model, string userName)
+    private async Task Update(bool isNew, OrderPostModel model, string userName)
     {
-        if (model.Id!.Equals(Guid.Empty.ToString())) return;
+        if (isNew) return;
 
         model.Provision = model.Status!.Equals(Constants.Status.CANCELLED) ? 0 : model.Provision;
         var sql = $@"

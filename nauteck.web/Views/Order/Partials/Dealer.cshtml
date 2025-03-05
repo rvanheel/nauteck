@@ -17,35 +17,37 @@
         <input class="form-control form-control-sm" id="freePrice" name="freePrice" min="0" step="0.25" type="number" value="@($"{Model.FreePrice:n2}")">
     </div>
 </div>
+@if (!Model.Id.Equals(Guid.Empty.ToString()))
+{
+    <div class="row mt-2">
+        <div class="col">
+            <label class="text-muted small">Order Status</label>
+            <input class="form-control-plaintext" value="@Model.Status">
+        </div>
+    </div>
 
-<div class="row mt-2">
-    <div class="col">
-        <label class="text-muted small">Order Status</label>
-        <input class="form-control-plaintext" value="@Model.Status">
+    <div class="row mt-2">
+        <div class="col">
+            <label class="text-muted small" for="freeText">Nauteck Comments</label>
+            <textarea class="form-control" id="freeText" name="freeText" rows="5">@Model.FreeText</textarea>
+        </div>
     </div>
-</div>
 
-<div class="row mt-2">
-    <div class="col">
-        <label class="text-muted small" for="freeText">Nauteck Comments</label>
-        <textarea class="form-control" id="freeText" name="freeText" rows="5">@Model.FreeText</textarea>
+    <div class="row mt-2">
+        <div class="col">
+            <label class="text-muted small" for="invoiceFreeText">Nauteck Invoice Free Text</label>
+            <textarea class="form-control" id="invoiceFreeText" name="invoiceFreeText" rows="5">@Model.InvoiceFreeText</textarea>
+        </div>
     </div>
-</div>
-
-<div class="row mt-2">
-    <div class="col">
-        <label class="text-muted small" for="invoiceFreeText">Nauteck Invoice Free Text</label>
-        <textarea class="form-control" id="invoiceFreeText" name="invoiceFreeText" rows="5">@Model.InvoiceFreeText</textarea>
+    <div class="row mt-2">
+        <div class="col-auto">
+            <label class="text-muted small" for="provision">Provision</label>
+            <input class="form-control form-control-sm" id="provision" name="provision" min="0" step="0.01" type="number" value="@($"{Model.Provision:n2}")">
+        </div>
+        <div class="col-auto">
+            <label class="text-muted small" for="discount">Discount</label>
+            <input class="form-control form-control-sm" id="discount" name="discount" min="0" step="0.01" type="number" value="@($"{Model.Discount:n2}")">
+        </div>
+        <div class="col"></div>
     </div>
-</div>
-<div class="row mt-2">
-    <div class="col-auto">
-        <label class="text-muted small" for="provision">Provision</label>
-        <input class="form-control form-control-sm" id="provision" name="provision" min="0" step="0.01" type="number" value="@($"{Model.Provision:n2}")">
-    </div>
-    <div class="col-auto">
-        <label class="text-muted small" for="discount">Discount</label>
-        <input class="form-control form-control-sm" id="discount" name="discount" min="0" step="0.01" type="number" value="@($"{Model.Discount:n2}")">
-    </div>
-    <div class="col"></div>
-</div>
+}

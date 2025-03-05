@@ -18,24 +18,27 @@
             <label class="text-muted small" for="file3">Add File</label>
             <input class="form-control form-control-sm" type="file" id="file3">
         </div>
-        <table class="table-responsive table">
-            <thead>
-                <tr>
-                    <th scope="col">&nbsp;</th>
-                    <th scope="col">FileName</th>
-                    <th scope="col" class="text-end">Size</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in attachments)
-                {
+        @if (!Model.Id.Equals(Guid.Empty.ToString()))
+        {
+            <table class="table-responsive table">
+                <thead>
                     <tr>
-                        <td><a class="btn btn-warning btn-sm" download="@item.FileUrl" href="@item.FileUrl" title="@item.FileName"><i class="bi bi-download"></i></a></td>
-                        <td class="small">@item.FileName</td>
-                        <td class="text-end small">@(item.FileSize / 1024) Kb</td>
+                        <th scope="col">&nbsp;</th>
+                        <th scope="col">FileName</th>
+                        <th scope="col" class="text-end">Size</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var item in attachments)
+                    {
+                        <tr>
+                            <td><a class="btn btn-warning btn-sm" download="@item.FileUrl" href="@item.FileUrl" title="@item.FileName"><i class="bi bi-download"></i></a></td>
+                            <td class="small">@item.FileName</td>
+                            <td class="text-end small">@(item.FileSize / 1024) Kb</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
     </div>
 </div>

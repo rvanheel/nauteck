@@ -45,7 +45,8 @@ class OrderEdit {
     elements.forEach((element) => {
       total += parseFloat(element.textContent.replace(',','')) || 0;
     });
-    const discount = +Functions.GetHtmlInputElementById('discount').value;
+    const discountElement = Functions.GetHtmlInputElementById('discount');
+    const discount = discountElement ? +discountElement.value : 0;
     const totalAmount =  OrderEdit.NumberFormat.format(total - discount);
     Functions.SetHtmlTextContent('span[data-type="subtotal-price"]', OrderEdit.NumberFormat.format(total));
     Functions.SetHtmlTextContent('span[data-type="discount-price"]', `- ${OrderEdit.NumberFormat.format(discount)}`);
@@ -148,13 +149,13 @@ class OrderEdit {
     document.getElementById("country").addEventListener('change', OrderEdit.AddressCheck, false);
     document.getElementById("zipcode").addEventListener('blur', OrderEdit.AddressCheck, false);
     document.getElementById("number").addEventListener('blur', OrderEdit.AddressCheck, false);
-    document.getElementById("button-delete").addEventListener('click', OrderEdit.Delete, false);
+    document.querySelectorAll("#button-delete").forEach(x=> x.addEventListener('click', OrderEdit.Delete, false));
     document.getElementById("Parts.Floor").addEventListener('change', OrderEdit.FloorChanged, false);
     document.querySelectorAll('input[data-type="logo"]').forEach((element) => element.addEventListener('change', OrderEdit.LogoChanged, false));
 
     document.querySelectorAll('select[name="parts.FloorColorAbove"],select[name="parts.Parts.floorColorBeneath"]').forEach((element) => element.addEventListener('change', OrderEdit.ColorChanged, false));
     
-    Functions.GetHtmlInputElementById('discount').addEventListener('change', OrderEdit.CalculateTotal, false);
+    document.querySelectorAll('#discount').forEach(x=>x.addEventListener('change', OrderEdit.CalculateTotal, false));
     Functions.GetHtmlInputElementById('freePrice').addEventListener('change', OrderEdit.FreePriceChanged, false);
     Functions.GetHtmlInputElementById('Parts.callOutCostQuantity').addEventListener('change', OrderEdit.CallOutCostChanged, false);	
     Functions.GetHtmlInputElementById('Parts.floorQuantity').addEventListener('change', OrderEdit.QuantityChanged, false);
@@ -163,6 +164,8 @@ class OrderEdit {
     Functions.GetHtmlSelectElementById('Parts.measurement').addEventListener('change', OrderEdit.MeasurementChanged, false);
 
     OrderEdit.InitForm();
+
+    OrderEdit.CalculateTotal();
   }
   static InitForm() {
     $("#form-order").validate({
@@ -178,9 +181,9 @@ class OrderEdit {
         "Parts.design": "ontwerp is vereist",
         "Parts.measurement": "meting is vereist",
         "Parts.Floor": "vloer is vereist",
-        "Parts.floorQuantity": {
+        "parts.FloorQuantity": {
           required: "hoeveelheid is vereist",
-          min: "hoeveelheid moet groter zijn dan 0"
+          min: "groter dan 0.0m2"
         },
         "Parts.floorColorAbove": "kleur is vereist",
         "Parts.floorColorBeneath": "kleur is vereist",
@@ -197,7 +200,7 @@ class OrderEdit {
         "Parts.design": "required",
         "Parts.measurement": "required",
         "Parts.Floor": "required",
-        "Parts.floorQuantity": {
+        "parts.FloorQuantity": {
           required: true,
           min: 0.01
         },
