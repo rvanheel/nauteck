@@ -3,7 +3,7 @@ using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
 
-using nauteck.core.Features.Order;
+using nauteck.core.Features.Client;
 using nauteck.web.Models;
 
 namespace nauteck.web.Controllers;
@@ -13,7 +13,7 @@ public class HomeController(IMediator mediator) : BaseController(mediator)
 
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
-        var records = await Mediator.Send(new Queries.FloorOrderQuery(), cancellationToken);
+        var records = await Mediator.Send(new Queries.ClientQuery(), cancellationToken);
         return View(records);
     }
 

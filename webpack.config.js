@@ -2,7 +2,8 @@ const path = require('path');
 module.exports = {
     entry: {
         "Account.Login": { import: path.resolve(__dirname, 'TypeScript', 'account', 'login.ts'), filename: '../nauteck.web/wwwroot/js/account/login.js' },
-        "Order.Edit": { import: path.resolve(__dirname, 'TypeScript', 'order', 'edit.ts'), filename: '../nauteck.web/wwwroot/js/order/edit.js' },
+        "Client.Edit": { import: path.resolve(__dirname, 'TypeScript', 'client', 'edit.ts'), filename: '../nauteck.web/wwwroot/js/client/edit.js' },
+        "Home.Index": { import: path.resolve(__dirname, 'TypeScript', 'home', 'index.ts'), filename: '../nauteck.web/wwwroot/js/home/index.js' },
     },    
     module: {        
         rules: [

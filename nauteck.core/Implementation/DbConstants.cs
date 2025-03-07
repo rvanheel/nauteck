@@ -12,6 +12,7 @@ public static class DbConstants
         public const string CreatedBy = "`CreatedBy`";
         public const string ModifiedAt = "`ModifiedAt`";
         public const string ModifiedBy = "`ModifiedBy`";
+        public const string Remarks = "`Remarks`";
         // order
         public const string ConstructionTotal = "`ConstructionTotal`";
         public const string FloorOrderId = "`FloorOrderId`";
@@ -85,6 +86,7 @@ public static class DbConstants
     }
     public static class Tables
     {
+        public const string Client = "`client`";
         public const string Dealer = "`dealer`";
         public const string Floor = "`floor`";
         public const string FloorColor = "`floorcolor`";
@@ -98,6 +100,6 @@ public static class DbConstants
         public const string FloorOrderLogo = "`floororderlogo`";
         public const string FloorOrderParts = "`floororderparts`";
         public const string FloorOrderStatus = "`floororderstatus`";
-        public const string User = "`user`";
+        public const string User = "`user`";        
     }
 }

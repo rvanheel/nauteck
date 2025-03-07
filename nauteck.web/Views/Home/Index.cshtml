@@ -1,13 +1,13 @@
-﻿@model IEnumerable<nauteck.data.Dto.Order.FloorOrderDto>
+﻿@model IEnumerable<nauteck.data.Dto.Client.ClientDto>
 
 <div class="m-2 p-2 rounded-3 border shadow-lg">
 
     <div class="row p-2">
         <div class="col">
-            <p class="lead fw-bold text-uppercase">Floor Orders</p>
+            <p class="lead fw-bold text-uppercase">Klanten</p>
         </div>
         <div class="col">
-            <a asp-action="Edit" asp-controller="Order" asp-route-id="@Guid.Empty" class="btn btn-primary text-white float-end" title="Toevoegen"><i class="bi bi-file-earmark-text"></i>&nbsp;New Floor Order</a>
+            <a asp-action="Edit" asp-controller="Client" asp-route-id="@Guid.Empty" class="btn btn-primary text-white float-end" title="Toevoegen"><i class="bi bi-file-earmark-text"></i>&nbsp;Nieuwe Klant</a>
         </div>
     </div>
 
@@ -16,75 +16,39 @@
         <thead>
             <tr>
                 <th></th>
-                <th>#</th>
-                <th>Datum</th>
-                <th>Consumer</th>
-                <th>Boat</th>
-                <th>Reference</th>
-                <th>Invoice</th>
-                <th>Discount</th>
-                <th>Construction</th>
-                <th>Status</th>
+                <th>Naam</th>
+                <th>Adres</th>
+                <th>Postcode</th>
+                <th>Plaats</th>
+                <th>Land</th>
+                <th>Telefoon</th>
+                <th>Email</th>
+                <th>Boot</th>
+                <th>Type</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var record in Model)
             {
                 <tr>
-                    <td>@(new DateTimeOffset(record.CreatedAt).ToUnixTimeSeconds())</td>
-                    <td><a alt="@record.Reference" asp-controller="Order" asp-action="Edit" asp-route-id="@record.Id" class="btn btn-sm btn-warning" title="Order @record.Reference"><i class="bi bi-pencil-square"></i></a></td>
-                    <td>@record.CreatedAt</td>
-                    <td>
-                        @record.Preamble @record.FirstName @record.Infix @record.LastName<br />
-                        <address>
-                            @record.Address @record.Number@record.Infix<br />
-                            @record.Zipcode @record.City<br />
-                            @record.Country
-                        </address>
-                    </td>
-                    <td>@record.BoatBrand<br />@record.BoatType</td>
-                    <td>@record.Reference</td>
-                    <td>@record.Total</td>
-                    <td>@record.Discount</td>
-                    <td>@record.ConstructionTotal</td>                    
-                    <td>
-                        @switch (record.Status){
-                            case "Afgerond":
-                                <span class="badge bg-success"><i class="bi bi-hand-thumbs-up-fill"></i>&nbsp;Afgerond</span>
-                                break;
-                            case "Geannuleerd":
-                                <span class="badge bg-danger"><i class="bi bi-trash"></i>&nbsp;Geannuleerd</span>
-                                break;
-                            case "In produktie":
-                                <span class="badge bg-info"><i class="bi bi-boxes"></i>&nbsp;In produktie</span>
-                                break;
-                            default:
-                                @record.Status
-                                break;
-                        }
-                    </td>
+                    <td><a asp-action="Edit" asp-controller="Client" asp-route-id="@record.Id" class="btn btn-warning"><i class="bi bi-pencil"></i></a></td>
+                    <td>@record.Preamble @record.FirstName @record.Infix @record.LastName</td>
+                    <td>@record.Address @record.Number@record.Extension</td>
+                    <td>@record.Zipcode</td>
+                    <td>@record.City</td>
+                    <td>@record.Country</td>
+                    <td>@record.Phone</td>
+                    <td>@record.Email</td>
+                    <td>@record.BoatBrand</td>
+                    <td>@record.BoatType</td>
+                    <td><button data-url="@Url.Action("Delete", "Client", new {@record.Id})" class="btn btn-danger" title="Verwijderen klant" type="button"><i class="bi bi-trash"></i></button></td>
                 </tr>
             }
         </tbody>
     </table>
 
 </div>
-
 @section Scripts {
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', ()=>{
-            $("#table-orders").DataTable({
-                autoWidth: false,
-                columnDefs:[
-                    { targets: [0], visible: false},
-                    { targets: [1], className: "text-center", orderable: false, searchable: false, width: "2rem"},
-                    { targets: [5,6,7,8], type: 'num', width: '4rem'},
-                    { targets: [9], className: "text-center", width: "10rem"},
-                ],
-                order: [[0, 'desc']],
-                deferRender: true,
-                processing: true
-            });
-        });
-    </script>
+    <script src="~/js/home/index.js" asp-append-version="true"></script>
 }
