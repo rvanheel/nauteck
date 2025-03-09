@@ -1,15 +1,14 @@
-﻿using System.Data;
-
-using Dapper;
+﻿using Dapper;
 
 using MediatR;
 
+using nauteck.core.Abstraction;
 using nauteck.core.Implementation;
 using nauteck.data.Dto.Order;
 
 namespace nauteck.core.Features.Order;
 
-public sealed class FloorOrderQueryHandler(IDbConnection dbConnection) : IRequestHandler<Queries.FloorOrderQuery, IEnumerable<FloorOrderDto>>
+public sealed class FloorOrderQueryHandler(IDapperContext dapperContext) : IRequestHandler<Queries.FloorOrderQuery, IEnumerable<FloorOrderDto>>
 {   
 
     private const string modelAndSupplierColumns = @$"
@@ -38,6 +37,6 @@ public sealed class FloorOrderQueryHandler(IDbConnection dbConnection) : IReques
     public Task<IEnumerable<FloorOrderDto>> Handle(Queries.FloorOrderQuery request, CancellationToken cancellationToken)
     {
         var query = $"SELECT {modelAndSupplierColumns} FROM {DbConstants.Tables.FloorOrder} {modelAndSupplierJoins}";
-        return dbConnection.QueryAsync<FloorOrderDto>(query);
+        return dapperContext.Connection.QueryAsync<FloorOrderDto>(query);
     }
 }

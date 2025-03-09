@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<nauteck.data.Dto.Client.ClientDto>
 
-<div class="m-2 p-2 rounded-3 border shadow-lg">
+<div class="m-3 p-3 rounded-3 border shadow-lg bg-white">
 
     <div class="row p-2">
         <div class="col">
@@ -32,7 +32,7 @@
             @foreach (var record in Model)
             {
                 <tr>
-                    <td><a asp-action="Edit" asp-controller="Client" asp-route-id="@record.Id" class="btn btn-warning"><i class="bi bi-pencil"></i></a></td>
+                    <td><a asp-action="Edit" asp-controller="Client" asp-route-id="@record.Id" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a></td>
                     <td>@record.Preamble @record.FirstName @record.Infix @record.LastName</td>
                     <td>@record.Address @record.Number@record.Extension</td>
                     <td>@record.Zipcode</td>
@@ -42,7 +42,7 @@
                     <td>@record.Email</td>
                     <td>@record.BoatBrand</td>
                     <td>@record.BoatType</td>
-                    <td><button data-url="@Url.Action("Delete", "Client", new {@record.Id})" class="btn btn-danger" title="Verwijderen klant" type="button"><i class="bi bi-trash"></i></button></td>
+                    <td><button data-url="@Url.Action("Delete", "Client", new {@record.Id})" class="btn btn-sm btn-danger" title="Verwijderen klant" type="button"><i class="bi bi-trash"></i></button></td>
                 </tr>
             }
         </tbody>

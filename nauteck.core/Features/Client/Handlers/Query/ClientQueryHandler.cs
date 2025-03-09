@@ -1,14 +1,13 @@
-﻿using System.Data;
-
-using Dapper;
+﻿using Dapper;
 
 using MediatR;
 
+using nauteck.core.Abstraction;
 using nauteck.core.Implementation;
 
 namespace nauteck.core.Features.Client.Handlers.Query;
 
-public sealed class ClientQueryHandler(IDbConnection dbConnection) : IRequestHandler<Queries.ClientQuery, IEnumerable<data.Dto.Client.ClientDto>>
+public sealed class ClientQueryHandler(IDapperContext dapperContext) : IRequestHandler<Queries.ClientQuery, IEnumerable<data.Dto.Client.ClientDto>>
 {
     public async Task<IEnumerable<data.Dto.Client.ClientDto>> Handle(Queries.ClientQuery request, CancellationToken cancellationToken)
     {
@@ -31,6 +30,6 @@ public sealed class ClientQueryHandler(IDbConnection dbConnection) : IRequestHan
             ,{DbConstants.Columns.BoatType} 
             ,{DbConstants.Columns.Active} 
             FROM {DbConstants.Tables.Client}";
-        return await dbConnection.QueryAsync<data.Dto.Client.ClientDto>(sql);
+        return await dapperContext.Connection.QueryAsync<data.Dto.Client.ClientDto>(sql);
     }
 }

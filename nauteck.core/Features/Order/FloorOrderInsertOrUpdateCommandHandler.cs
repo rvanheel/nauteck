@@ -10,7 +10,7 @@ using nauteck.data.Models.Order;
 
 namespace nauteck.core.Features.Order;
 
-public sealed class FloorOrderInsertOrUpdateCommandHandler(IDbConnection dbConnection, IHelper helper) : IRequestHandler<Commands.FloorOrderInsertOrUpdateCommand>
+public sealed class FloorOrderInsertOrUpdateCommandHandler(IDapperContext dapperContext, IHelper helper) : IRequestHandler<Commands.FloorOrderInsertOrUpdateCommand>
 {
     public async Task Handle(Commands.FloorOrderInsertOrUpdateCommand request, CancellationToken cancellationToken)
     {
@@ -27,7 +27,7 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDbConnection dbConne
     {
         if ($"{orderPostModel.CurrentStatus}".Equals(orderPostModel.Status, StringComparison.InvariantCultureIgnoreCase)) return;
         var sql = $"INSERT INTO {DbConstants.Tables.FloorOrderStatus} ({DbConstants.Columns.Id},{DbConstants.Columns.Status},{DbConstants.Columns.CreatedAt},{DbConstants.Columns.CreatedBy},{DbConstants.Columns.FloorOrderId}) VALUES (@Id,@Status,@CreatedAt,@CreatedBy,@FloorOrderId)";
-        _ = await dbConnection.ExecuteAsync(sql, new
+        _ = await dapperContext.Connection.ExecuteAsync(sql, new
         {
             Id = Guid.NewGuid(),
             Status = orderPostModel.Status ?? Constants.Status.PROFORMA,
@@ -121,7 +121,7 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDbConnection dbConne
             @CompanyName,
             @VatNumber
         )";
-        _ = await dbConnection.ExecuteAsync(sql, new
+        _ = await dapperContext.Connection.ExecuteAsync(sql, new
         {
             model.Id,
             Reference = model.Reference ?? "",
@@ -165,7 +165,7 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDbConnection dbConne
     {
         // delete old logos
         var sql = $"DELETE FROM {DbConstants.Tables.FloorOrderLogo} WHERE {DbConstants.Columns.FloorOrderId} = @FloorOrderId";
-        _ = await dbConnection.ExecuteAsync(sql, new { FloorOrderId = model.Id });
+        _ = await dapperContext.Connection.ExecuteAsync(sql, new { FloorOrderId = model.Id });
 
         sql = $@"INSERT INTO {DbConstants.Tables.FloorOrderLogo}
             ({DbConstants.Columns.Id}
@@ -177,7 +177,7 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDbConnection dbConne
         
         foreach (data.Entities.Order.FloorOrderLogo? logo in model.Logo.Where(l=> l.Quantity > 0))
         {
-            await dbConnection.ExecuteAsync(sql, new
+            await dapperContext.Connection.ExecuteAsync(sql, new
             {
                 logo!.Price,
                 logo.Quantity,
@@ -191,7 +191,7 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDbConnection dbConne
     {
         // delete old parts
         var sql = $"DELETE FROM {DbConstants.Tables.FloorOrderParts} WHERE {DbConstants.Columns.FloorOrderId} = @FloorOrderId";
-        _ = await dbConnection.ExecuteAsync(sql, new { FloorOrderId = model.Id });
+        _ = await dapperContext.Connection.ExecuteAsync(sql, new { FloorOrderId = model.Id });
 
         if (model.Parts is null) return;
         model.Parts.FloorOrderId = Guid.Parse(model.Id!);
@@ -246,7 +246,7 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDbConnection dbConne
             ,@LogoTotal
             ,@FloorColorExclusive
             )";
-        await dbConnection.ExecuteAsync(sql, model.Parts);
+        await dapperContext.Connection.ExecuteAsync(sql, model.Parts);
     }
     private async Task Update(bool isNew, OrderPostModel model, string userName)
     {
@@ -283,7 +283,7 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDbConnection dbConne
             ,{DbConstants.Columns.ModifiedBy}=@ModifiedBy
             ,{DbConstants.Columns.Total}=@Total
         WHERE {DbConstants.Columns.Id} = @Id";
-        _ = await dbConnection.ExecuteAsync(sql, new
+        _ = await dapperContext.Connection.ExecuteAsync(sql, new
         {
             Id = model.Id ?? "",
             ModifiedAt = helper.AtCurrentTimeZone,

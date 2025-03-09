@@ -1,33 +1,9 @@
 ﻿@model nauteck.data.Entities.Client.Client
 
 @{
-    var countries = new List<string>
-    {
-        "Nederland",
-        "Belgie", 
-        "Duitsland", 
-        "Frankrijk", 
-        "Spanje", 
-        "Italie", 
-        "Portugal", 
-        "Griekenland", 
-        "Turkije", 
-        "Kroatie", 
-        "Malta", 
-        "Cyprus", 
-        "Zweden",
-        "Noorwegen",
-        "Denemarken",
-        "Finland",
-        "Polen",
-        "Engeland",
-        "Ierland",
-        "Schotland",
-        "Wales",
-        "Ijsland"
-    }.Order().Select(c => new SelectListItem(c, c)).AsEnumerable();
+    var disabled = Model.Id.Equals(Guid.Empty) ? "disabled" : "";
 }
-<div class="m-2 p-2 rounded-3 border shadow-lg" style=" background-color: #fff">
+<div class="m-3 p-3 rounded-3 border shadow-lg bg-white">
 
     <div class="row p-3">
         <div class="col">
@@ -37,115 +13,22 @@
         </div>
     </div>
 
-    @using (Html.BeginForm("SaveOrUpdate", "Client", default, FormMethod.Post, antiforgery: true, htmlAttributes: new { @autocomplete = "off", @id = "form-client" }))
-    {
-        <div class="p-3" style="display: grid; grid-template-columns: max-content max-content max-content max-content; gap: 1rem;">
-
-            <div class="grid-col-4">
-                <div class="form-check">
-                    @Html.CheckBoxFor(m => m.Active, new { @class = "form-check-input" })
-                    @Html.LabelFor(m => m.Active, htmlAttributes: new { @class = "form-check-label fw-bold" })
-                
-                </div>
-            </div>
-
-            <div>
-                @Html.LabelFor(model => model.Preamble, htmlAttributes: new { @class = "fw-bold" })
-                <select class="form-control" id="@Html.IdFor(m=>m.Preamble)" name="@Html.NameFor(m=>m.Preamble)">
-                    <option selected="selected" value=""></option>
-                    <option value="Dhr.">Dhr.</option>
-                    <option value="Mevr.">Mevr.</option>
-                    <option value="Geen">Geen</option>
-                </select>
-            </div>
-            <div>
-                @Html.LabelFor(model => model.LastName, new { @class = "fw-bold" })&nbsp;<span class="text-danger">*</span>
-                @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
-            </div>
-            <div>
-                @Html.LabelFor(model => model.FirstName, new { @class = "fw-bold" })
-                @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
-            </div>
-            <div>
-                @Html.LabelFor(model => model.Infix, new { @class = "fw-bold" })
-                @Html.TextBoxFor(model => model.Infix, new { @class = "form-control" })
-            </div>
-
-
-
-            <div class="grid-col-2">
-                @Html.LabelFor(model => model.Email, new { @class = "fw-bold" })
-                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @type = "email" })
-            </div>
-            <div class="grid-col-2">
-                @Html.LabelFor(model => model.Phone, new { @class = "fw-bold" })
-                @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", @type = "tel" })
-            </div>
-
-            <div>
-                @Html.LabelFor(model => model.Zipcode, new { @class = "fw-bold" })&nbsp;<span class="text-danger">*</span>
-                @Html.TextBoxFor(model => model.Zipcode, new { @class = "form-control" })
-            </div>
-            <div>
-                @Html.LabelFor(model => model.Number, new { @class = "fw-bold" })&nbsp;<span class="text-danger">*</span>
-                @Html.TextBoxFor(model => model.Number, new { @class = "form-control" })
-            </div>
-            <div>
-                @Html.LabelFor(model => model.Extension, new { @class = "fw-bold" })
-                @Html.TextBoxFor(model => model.Extension, new { @class = "form-control" })
-            </div>
-            <div></div>
-
-
-            <div class="grid-col-2">
-                @Html.LabelFor(model => model.Address, new { @class = "fw-bold" })
-                @Html.TextBoxFor(model => model.Address, new { @class = "form-control", @readonly = "readonly" })
-            </div>
-            <div class="grid-col-2">
-                @Html.LabelFor(model => model.City, new { @class = "fw-bold" })
-                @Html.TextBoxFor(model => model.City, new { @class = "form-control", @readonly = "readonly" })
-            </div>
-
-
-            <div class="grid-col-2">
-                @Html.LabelFor(model => model.Region, new { @class = "fw-bold" })
-                @Html.TextBoxFor(model => model.Region, new { @class = "form-control", @readonly = "readonly" })
-            </div>
-            <div class="grid-col-2">
-                @Html.LabelFor(model => model.Country, new { @class = "fw-bold" })&nbsp;<span class="text-danger">*</span>
-
-                @Html.DropDownListFor(m=>m.Country, countries, htmlAttributes: new { @class="form-control"})
-            </div>
-
-            <div class="grid-col-2">
-                @Html.LabelFor(m => m.BoatBrand, new { @class = "fw-bold" })&nbsp;<span class="text-danger">*</span>
-                @Html.TextBoxFor(m => m.BoatBrand, new { @class = "form-control pb-0" })
-            </div>
-            <div class="grid-col-2">
-                @Html.LabelFor(m => m.BoatType, new { @class = "fw-bold" })&nbsp;<span class="text-danger">*</span>
-                @Html.TextBoxFor(m => m.BoatType, new { @class = "form-control pb-0" })
-            </div>
-
-            <div class="grid-col-4">
-                @Html.LabelFor(m => m.Remarks, new { @class = "fw-bold" })
-                @Html.TextAreaFor(m => m.Remarks, new { @class = "form-control", @rows = 10 })
-            </div>
-
-
-            <div><a class="btn btn-light" href="/"><i class="bi bi-arrow-left"></i>&nbsp;Terug</a></div>
-            <div class="grid-col-3"><button class="btn btn-primary" type="submit"><i class="bi bi-save"></i>&nbsp;Opslaan</button>
-
+    <nav>
+        <div class="nav nav-tabs">
+            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">NAW</button>
+            <button class="nav-link" id="nav-attachment-tab" data-bs-toggle="tab" data-bs-target="#nav-attachments" type="button" role="tab" aria-controls="nav-attachments" aria-selected="false" @disabled>Bijlagen</button>
+            <button class="nav-link" id="nav-appointments-tab" data-bs-toggle="tab" data-bs-target="#nav-appointments" type="button" role="tab" aria-controls="nav-appointments" aria-selected="false" @disabled>Afspraken</button>
         </div>
-
-
-
+    </nav>
+    <div class="tab-content">
+        <div class="tab-pane fade show active p-2" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+            @await Html.PartialAsync("Partials/Naw", Model)
         </div>
-
-
-
-
-        @Html.HiddenFor(m => m.Id)
-    }
+        <div class="tab-pane fade p2" id="nav-attachments" role="tabpanel" aria-labelledby="nav-attachments-tab" tabindex="1">
+            @await Html.PartialAsync("Partials/Attachments", Model)
+        </div>
+        <div class="tab-pane fade p2" id="nav-appointments" role="tabpanel" aria-labelledby="nav-appointments-tab" tabindex="2"></div>
+    </div>
 </div>
 
 @section Scripts {

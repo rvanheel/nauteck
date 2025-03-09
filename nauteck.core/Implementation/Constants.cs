@@ -4,6 +4,32 @@ namespace nauteck.core.Implementation;
 
 public static class Constants
 {
+    public static readonly string[] Countries = [
+    
+        "Belgie",
+        "Denemarken",
+        "Duitsland",
+        "Engeland",
+        "Finland",
+        "Frankrijk",
+        "Griekenland",
+        "Ierland",
+        "Italie",
+        "Kroatie",
+        "Luxemburg",
+        "Malta",
+        "Monaco", 
+        "Nederland",
+        "Noorwegen",
+        "Polen",
+        "Portugal",
+        "Schotland",
+        "Spanje",
+        "Turkije",
+        "Wales",
+        "Zweden"
+    ];
+
     public static readonly CultureInfo DutchCulture = new("nl-NL");
     public static class TimeZone
     {

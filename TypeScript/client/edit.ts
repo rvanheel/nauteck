@@ -24,15 +24,18 @@ class ClientEdit {
     plaats.value = '';
     provincie.value = '';
 
-    Functions.GetHtmlInputElementById('Address').setAttribute('readonly','readonly');
-    Functions.GetHtmlInputElementById('City').setAttribute('readonly','readonly');
-    Functions.GetHtmlInputElementById('Region').setAttribute('readonly','readonly');
+    const address = Functions.GetHtmlInputElementById('Address');
+    const city = Functions.GetHtmlInputElementById('City');
+    const region = Functions.GetHtmlInputElementById('Region');
+    address.setAttribute('readonly','readonly');
+    city.setAttribute('readonly','readonly');
+    region.setAttribute('readonly','readonly');
 
 
     if (!elements['Country'].value.match(/Nederland/i)) {
-      Functions.GetHtmlInputElementById('Address').removeAttribute('readonly');
-      Functions.GetHtmlInputElementById('City').removeAttribute('readonly');
-      Functions.GetHtmlInputElementById('Region').removeAttribute('readonly');
+      address.removeAttribute('readonly');
+      city.removeAttribute('readonly');
+      region.removeAttribute('readonly');
       return;
     }
 
@@ -62,13 +65,46 @@ class ClientEdit {
     }
     ClientEdit.abortController = null;
   } 
-  
+  static async DeleteAttachment(this: HTMLElement){    
+    bootbox.confirm({
+      message: `<div class="alert alert-warning"><p class="fw-bold">Weet u zeker dat u deze bijlage wilt verwijderen?</p><p><strong>LET OP!</strong> dit kan niet ongedaan worden gemaakt.</p></div>`,
+      buttons: {
+        confirm: {
+          label: 'Ja',
+          className: 'btn-danger'
+        },
+        cancel: {
+          label: 'Nee',
+          className: 'btn-secondary'
+        }
+      },
+      callback: async (result) => {
+        if (!result) return;
+        Functions.ShowToastr();
+        const button = this as HTMLButtonElement;
+        const url = button.dataset.url;
+        const response = await fetch(url, {
+          method: 'DELETE',
+          cache: 'no-cache',
+          redirect: 'follow',
+        });
+        if (!response.ok) {
+          Functions.RemoveToastr();
+          Functions.ToastrError('Error', 'Er is een fout opgetreden bij het verwijderen van de klant.');
+          return;
+        }
+        window.location.reload();
+      }
+    });
+  }
   static Initialize() {
     document.getElementById("Country").addEventListener('change', ClientEdit.AddressCheck, false);
     document.getElementById("Zipcode").addEventListener('blur', ClientEdit.AddressCheck, false);
     document.getElementById("Number").addEventListener('blur', ClientEdit.AddressCheck, false);
 
     ClientEdit.InitForm();
+    ClientEdit.InitAttachmentTable();
+    document.querySelectorAll('button.btn-danger').forEach(button => button.addEventListener('click', ClientEdit.DeleteAttachment));
   }
   static InitForm() {
     $("#form-client").validate({
@@ -94,23 +130,35 @@ class ClientEdit {
         "Zipcode": "required",
         "Number": "required",
       },
-      submitHandler(form, event) {
+      submitHandler: async function(form, event) {
         event.preventDefault();
-        const elements = form;
+        Functions.ShowToastr();
         var data = new FormData(form);
         const uri = new URL(form.action, window.location.origin);
-        fetch(uri.href, {
+        const response = await fetch(uri.href, {
           body: data,
           method: 'POST',
-        }).then(response => {
-          if (!response.ok) {
-            Functions.ToastrError('Error', 'Er is een fout opgetreden bij het opslaan van de order.');
-            return;
-          }
-          window.location.replace('/');
         });
-
+        if (!response.ok) {
+          Functions.RemoveToastr();
+          Functions.ToastrError('Error', 'Er is een fout opgetreden bij het opslaan van de order.');
+          return;
+        }
+        window.location.href = '/';
+      }
+    });
+  }
+  static InitAttachmentTable() {
+    $('#table-attachments').DataTable({
+      autoWidth: false,
+      columnDefs: [
+        { targets: [0, 5], className: "text-center", orderable: false, searchable: false, width: "2rem" }
+      ],
+      language: {
+        url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Dutch.json'
       },
+      order: [[1, 'asc']],
+      paging: false
     });
   }
 }

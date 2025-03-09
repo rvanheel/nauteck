@@ -1,15 +1,14 @@
-﻿using System.Data;
-
-using Dapper;
+﻿using Dapper;
 
 using MediatR;
 
+using nauteck.core.Abstraction;
 using nauteck.core.Implementation;
 using nauteck.data.Entities.Order;
 
 namespace nauteck.core.Features.Order;
 
-public sealed class FloorOrderByIdQueryHandler(IDbConnection dbConnection) : IRequestHandler<Queries.FloorOrderByIdQuery, FloorOrder>
+public sealed class FloorOrderByIdQueryHandler(IDapperContext dapperContext) : IRequestHandler<Queries.FloorOrderByIdQuery, FloorOrder>
 {
     private readonly string Columns = @$"
         CAST({DbConstants.Columns.Id} AS NCHAR) AS {DbConstants.Columns.Id}
@@ -54,6 +53,6 @@ public sealed class FloorOrderByIdQueryHandler(IDbConnection dbConnection) : IRe
     {
         if (request.Id == Guid.Empty.ToString()) return Task.FromResult(new FloorOrder { Id = Guid.Empty.ToString() });
         var query = $"SELECT {Columns} FROM {DbConstants.Tables.FloorOrder} WHERE {DbConstants.Columns.Id} = @Id";
-        return dbConnection.QueryFirstAsync<FloorOrder>(query, new { request.Id });
+        return dapperContext.Connection.QueryFirstAsync<FloorOrder>(query, new { request.Id });
     }
 }

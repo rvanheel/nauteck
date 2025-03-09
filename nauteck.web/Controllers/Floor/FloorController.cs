@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-using MediatR;
+﻿using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
 

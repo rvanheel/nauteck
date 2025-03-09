@@ -4,8 +4,14 @@ public static class DbConstants
 {
     public static class Columns
     {
+        // attachment
+        public const string FileSize = "`FileSize`";
+        public const string FileName = "`FileName`";
+        public const string FileUrl = "`FileUrl`";
+        public const string Type = "`Type`";
         // general
         public const string Active = "`Active`";
+        public const string ClientId = "`ClientId`";
         public const string DealerId = "`DealerId`";
         public const string Id = "`Id`";
         public const string CreatedAt = "`CreatedAt`";
@@ -86,6 +92,7 @@ public static class DbConstants
     }
     public static class Tables
     {
+        public const string Attachment = "`attachment`";
         public const string Client = "`client`";
         public const string Dealer = "`dealer`";
         public const string Floor = "`floor`";

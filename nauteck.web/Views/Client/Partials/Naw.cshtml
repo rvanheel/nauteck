@@ -1,0 +1,104 @@
+﻿@model nauteck.data.Entities.Client.Client
+@{
+    var countries = nauteck.core.Implementation.Constants.Countries.Select(c => new SelectListItem(c, c)).AsEnumerable();
+}
+@using (Html.BeginForm("SaveOrUpdate", "Client", default, FormMethod.Post, antiforgery: true, htmlAttributes: new { @autocomplete = "off", @id = "form-client" }))
+{
+    <div class="p-3" style="display: grid; grid-template-columns: max-content max-content max-content max-content; gap: 1rem;">
+
+        <div class="grid-col-4">
+            <div class="form-check">
+                @Html.CheckBoxFor(m => m.Active, new { @class = "form-check-input" })
+                @Html.LabelFor(m => m.Active, htmlAttributes: new { @class = "form-check-label fw-bold" })
+
+            </div>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Preamble, htmlAttributes: new { @class = "fw-bold" })
+            <select class="form-control" id="@Html.IdFor(m=>m.Preamble)" name="@Html.NameFor(m=>m.Preamble)">
+                <option selected="selected" value=""></option>
+                <option value="Dhr.">Dhr.</option>
+                <option value="Mevr.">Mevr.</option>
+                <option value="Geen">Geen</option>
+            </select>
+        </div>
+        <div>
+            @Html.LabelFor(model => model.LastName, new { @class = "form-label fw-bold" })&nbsp;<span class="text-danger">*</span>
+            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+        </div>
+        <div>
+            @Html.LabelFor(model => model.FirstName, new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+        </div>
+        <div>
+            @Html.LabelFor(model => model.Infix, new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(model => model.Infix, new { @class = "form-control" })
+        </div>
+
+        <div class="grid-col-2">
+            @Html.LabelFor(model => model.Email, new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @type = "email" })
+        </div>
+        <div class="grid-col-2">
+            @Html.LabelFor(model => model.Phone, new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", @type = "tel" })
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Zipcode, new { @class = "form-label fw-bold" })&nbsp;<span class="text-danger">*</span>
+            @Html.TextBoxFor(model => model.Zipcode, new { @class = "form-control" })
+        </div>
+        <div>
+            @Html.LabelFor(model => model.Number, new { @class = "form-label fw-bold" })&nbsp;<span class="text-danger">*</span>
+            @Html.TextBoxFor(model => model.Number, new { @class = "form-control" })
+        </div>
+        <div>
+            @Html.LabelFor(model => model.Extension, new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(model => model.Extension, new { @class = "form-control" })
+        </div>
+        <div></div>
+
+        <div class="grid-col-2">
+            @Html.LabelFor(model => model.Address, new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(model => model.Address, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+        <div class="grid-col-2">
+            @Html.LabelFor(model => model.City, new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(model => model.City, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+
+        <div class="grid-col-2">
+            @Html.LabelFor(model => model.Region, new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(model => model.Region, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+        <div class="grid-col-2">
+            @Html.LabelFor(model => model.Country, new { @class = "form-label fw-bold" })&nbsp;<span class="text-danger">*</span>
+
+            @Html.DropDownListFor(m => m.Country, countries, htmlAttributes: new { @class = "form-control" })
+        </div>
+
+        <div class="grid-col-2">
+            @Html.LabelFor(m => m.BoatBrand, new { @class = "form-label fw-bold" })&nbsp;<span class="text-danger">*</span>
+            @Html.TextBoxFor(m => m.BoatBrand, new { @class = "form-control" })
+        </div>
+        <div class="grid-col-2">
+            @Html.LabelFor(m => m.BoatType, new { @class = "form-label fw-bold" })&nbsp;<span class="text-danger">*</span>
+            @Html.TextBoxFor(m => m.BoatType, new { @class = "form-control" })
+        </div>
+
+        <div class="grid-col-4">
+            @Html.LabelFor(m => m.Remarks, new { @class = "form-label fw-bold" })
+            @Html.TextAreaFor(m => m.Remarks, new { @class = "form-control", @rows = 10 })
+        </div>
+
+        <div><a class="btn btn-light" href="/"><i class="bi bi-arrow-left"></i>&nbsp;Terug</a></div>
+        <div class="grid-col-3">
+            <button class="btn btn-primary" type="submit"><i class="bi bi-save"></i>&nbsp;Opslaan</button>
+        </div>
+
+    </div>
+
+
+    @Html.HiddenFor(m => m.Id)
+}

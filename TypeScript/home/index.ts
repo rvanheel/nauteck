@@ -35,20 +35,25 @@ class HomeIndex {
     });
   }
   static InitDatatable() {
-    $('#table-records').DataTable({
+    $('#table-orders').DataTable({
       autoWidth: false,
       columnDefs: [
-        { targets: [0, 10], className: "text-center", orderable: false, searchable: false, width: "2rem" },
-        { targets: [3, 5], width: "8rem" },
+        { targets: [0, 10], className: "text-center", orderable: false, searchable: false, width: "2rem" }
       ],
       order: [[1, 'asc'], [3, 'asc'], [4, 'asc']],
       deferRender: true,
-      processing: true
+      language: {
+        url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Dutch.json'
+      },
+      lengthMenu: [10, 25, 50, 100],
+      pageLength: 10,
+      processing: true,
+      stateSave: true
     });
   }
   static Initialize() {
     document.querySelectorAll('button.btn-danger').forEach(button => button.addEventListener('click', HomeIndex.Delete));
-
+    HomeIndex.InitDatatable();
   }
 }
 document.addEventListener('DOMContentLoaded', HomeIndex.Initialize);

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace nauteck.data.Models.Client;
+﻿namespace nauteck.data.Models.Client;
 
 public sealed record ClientPostModel
 {

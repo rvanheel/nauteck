@@ -14,7 +14,7 @@ namespace nauteck.core.Features.Account;
 public sealed record SignInQuery(string? AuthenticationScheme, string? Password, string? UserName) : IRequest<ClaimsPrincipal?>;
 
 
-public sealed class SignInQueryHandler(IDbConnection dbConnection, IHelper helper) : IRequestHandler<SignInQuery, ClaimsPrincipal?>
+public sealed class SignInQueryHandler(IDapperContext dapperContext, IHelper helper) : IRequestHandler<SignInQuery, ClaimsPrincipal?>
 {
     public async Task<ClaimsPrincipal?> Handle(SignInQuery request, CancellationToken cancellationToken)
     {
@@ -55,7 +55,7 @@ public sealed class SignInQueryHandler(IDbConnection dbConnection, IHelper helpe
     private Task<data.Entities.Account.User?> GetUserByEmail(string? email)
     {
         var query = $"SELECT * FROM {DbConstants.Tables.User} WHERE Email = @Email AND Active = 1 LIMIT 1";
-        return dbConnection.QueryFirstOrDefaultAsync<data.Entities.Account.User>(query, new { email });
+        return dapperContext.Connection.QueryFirstOrDefaultAsync<data.Entities.Account.User>(query, new { email });
     }
     #endregion
 }

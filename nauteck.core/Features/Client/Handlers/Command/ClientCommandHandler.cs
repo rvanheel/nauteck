@@ -1,14 +1,13 @@
-﻿using System.Data;
-
-using Dapper;
+﻿using Dapper;
 
 using MediatR;
 
+using nauteck.core.Abstraction;
 using nauteck.core.Implementation;
 
 namespace nauteck.core.Features.Client.Handlers.Command;
 
-public sealed class ClientCommandHandler(IDbConnection dbConnection) : IRequestHandler<Commands.ClientUpdateCommand>
+public sealed class ClientCommandHandler(IDapperContext dapperContext) : IRequestHandler<Commands.ClientUpdateCommand>
 {
     public async Task Handle(Commands.ClientUpdateCommand request, CancellationToken cancellationToken)
     {
@@ -74,7 +73,7 @@ public sealed class ClientCommandHandler(IDbConnection dbConnection) : IRequestH
             ,@{nameof(data.Entities.Client.Client.ModifiedAt)}
             ,@{nameof(data.Entities.Client.Client.ModifiedBy)}
         )";
-        await dbConnection.ExecuteAsync(sql, request.ClientPostModel);
+        await dapperContext.Connection.ExecuteAsync(sql, request.ClientPostModel);
     }
 
     private async Task Update(Commands.ClientUpdateCommand request)
@@ -106,7 +105,7 @@ public sealed class ClientCommandHandler(IDbConnection dbConnection) : IRequestH
         ,{DbConstants.Columns.ModifiedAt} = @{nameof(data.Entities.Client.Client.ModifiedAt)}
         ,{DbConstants.Columns.ModifiedBy} = @{nameof(data.Entities.Client.Client.ModifiedBy)}
         WHERE {DbConstants.Columns.Id} = @{nameof(data.Entities.Client.Client.Id)}";
-        await dbConnection.ExecuteAsync(sql, request.ClientPostModel);
+        await dapperContext.Connection.ExecuteAsync(sql, request.ClientPostModel);
     }
     #endregion
 }

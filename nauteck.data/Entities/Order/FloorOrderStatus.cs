@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-
-namespace nauteck.data.Entities.Order;
+﻿namespace nauteck.data.Entities.Order;
 
 public sealed class FloorOrderStatus
 {

@@ -7,11 +7,7 @@ using nauteck.core.Abstraction;
 using nauteck.core.Features.Account;
 using nauteck.core.Implementation;
 using nauteck.data.Configuration;
-
-using System.Data;
 using System.Globalization;
-
-using MySql.Data.MySqlClient;
 using Microsoft.Extensions.Azure;
 
 
@@ -45,14 +41,15 @@ services
     .AddMemoryCache()
     .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(SignInQuery).Assembly))
     .AddSingleton<IHelper, Helper>()
-    .AddSingleton<IBlobStorage>(sp => {
+    .AddSingleton<IBlobStorage>(sp =>
+    {
         var client = sp.GetRequiredService<Azure.Storage.Blobs.BlobServiceClient>();
         return new BlobStorage(client, azureStorageContainerName);
     })
-    .AddTransient<IDbConnection>(sp =>
+    .AddSingleton<IDapperContext>(sp =>
     {
         var dbSettings = sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
-        return new MySqlConnection(dbSettings.ConnectionString);
+        return new DapperContext(dbSettings.ConnectionString);
     })
     .AddAzureClients(config => config.AddBlobServiceClient(azureStorageConnectionString));
 
@@ -113,7 +110,7 @@ static void SetUpLocalization(IApplicationBuilder app)
             CurrencyGroupSeparator = ",",
             NumberDecimalSeparator = ".",
             NumberGroupSeparator = ","
-            
+
         }
     };
     app.UseRequestLocalization(new RequestLocalizationOptions
