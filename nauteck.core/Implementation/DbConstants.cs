@@ -112,6 +112,7 @@ public static class DbConstants
         public const string FloorOrderLogo = "`floororderlogo`";
         public const string FloorOrderParts = "`floororderparts`";
         public const string FloorOrderStatus = "`floororderstatus`";
+        public const string Status = "`status`";
         public const string User = "`user`";        
     }
 }
