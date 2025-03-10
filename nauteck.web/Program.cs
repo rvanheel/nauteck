@@ -39,7 +39,7 @@ services
     .AddHttpContextAccessor()
     .AddLogging()
     .AddMemoryCache()
-    .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(SignInQuery).Assembly))
+    .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Queries.SignInQuery).Assembly))
     .AddSingleton<IHelper, Helper>()
     .AddSingleton<IBlobStorage>(sp =>
     {

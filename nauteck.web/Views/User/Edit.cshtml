@@ -1,0 +1,84 @@
+﻿@using nauteck.data.Enums
+@using nauteck.data.Models.User
+@model UserPostModel
+
+@{
+    var preamble = nauteck.core.Implementation.Constants.Preamble.Select(x => new SelectListItem { Text = x, Value = x });
+}
+
+<div class="m-2 p-2 rounded-3 border shadow-lg">
+    <div class="row p-2">
+        <div class="col">
+            <p class="lead fw-bold text-uppercase">Gebruiker</p>
+        </div>
+        <div class="col">
+        </div>
+    </div>
+
+    @using (Html.BeginForm("SaveOrUpdate", "User", default, FormMethod.Post, antiforgery: true, htmlAttributes: new { @autocomplete = "off", @id = "form-user" }))
+    {
+
+        <div style="display: grid; grid-template-columns: repeat(4, auto); gap: 1rem;">
+            <div>
+                @Html.LabelFor(model => model.Preamble, htmlAttributes: new { @class = "fw-bold" })
+                @Html.DropDownListFor(model => model.Preamble, preamble, new { @class = "form-control" })
+            </div>
+            <div>
+                @Html.LabelFor(m => m.LastName, htmlAttributes: new { @class = "form-label fw-bold" })
+                &nbsp;<span class="text-danger fw-bold">*</span>
+                @Html.TextBoxFor(m => m.LastName, htmlAttributes: new { @class = "form-control", @type = "text" })
+
+            </div>
+            <div>
+                @Html.LabelFor(m => m.FirstName, htmlAttributes: new { @class = "form-label fw-bold" })                
+                @Html.TextBoxFor(m => m.FirstName, htmlAttributes: new { @class = "form-control", @type = "text" })
+
+            </div>
+            <div>
+                @Html.LabelFor(m => m.Infix, htmlAttributes: new { @class = "form-label fw-bold" })                
+                @Html.TextBoxFor(m => m.Infix, htmlAttributes: new { @class = "form-control", @type = "text" })
+
+            </div>
+            <!-- ROW -->
+            <div>
+                @Html.LabelFor(m => m.Email, htmlAttributes: new { @class = "form-label fw-bold" })
+                &nbsp;<span class="text-danger fw-bold">*</span>
+                @Html.TextBoxFor(m => m.Email, htmlAttributes: new { @class = "form-control", @type = "text" })
+            </div>
+            <div>
+                @Html.LabelFor(m => m.Password, htmlAttributes: new { @class = "form-label fw-bold" })
+                @Html.TextBoxFor(m => m.Password, htmlAttributes: new { @autocomplete = "off", @class = "form-control", @type = "password" })
+            </div>
+            <div>
+                @Html.LabelFor(m => m.Description, htmlAttributes: new { @class = "form-label fw-bold" })
+                @Html.TextBoxFor(m => m.Description, htmlAttributes: new { @autocomplete = "off", @class = "form-control", @type = "text" })
+            </div>
+            <div></div>
+            <!-- ROW -->
+            <div class="form-check form-switch">
+                @Html.CheckBoxFor(m => m.Active, htmlAttributes: new { @class = "form-check-input", @role = "switch" })
+                @Html.LabelFor(m => m.Active, htmlAttributes: new { @class = "form-check-label" })
+            </div>
+            <div>
+                <div class="form-check">
+
+                    <input class="form-check-input" checked="@Model.Roles.HasFlag(RoleType.Gebruiker)" name="Roles" id="Role_0" type="checkbox" value="@((int)RoleType.Gebruiker)">
+                    <label class="form-check-label" for="Role_0">@RoleType.Gebruiker</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" checked="@Model.Roles.HasFlag(RoleType.Administrator)" name="Roles" id="Role_2" type="checkbox" value="@((int)RoleType.Administrator)">
+                    <label class="form-check-label" for="Role_2">@RoleType.Administrator</label>
+                </div>
+            </div>
+            <div></div>
+            <div></div>
+            <!-- ROW -->
+            <div><a asp-controller="User" asp-action="Index" class="btn btn-secondary" title="Terug"><i class="bi bi-arrow-left"></i>&nbsp;Terug</a></div>
+            <div><button class="btn btn-primary" type="submit"><i class="bi bi-save"></i>&nbsp;Opslaan</button></div>
+            <div></div>
+            <div></div>
+        </div>
+        @Html.HiddenFor(m => m.Id)
+        <input name="@Html.NameFor(mbox=>mbox.PasswordHash)" type="hidden" value="@Model.Password" />
+    }
+</div>

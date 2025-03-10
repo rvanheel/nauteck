@@ -29,6 +29,7 @@ public static class Constants
         "Wales",
         "Zweden"
     ];
+    public static readonly string[] Preamble = ["Dhr.", "Mevr.", "Geen"];
 
     public static readonly CultureInfo DutchCulture = new("nl-NL");
     public static class TimeZone

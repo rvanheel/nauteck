@@ -19,4 +19,8 @@
 		<ProjectReference Include="..\nauteck.data\nauteck.data.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Features\Account\Handlers\Command\" />
+	</ItemGroup>
+
 </Project>

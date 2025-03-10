@@ -15,11 +15,13 @@ public sealed class AccountController(IMediator mediator) : Controller
     [AllowAnonymous]
     public IActionResult AccessDenied() => View();
 
+    
+
     [HttpGet]
     [AllowAnonymous]
     public IActionResult Login(string message = "")
     {
-        ViewData["message"] = "";
+        ViewData["message"] = message;
         return View();
     }
 
@@ -28,7 +30,7 @@ public sealed class AccountController(IMediator mediator) : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login([FromForm] AccountViewModel accountViewModel, CancellationToken cancellationToken)
     {
-        var query = new SignInQuery(CookieAuthenticationDefaults.AuthenticationScheme, accountViewModel.Password, accountViewModel.User);
+        var query = new Queries.SignInQuery(CookieAuthenticationDefaults.AuthenticationScheme, accountViewModel.Password, accountViewModel.User);
 
         var principal = await mediator.Send(query, cancellationToken);
         if (principal is null)

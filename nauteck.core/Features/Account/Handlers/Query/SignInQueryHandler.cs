@@ -8,10 +8,9 @@ using Dapper;
 using nauteck.core.Abstraction;
 using nauteck.data.Enums;
 using nauteck.core.Implementation;
+using static nauteck.core.Features.Account.Queries;
 
-namespace nauteck.core.Features.Account;
-
-public sealed record SignInQuery(string? AuthenticationScheme, string? Password, string? UserName) : IRequest<ClaimsPrincipal?>;
+namespace nauteck.core.Features.Account.Handlers.Query;
 
 
 public sealed class SignInQueryHandler(IDapperContext dapperContext, IHelper helper) : IRequestHandler<SignInQuery, ClaimsPrincipal?>

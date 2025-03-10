@@ -1,0 +1,73 @@
+﻿@using nauteck.data.Dto.Account
+@using nauteck.data.Enums
+@model IEnumerable<AccountDto>
+
+<div class="m-2 p-2 rounded-3 border shadow-lg">
+
+    <div class="row p-2">
+        <div class="col">
+            <p class="lead fw-bold text-uppercase">Gebruikers</p>
+        </div>
+        <div class="col">
+            <a asp-action="Edit" asp-route-id="@Guid.Empty" class="btn btn-primary text-white float-end" title="Toevoegen"><i class="bi bi-plus-circle-fill"></i>&nbsp;Nieuwe Toevoegen</a>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped" id="table-groups">
+        <thead>
+            <tr>
+                <th class="text-center" style="width: 5rem;"></th>
+                <th class="text-center" style="width: 5rem;">Actief</th>
+                <th>Gebruiker</th>
+                <th>Email</th>
+                <th class="text-center">Gebruiker</th>
+                <th class="text-center">Administrator</th>
+                <th class="text-center" style="width: 5rem;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="User" asp-action="Edit" asp-route-id="@user.Id" class="btn btn-sm btn-warning" title="Bewerken"><i class="bi bi-pencil"></i></a>
+                    </td>
+                    <td class="text-center">
+                        @if (user.Active)
+                        {
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                        }
+                        else
+                        {
+                            <i class="bi bi-x-circle-fill text-danger"></i>
+                        }
+                    </td>
+                    <td>@user.FullName</td>
+                    <td>@user.Email</td>
+                    <td class="text-center">
+                        @if ((user.Roles & RoleType.Gebruiker) == RoleType.Gebruiker)
+                        {
+
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                        }
+                    </td>
+                    <td class="text-center">
+                        @if ((user.Roles & RoleType.Administrator) == RoleType.Administrator)
+                        {
+
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                        }
+                    </td>
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-danger" data-url="@Url.Action("Delete", "User", new { user.Id })" data-type="delete" title="Verwijderen" type="button"><i class="bi bi-trash"></i></button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+@section Scripts {
+    <script src="js/account/index.js" asp-append-version="true"></script>
+}

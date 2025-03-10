@@ -10,7 +10,7 @@ using static nauteck.core.Features.Order.Queries;
 
 namespace nauteck.core.Features.Order;
 
-public sealed class FloorOrderLogoQueryHandler(IDapperContext dapperContext) : IRequestHandler<Queries.FloorOrderLogoQuery, IEnumerable<FloorOrderLogo>>
+public sealed class FloorOrderLogoQueryHandler(IDapperContext dapperContext) : IRequestHandler<FloorOrderLogoQuery, IEnumerable<FloorOrderLogo>>
 {
     public Task<IEnumerable<FloorOrderLogo>> Handle(FloorOrderLogoQuery request, CancellationToken cancellationToken)
     {

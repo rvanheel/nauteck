@@ -21,8 +21,10 @@ public sealed class Helper : IHelper
     }
 
     #region BCrypt
-    public string GenerateHashedPassword(string password)
-    {
+    public string? GenerateHashedPassword(string? password)
+    {   
+        if (string.IsNullOrWhiteSpace(password)) return password;
+
         return BCrypt.Net.BCrypt.HashPassword(password);
     }
     public bool VerifyPassword(string? password, string? hashedPassword)

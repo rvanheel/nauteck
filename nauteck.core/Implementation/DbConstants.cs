@@ -89,6 +89,11 @@ public static class DbConstants
         public const string ColorTotal = "`ColorTotal`";
         public const string LogoTotal = "`LogoTotal`";
         public const string FloorColorExclusive = "`FloorColorExclusive`";
+
+        // user
+        public const string Roles = "`Roles`";
+        public const string Password = "`Password`";
+        public const string ActivationCode = "`ActivationCode`";
     }
     public static class Tables
     {
