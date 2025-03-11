@@ -20,13 +20,14 @@
                 <th>Modified At</th>
                 <th>Modified By</th>
                 <th>Active</th>
+                <th>#</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var status in Model)
             {
                 <tr>
-                    <td><a class="btn btn-sm btn-warning" href=""><i class="bi bi-pencil-square"></i></a></td>
+                    <td><a asp-action="Edit" asp-route-id="@status.Id" class="btn btn-sm btn-warning" title="Status bewerken"><i class="bi bi-pencil-square"></i></a></td>
                     <td>@status.Name</td>
                     <td>@status.ModifiedAt</td>
                     <td>@status.ModifiedBy</td>
@@ -40,6 +41,9 @@
                             <i class="bi bi-x-circle-fill text-danger"></i>
                         }
                     </td>
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-danger" data-url="@Url.Action("Delete", "Statusr", new { status.Id })" data-type="delete" title="Verwijderen" type="button"><i class="bi bi-trash"></i></button>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -52,7 +56,7 @@
             $("#table-status").DataTable({
                 autoWidth: false,
                 columnDefs:[
-                    { targets: [0, 4], className: "text-center", orderable: false, searchable: false, width: '5rem' },                    
+                    { targets: [0, 4, 5], className: "text-center", orderable: false, searchable: false, width: '5rem' },                    
                     { targets: [2,3], width: '15rem' }
                 ],
                 order: [[1, 'asc']],

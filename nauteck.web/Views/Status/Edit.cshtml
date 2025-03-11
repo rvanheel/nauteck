@@ -1,0 +1,59 @@
+﻿@model nauteck.data.Entities.Status.Status
+
+
+<div class="m-2 p-2 rounded-3 border shadow-lg bg-white">
+
+    <div class="row p-2">
+        <div class="col">
+            <p class="lead fw-bold text-uppercase">Status</p>
+        </div>
+    </div>
+
+    <div class="m-3">
+
+        @using (Html.BeginForm("SaveOrUpdate", "Status", default, FormMethod.Post, antiforgery: true, htmlAttributes: new { @autocomplete = "off", @id = "form-status" }))
+        {
+            <div style="display: grid; grid-template-columns: repeat(4, max-content); column-gap: 1rem; row-gap: 0.25rem">
+                <div>
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "fw-bold" })
+                    &nbsp;<span class="text-danger fw-bold">*</span>
+
+                </div>
+                <div>
+                </div>
+                <div></div>
+                <div></div>
+
+                <div>@Html.TextBoxFor(m => m.Name, htmlAttributes: new { @class = "form-control", @type = "text" })</div>
+                <div class="form-check">
+                    @Html.CheckBoxFor(m => m.Active, htmlAttributes: new { @class = "form-check-input" })
+
+                    @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "form-check-label fw-bold" })
+                    &nbsp;<span class="text-danger fw-bold">*</span>
+                </div>
+                <div></div>
+                <div></div>
+
+                <!-- ROW -->
+                <div>&nbsp;</div>
+                <div></div>
+                <div></div>
+                <div></div>
+
+                <!-- ROW -->
+                <div>&nbsp;</div>
+                <div></div>
+                <div></div>
+                <div></div>
+
+                <!-- ROW -->
+                <div><a asp-action="Index" class="btn btn-secondary" title="Terug"><i class="bi bi-arrow-left"></i>&nbsp;Terug</a></div>
+                <div><button class="btn btn-primary" type="submit"><i class="bi bi-save"></i>&nbsp;Opslaan</button></div>
+                <div></div>
+                <div></div>
+            </div>
+
+            @Html.HiddenFor(m => m.Id)
+        }
+    </div>
+</div>
