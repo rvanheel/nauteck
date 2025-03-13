@@ -8,7 +8,7 @@
             <p class="lead fw-bold text-uppercase">Statussen</p>
         </div>
         <div class="col">
-            <a class="btn btn-primary text-white float-end" title="Toevoegen"><i class="bi bi-brush"></i>&nbsp;Nieuwe Status</a>
+            <a asp-action="Edit" asp-route-id="@Guid.Empty" class="btn btn-primary text-white float-end" title="Toevoegen"><i class="bi bi-brush"></i>&nbsp;Nieuwe Status</a>
         </div>
     </div>
 
@@ -42,7 +42,7 @@
                         }
                     </td>
                     <td class="text-center">
-                        <button class="btn btn-sm btn-danger" data-url="@Url.Action("Delete", "Statusr", new { status.Id })" data-type="delete" title="Verwijderen" type="button"><i class="bi bi-trash"></i></button>
+                        <button class="btn btn-sm btn-danger" data-url="@Url.Action("Delete", "Status", new { status.Id })" data-type="delete" title="Verwijderen" type="button"><i class="bi bi-trash"></i></button>
                     </td>
                 </tr>
             }
@@ -50,20 +50,4 @@
     </table>
 
 </div>
-@section Scripts {
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', ()=>{
-            $("#table-status").DataTable({
-                autoWidth: false,
-                columnDefs:[
-                    { targets: [0, 4, 5], className: "text-center", orderable: false, searchable: false, width: '5rem' },                    
-                    { targets: [2,3], width: '15rem' }
-                ],
-                order: [[1, 'asc']],
-                deferRender: true,
-                processing: true,
-                stateSave: true
-            });
-        });
-    </script>
-}
+<script src="~/js/status/index.js" asp-asp-append-version="true"></script>

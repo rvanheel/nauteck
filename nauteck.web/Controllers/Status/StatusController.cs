@@ -9,6 +9,13 @@ namespace nauteck.web.Controllers.Status;
 
 public sealed class StatusController(IMediator mediator) : BaseController(mediator)
 {
+    [HttpDelete]
+    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+    {
+        await Mediator.Send(new DeleteStatusCommand(id), cancellationToken);
+        return NoContent();
+    }
+
     [HttpGet]
     public async Task<IActionResult> Edit (Guid id, CancellationToken cancellationToken)
     {

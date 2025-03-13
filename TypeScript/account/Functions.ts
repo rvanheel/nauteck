@@ -1,6 +1,36 @@
 class Functions {
   static FullDateTimeFormat = { timeZone: 'Europe/Amsterdam', dateStyle: 'full', timeStyle: 'medium' } as Intl.DateTimeFormatOptions;
-  
+  static Delete(button: HTMLButtonElement, message: string, info: string, errorMessage: string, redirect: string) {
+    bootbox.confirm({
+      message: `<div class="alert alert-warning"><p class="fw-bold">${message}</p><p><strong>LET OP!</strong> ${info}.</p></div>`,
+      buttons: {
+        confirm: {
+          label: 'Ja',
+          className: 'btn-danger'
+        },
+        cancel: {
+          label: 'Nee',
+          className: 'btn-secondary'
+        }
+      },
+      callback: async (result: boolean) : Promise<void> => {
+        if (!result) return;
+        Functions.ShowToastr();
+        const url = button.dataset.url;
+        const response = await fetch(url, {
+          method: 'DELETE',
+          cache: 'no-cache',
+          redirect: 'follow',
+        });
+        if (!response.ok) {
+          Functions.RemoveToastr();
+          Functions.ToastrError('Error', errorMessage);
+          return;
+        }
+        window.location.replace(redirect);
+      }
+    });
+  }
   static async GetBlobSasUrl(origin: string, path: string, extension: string) {
     const uri = new URL(path, origin);
     uri.searchParams.append("extension", extension);
@@ -24,7 +54,7 @@ class Functions {
     return select.options[select.selectedIndex] as HTMLOptionElement;
 }
   static RemoveToastr() {
-    toastr.remove();
+    toastr.clear();
   }
   static SetHtmlTextContent(selector: string, text: string) {
     const element = document.querySelector(selector) as HTMLElement;
