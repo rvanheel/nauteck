@@ -175,7 +175,7 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDapperContext dapper
             ,{DbConstants.Columns.Description}) 
             VALUES (UUID(),@Price,@Quantity,@FloorOrderId,@Description)";
         
-        foreach (data.Entities.Order.FloorOrderLogo? logo in model.Logo.Where(l=> l.Quantity > 0))
+        foreach (data.Entities.Order.FloorOrderLogo? logo in model.Logo.Where(l=> l?.Quantity > 0))
         {
             await dapperContext.Connection.ExecuteAsync(sql, new
             {

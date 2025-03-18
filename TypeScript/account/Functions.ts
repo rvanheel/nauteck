@@ -1,4 +1,4 @@
-class Functions {
+class Functions {  
   static FullDateTimeFormat = { timeZone: 'Europe/Amsterdam', dateStyle: 'full', timeStyle: 'medium' } as Intl.DateTimeFormatOptions;
   static Delete(button: HTMLButtonElement, message: string, info: string, errorMessage: string, redirect: string) {
     bootbox.confirm({
@@ -87,7 +87,9 @@ class Functions {
       showMethod: 'slideDown'
     });
   }
-
+  static UniqueId() {
+    return Math.random().toString(36).substring(2, 10);
+  }
   static UploadNewBlob(contentType: string, uri: string, body: any): Promise<Response> {
     return fetch(uri, {
       body: body,

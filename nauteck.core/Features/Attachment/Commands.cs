@@ -1,8 +1,11 @@
 ﻿using MediatR;
 
+using nauteck.data.Models.Attachment;
+
 namespace nauteck.core.Features.Attachment;
 
 public static class Commands
 {
-    public sealed record class DeleteAttachmentCommand(Guid Id) : IRequest;
+    public sealed record AddAttachmentCommand(AttachmentPostModel AttachmentPostModel, string UserName) : IRequest;
+    public sealed record DeleteAttachmentCommand(Guid Id) : IRequest;
 }

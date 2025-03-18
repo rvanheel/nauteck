@@ -1,4 +1,6 @@
-﻿using Dapper;
+﻿using System.Security.Policy;
+
+using Dapper;
 
 using MediatR;
 
@@ -13,8 +15,11 @@ public sealed class DeleteAttachmentCommandHandler(IDapperContext dapperContext,
 {
     public async Task Handle(DeleteAttachmentCommand request, CancellationToken cancellationToken)
     {
-        var attachment = dapperContext.Connection.QueryFirstOrDefault<string?>($"SELECT {DbConstants.Columns.FileName} FROM {DbConstants.Tables.Attachment} WHERE Id = @Id", new { request.Id });
-        var t1 = blobStorage.DeleteBlobByFileName(attachment, cancellationToken);
+        var attachment = dapperContext.Connection.QueryFirstOrDefault<string?>($"SELECT {DbConstants.Columns.FileUrl} FROM {DbConstants.Tables.Attachment} WHERE Id = @Id", new { request.Id });
+        if (string.IsNullOrWhiteSpace(attachment)) return;
+        var Url = new Uri(attachment);
+        var fileName = Path.GetFileName(Url.LocalPath);
+        var t1 = blobStorage.DeleteBlobByFileName(fileName, cancellationToken);
         var t2 = dapperContext.Connection.ExecuteAsync($"DELETE FROM {DbConstants.Tables.Attachment} WHERE Id = @Id", new { request.Id });
         await Task.WhenAll(t1, t2);
     }

@@ -7,6 +7,18 @@
     var attachments = await mediator.Send(new AttachmentByClientIdQuery(Model.Id));
 }
 <div class="m-1 p-2">
+    <div class="p-5 mb-4 bg-body-tertiary rounded-3" id="dropzone">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">DropZone</h1>
+            <p class="col-md-8 fs-4">Sleep een of meerdere bestanden op dit vlak om te uploaden</p>
+        </div>
+        <div id="dropped" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.25rem;">
+            <div class="fw-bold">naam</div>
+            <div class="fw-bold">grootte</div>
+            <div class="fw-bold">type</div>
+            <div class="fw-bold">status</div>
+        </div>
+    </div>
     <table class="table table-striped table-bordered" id="table-attachments">
         <thead>
             <tr>
@@ -28,7 +40,7 @@
                         </a>
                     </td>
                     <td>@attachment.FileName</td>
-                    <td>@attachment.FileSize</td>
+                    <td>@($"{(attachment.FileSize/ 1024):n0}") Kb</td>
                     <td>@attachment.CreatedBy</td>
                     <td>@attachment.CreatedAt</td>
                     <td><button data-url="@Url.Action("Delete", "Attachment", new { attachment.Id })" class="btn btn-sm btn-danger" title="Verwijderen bijlage" type="button"><i class="bi bi-trash"></i></button></td>
