@@ -2,7 +2,7 @@
 @{
     var countries = nauteck.core.Implementation.Constants.Countries.Select(c => new SelectListItem(c, c)).AsEnumerable();
 }
-@using (Html.BeginForm("SaveOrUpdate", "Client", default, FormMethod.Post, antiforgery: true, htmlAttributes: new { @autocomplete = "off", @id = "form-client" }))
+@using (Html.BeginForm("SaveOrUpdate", "Client", null, FormMethod.Post, antiforgery: true, htmlAttributes: new { @autocomplete = "off", @id = "form-client" }))
 {
     <div class="p-3" style="display: grid; grid-template-columns: max-content max-content max-content max-content; gap: 1rem;">
 

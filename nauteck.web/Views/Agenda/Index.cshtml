@@ -1,0 +1,75 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model nauteck.web.Models.Agenda.AgendaViewModel
+@{
+    var now = Model.StartDate;
+    var firstDay = (int)now.DayOfWeek;
+    if (firstDay == 0)
+    {
+        now = now.AddDays(-6);
+    }
+    else if (firstDay != 1)
+    {
+        now = now.AddDays(-firstDay + 1);
+    }
+}
+<div class="m-3 p-3 rounded-3 border shadow-lg bg-white">
+
+    <div class="row p-3">
+        <div class="col">
+            <h1 class="fw-bold text-uppercase">Agenda</h1>
+        </div>
+        <div class="col">
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-auto">
+            <a asp-controller="Agenda" asp-action="Index" asp-route-date="@($"{Model.StartDate.AddMonths(-1):yyyy-MM-dd}")" class="btn btn-dark btn-sm"><i class="bi bi-arrow-left"></i></a>
+        </div>
+        <div class="col text-uppercase text-center fw-bold fs-3" id="month">@($"{Model.StartDate:MMMM yyyy}")</div>
+        <div class="col-auto">
+            <a asp-controller="Agenda" asp-action="Index" asp-route-date="@($"{Model.EndDate:yyyy-MM-dd}")" class="btn btn-dark btn-sm"><i class="bi bi-arrow-right"></i></a>
+        </div>
+    </div>
+    <div class="grid-agenda mt-2" id="agenda">
+        <div class="text-center grid-item-bordered header text-bg-light fw-bold">ma</div>
+        <div class="text-center grid-item-bordered header text-bg-light fw-bold">di</div>
+        <div class="text-center grid-item-bordered header text-bg-light fw-bold">wo</div>
+        <div class="text-center grid-item-bordered header text-bg-light fw-bold">do</div>
+        <div class="text-center grid-item-bordered header text-bg-light fw-bold">vr</div>
+        <div class="text-center grid-item-bordered header text-bg-light fw-bold">za</div>
+        <div class="text-center grid-item-bordered header text-bg-light fw-bold">zo</div>
+
+        @{
+            var processing = true;
+        }
+        @while (processing)
+        {
+            @for (var i = 0; i < 7; i++)
+            {
+                var today = DateTime.Now.Date.Subtract(now).Days == 0;
+                var thisMonth = now >= Model.StartDate && now < Model.EndDate;
+                <div class="grid-item-bordered">
+                    <div class="@(thisMonth? "text-body-light" : "text-body-tertiary") text-center" data-date="@($"{now:yyyy-MM-dd}")">
+                        @if (today)
+                        {
+                            <span class="badge text-bg-secondary">@($"{now:dd}")</span>
+                        }
+                        else
+                        {
+                            @($"{now:dd}")
+                        }
+
+                    </div>
+                </div>
+                now = now.AddDays(1);
+            }
+            processing = now >= Model.StartDate && now < Model.EndDate;
+        }
+        
+    </div>
+    
+</div>
+@section Scripts {    
+    <script src="/js/agenda/index.js" asp-append-version="true"></script>
+}

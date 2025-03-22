@@ -16,16 +16,15 @@ class ClientEdit {
     const zipCode: string = postcodeElement.value.trim();
     const number: number = +elements['Number'].value;
 
-    const straat = elements['Address'];
-    const plaats = elements['City'];
-    const provincie = elements['Region'];
+    const street = elements['Address'];
+    const city = elements['City'];
+    const province = elements['Region'];
 
-    straat.value = '';
-    plaats.value = '';
-    provincie.value = '';
+    street.value = '';
+    city.value = '';
+    province.value = '';
 
     const address = Functions.GetHtmlInputElementById('Address');
-    const city = Functions.GetHtmlInputElementById('City');
     const region = Functions.GetHtmlInputElementById('Region');
     address.setAttribute('readonly','readonly');
     city.setAttribute('readonly','readonly');
@@ -57,9 +56,9 @@ class ClientEdit {
     const json = await response.json();
     if (response.ok && json?.response?.numFound) {
       const record = json.response.docs[0];
-      straat.value = record.straatnaam;
-      plaats.value = record.woonplaatsnaam;
-      provincie.value = record.provincienaam;
+      street.value = record.straatnaam;
+      city.value = record.woonplaatsnaam;
+      province.value = record.provincienaam;
       postcodeElement.value = record.postcode;
       return;
     }
@@ -124,7 +123,7 @@ class ClientEdit {
       const rows = Array.from(files).map(file => {
         const id = Functions.UniqueId();
         pairs[id] = file;        
-        return `<div data-pair="${id}">${file.name}</div><div>${file.size}</div><div>${file.type}</div><div><div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"><div class="progress-bar" style="width: 0%"></div></div></div>`;
+        return `<div data-pair="${id}">${file.name}</div><div>${file.size}</div><div>${file.type}</div><div><div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"><div class="progress-bar" style="width: 0"></div></div></div>`;
       }).filter(Boolean).join('');
 
       bootbox.confirm({
@@ -148,6 +147,8 @@ class ClientEdit {
           let tasks = [];
           Object.getOwnPropertyNames(pairs).forEach(id => tasks.push(ClientEdit.UploadAttachment(id, pairs[id])));
           await Promise.all(tasks);
+
+          window.location.assign(`${window.location.pathname}#nav-attachments`);
           window.location.reload();
         }
       });
@@ -166,9 +167,7 @@ class ClientEdit {
 
     const hash = window.location.hash;    
     if (hash) {
-      console.log(hash)
       const el = document.querySelector(`button[data-bs-target="${hash}"]`);
-      console.log(el)
       if (el) el.dispatchEvent(new Event('click'));
     }
   }
@@ -199,7 +198,7 @@ class ClientEdit {
       submitHandler: async function(form, event) {
         event.preventDefault();
         Functions.ShowToastr();
-        var data = new FormData(form);
+        const data = new FormData(form);
         const uri = new URL(form.action, window.location.origin);
         const response = await fetch(uri.href, {
           body: data,

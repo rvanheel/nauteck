@@ -95,6 +95,7 @@ static void SetUpDevelopmentMode(WebApplication app)
     if (app.Environment.IsDevelopment())
     {
         app.UseDeveloperExceptionPage();
+        app.UseHttpsRedirection();
         return;
     }
     app.UseExceptionHandler("/Home/Error");

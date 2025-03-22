@@ -21,4 +21,8 @@
 		<ProjectReference Include="..\nauteck.data\nauteck.data.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="wwwroot\lib\bootstrap\" />
+	</ItemGroup>
+
 </Project>

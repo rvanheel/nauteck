@@ -1,10 +1,10 @@
 ﻿@using MediatR
 @using static nauteck.core.Features.Attachment.Queries
-@inject IMediator mediator;
+@inject IMediator Mediator;
 
 @model nauteck.data.Entities.Client.Client
 @{
-    var attachments = await mediator.Send(new AttachmentByClientIdQuery(Model.Id));
+    var attachments = await Mediator.Send(new AttachmentByClientIdQuery(Model.Id));
 }
 <div class="m-1 p-2">
     <div class="p-5 mb-4 bg-body-tertiary rounded-3" id="dropzone">
