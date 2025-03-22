@@ -7,7 +7,14 @@ namespace nauteck.web.Controllers.Agenda;
 
 public class AgendaController(IMediator mediator) : BaseController(mediator)
 {
-    // GET
+    [HttpDelete]
+    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+    {
+        await Mediator.Send(new Commands.DeleteAgendaCommand(id), cancellationToken);
+        return Ok();
+    }
+    
+    [HttpGet]
     public async Task<IActionResult> Index(DateTime? date, CancellationToken cancellationToken)
     {
         var today = DateTime.Now;

@@ -27,7 +27,8 @@ class Functions {
           Functions.ToastrError('Error', errorMessage);
           return;
         }
-        window.location.replace(redirect);
+        window.location.assign(redirect);
+        window.location.reload();
       }
     });
   }

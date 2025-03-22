@@ -63,7 +63,10 @@ class ClientEdit {
       return;
     }
     ClientEdit.abortController = null;
-  } 
+  }
+  static DeleteAppointment(this: HTMLButtonElement) {
+    Functions.Delete(this, 'Weet u zeker dat u deze afspraak wilt verwijderen?', 'dit kan niet ongedaan worden gemaakt', 'Er is een fout opgetreden bij het verwijderen van een afspraak.', `${window.location.pathname}#nav-appointments`);
+  }
   static async DeleteAttachment(this: HTMLElement){    
     bootbox.confirm({
       message: `<div class="alert alert-warning"><p class="fw-bold">Weet u zeker dat u deze bijlage wilt verwijderen?</p><p><strong>LET OP!</strong> dit kan niet ongedaan worden gemaakt.</p></div>`,
@@ -161,9 +164,11 @@ class ClientEdit {
     document.getElementById("Number").addEventListener('blur', ClientEdit.AddressCheck, false);
 
     ClientEdit.InitForm();
+    ClientEdit.InitAppointmentTable();
     ClientEdit.InitAttachmentTable();
     ClientEdit.InitDropZone();
-    document.querySelectorAll('button.btn-danger').forEach(button => button.addEventListener('click', ClientEdit.DeleteAttachment));
+    document.querySelectorAll('#table-attachments button.btn-danger').forEach(button => button.addEventListener('click', ClientEdit.DeleteAttachment));
+    document.querySelectorAll('#table-appointments button.btn-danger').forEach(button => button.addEventListener('click', ClientEdit.DeleteAppointment));
 
     const hash = window.location.hash;    
     if (hash) {
@@ -211,6 +216,16 @@ class ClientEdit {
         }
         window.location.href = '/';
       }
+    });
+  }
+  static InitAppointmentTable() {
+    $('#table-appointments').DataTable({
+        autoWidth: false,
+        columnDefs: [
+            { targets: [0, 7], className: "text-center", orderable: false, searchable: false, width: "2rem" },
+        ],
+        deferRender: true,
+        order: [[1, 'asc']]
     });
   }
   static InitAttachmentTable() {

@@ -1,1 +1,1 @@
-document.addEventListener("DOMContentLoaded",class{static Initialize(){console.log("AgendaIndex.Initialize")}}.Initialize);
+document.addEventListener("DOMContentLoaded",class{static Initialize(){}}.Initialize);

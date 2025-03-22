@@ -7,6 +7,7 @@ public sealed class Agenda
     public DateTime Date { get; init; }
 
     public string Status { get; init; } = "";
+    public string Title { get; init; } = "";
 
     public string? Comments { get; init; }
 

@@ -51,7 +51,7 @@
                 var today = DateTime.Now.Date.Subtract(now).Days == 0;
                 var thisMonth = now >= Model.StartDate && now < Model.EndDate;
 
-                var items = Model.AgendaItems.Where(i => i.Date.Date == now.Date).ToImmutableArray();
+                var items = Model.AgendaItems.Where(agenda => agenda.Date.Date == now.Date).ToImmutableArray();
                 <div class="grid-item-bordered">
                     <div class="@(thisMonth? "text-body-light" : "text-body-tertiary") text-center" data-date="@($"{now:yyyy-MM-dd}")">
                         @if (today)
@@ -66,7 +66,7 @@
                         @foreach (var item in items)
                         {
                             <div class="m-1 text-center text-wrap" data-id="@item.Id" style="font-size: small; cursor: pointer">
-                                <i class="bi bi-braces-asterisk text-primary"></i>&nbsp;@item.Comments
+                                <i class="bi bi-braces-asterisk text-primary"></i>&nbsp;@item.Title
                             </div>
                         }
                     </div>
