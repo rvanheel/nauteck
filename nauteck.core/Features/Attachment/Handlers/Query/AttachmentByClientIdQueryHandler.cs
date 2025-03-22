@@ -14,8 +14,9 @@ public sealed class AttachmentByClientIdQueryHandler(IDapperContext dapperContex
 {
     public Task<IEnumerable<AttachmentDto>> Handle(AttachmentByClientIdQuery request, CancellationToken cancellationToken)
     {
-        if (request.Id.Equals(Guid.Empty)) return Task.FromResult(Enumerable.Empty<AttachmentDto>());
-
-        return dapperContext.Connection.QueryAsync<AttachmentDto>($"SELECT * FROM {DbConstants.Tables.Attachment} WHERE ClientId = @Id", request);
+        return request.Id.Equals(Guid.Empty)
+            ? Task.FromResult(Enumerable.Empty<AttachmentDto>())
+            : dapperContext.Connection.QueryAsync<AttachmentDto>(
+                $"SELECT * FROM {DbConstants.Tables.Attachment} WHERE ClientId = @Id", request);
     }
 }

@@ -100,6 +100,7 @@ public static class DbConstants
     }
     public static class Tables
     {
+        public const string Agenda = "`agenda`";
         public const string Attachment = "`attachment`";
         public const string Client = "`client`";
         public const string Dealer = "`dealer`";
