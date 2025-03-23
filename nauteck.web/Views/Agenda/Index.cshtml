@@ -65,8 +65,19 @@
 
                         @foreach (var item in items)
                         {
+                            var statusBadge = item.Status switch
+                            {
+                                "Afgerond" => "text-bg-success",
+                                "Betaald" => "text-bg-info",
+                                "Betaald en afgehaald" => "text-bg-info",
+                                "Geannuleerd" => "text-bg-danger",
+                                _ => "text-bg-secondary"
+                            };
                             <div class="m-1 text-center text-wrap" data-id="@item.Id" style="font-size: small; cursor: pointer">
-                                <i class="bi bi-braces-asterisk text-primary"></i>&nbsp;@item.Title
+                                <a asp-controller="Agenda" asp-action="Edit" asp-route-id="@item.Id" asp-route-clientid="@item.ClientId" style="text-decoration: none; color: unset;" title="@item.Title">
+                                    <i class="bi bi-braces-asterisk text-primary"></i>&nbsp;@item.Title
+                                    <span class="badge @statusBadge">@item.Status</span>
+                                </a>
                             </div>
                         }
                     </div>
@@ -75,10 +86,10 @@
             }
             processing = now >= Model.StartDate && now < Model.EndDate;
         }
-        
+
     </div>
-    
+
 </div>
-@section Scripts {    
+@section Scripts {
     <script src="/js/agenda/index.js" asp-append-version="true"></script>
 }

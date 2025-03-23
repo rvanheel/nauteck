@@ -16,12 +16,7 @@
 
         <div>
             @Html.LabelFor(model => model.Preamble, htmlAttributes: new { @class = "fw-bold" })
-            <select class="form-control" id="@Html.IdFor(m=>m.Preamble)" name="@Html.NameFor(m=>m.Preamble)">
-                <option selected="selected" value=""></option>
-                <option value="Dhr.">Dhr.</option>
-                <option value="Mevr.">Mevr.</option>
-                <option value="Geen">Geen</option>
-            </select>
+            @Html.DropDownListFor(model=>model.Preamble, new[]{"Dhr.", "Mevr.", "Geen"}.Select(x => new SelectListItem(x,x)), "", htmlAttributes: new {@class="form-control"})
         </div>
         <div>
             @Html.LabelFor(model => model.LastName, new { @class = "form-label fw-bold" })&nbsp;<span class="text-danger">*</span>

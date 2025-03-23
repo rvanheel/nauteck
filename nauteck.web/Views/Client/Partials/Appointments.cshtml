@@ -3,35 +3,43 @@
 @model nauteck.data.Entities.Client.Client
 @inject IMediator Mediator;
 
-@{
-    var appointments = await Mediator.Send(new Queries.AgendaByClientIdQuery(Model.Id));
-}
-<table class="table table-bordered table-hover table-condense table-striped" id="table-appointments">
-    <thead>
-    <tr>
-        <th></th>
-        <th>Datum</th>
-        <th>Status</th>
-        <th>Titel</th>
-        <th>Opmerkingen</th>
-        <th>Aangemaakt door</th>
-        <th>Aangemaakt op</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var appointment in appointments)
-    {
-        <tr>
-            <td><a class="btn btn-sm btn-warning" href="#" title="Bewerken afspraak"><i class="bi bi-pencil"></i></a></td>
-            <td>@($"{appointment.Date:dd-MM-yyyy}")</td>
-            <td>@appointment.Status</td>
-            <td>@appointment.Title</td>
-            <td>@appointment.Comments</td>
-            <td>@appointment.CreatedBy</td>
-            <td>@appointment.CreatedAt</td>
-            <td><button data-url="@Url.Action("Delete", "Agenda", new {@appointment.Id})" class="btn btn-sm btn-danger" title="Verwijderen afspraak" type="button"><i class="bi bi-trash"></i></button></td>
-        </tr>
+<div class="m-1 p-2">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col">
+            <a asp-action="Edit" asp-controller="Agenda" asp-route-id="@Guid.Empty" asp-route-clientid="@Model.Id" class="btn btn-primary text-white float-end" title="Toevoegen"><i class="bi bi-calendar"></i>&nbsp;Nieuwe Afspraak</a>
+        </div>
+    </div>
+    @{
+        var appointments = await Mediator.Send(new Queries.AgendaByClientIdQuery(Model.Id));
     }
-    </tbody>
-</table>
+    <table class="table table-bordered table-hover table-condense table-striped" id="table-appointments">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Datum</th>
+                <th>Status</th>
+                <th>Titel</th>
+                <th>Opmerkingen</th>
+                <th>Aangemaakt door</th>
+                <th>Aangemaakt op</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var appointment in appointments)
+            {
+                <tr>
+                    <td><a asp-controller="Agenda" asp-action="Edit" asp-route-id="@appointment.Id" asp-route-clientid="@appointment.ClientId" class="btn btn-sm btn-warning" title="Bewerken afspraak"><i class="bi bi-pencil"></i></a></td>
+                    <td>@($"{appointment.Date:dd-MM-yyyy}")</td>
+                    <td>@appointment.Status</td>
+                    <td>@appointment.Title</td>
+                    <td>@appointment.Comments</td>
+                    <td>@appointment.CreatedBy</td>
+                    <td>@appointment.CreatedAt</td>
+                    <td><button data-url="@Url.Action("Delete", "Agenda", new { @appointment.Id })" class="btn btn-sm btn-danger" title="Verwijderen afspraak" type="button"><i class="bi bi-trash"></i></button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -4,6 +4,10 @@ public static class DbConstants
 {
     public static class Columns
     {
+        // agenda
+        public const string Comments = "`Comments`";
+        public const string Title = "`Title`";
+        public const string Date = "`Date`";
         // attachment
         public const string FileSize = "`FileSize`";
         public const string FileName = "`FileName`";
