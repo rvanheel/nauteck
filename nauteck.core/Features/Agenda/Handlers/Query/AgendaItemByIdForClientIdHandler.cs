@@ -34,7 +34,7 @@ public sealed class AgendaItemByIdForClientIdHandler(IDapperContext dapperContex
                 , c.{DbConstants.Columns.City}
                 , c.{DbConstants.Columns.Region}
                 , c.{DbConstants.Columns.Country}
-                FROM {DbConstants.Tables.Client} AS c 
+                FROM {DbConstants.Tables.Client.TableName} AS c 
                 LEFT JOIN {DbConstants.Tables.Agenda} AS a ON c.{DbConstants.Columns.Id}  = a.{DbConstants.Columns.ClientId} AND a.{DbConstants.Columns.Id} = @Id
                 WHERE c.{DbConstants.Columns.Id} = @ClientId";
         

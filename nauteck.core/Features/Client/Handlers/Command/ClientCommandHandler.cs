@@ -25,29 +25,29 @@ public sealed class ClientCommandHandler(IDapperContext dapperContext) : IReques
         request.ClientPostModel.CreatedBy = request.UserName;
         request.ClientPostModel.ModifiedAt = request.Timestamp;
         request.ClientPostModel.ModifiedBy = request.UserName;
-        var sql = $@"INSERT INTO {DbConstants.Tables.Client} 
-            ({DbConstants.Columns.Id}
-            ,{DbConstants.Columns.Preamble}
-            ,{DbConstants.Columns.LastName}
-            ,{DbConstants.Columns.FirstName}
-            ,{DbConstants.Columns.Infix}
-            ,{DbConstants.Columns.Phone}
-            ,{DbConstants.Columns.Email}
-            ,{DbConstants.Columns.Address}
-            ,{DbConstants.Columns.Number}
-            ,{DbConstants.Columns.Extension}
-            ,{DbConstants.Columns.Zipcode}
-            ,{DbConstants.Columns.City}
-            ,{DbConstants.Columns.Region}
-            ,{DbConstants.Columns.Country}
-            ,{DbConstants.Columns.BoatBrand}
-            ,{DbConstants.Columns.BoatType}
-            ,{DbConstants.Columns.Remarks}
-            ,{DbConstants.Columns.Active}
-            ,{DbConstants.Columns.CreatedAt}
-            ,{DbConstants.Columns.CreatedBy}
-            ,{DbConstants.Columns.ModifiedAt}
-            ,{DbConstants.Columns.ModifiedBy}
+        var sql = $@"INSERT INTO {DbConstants.Tables.Client.TableName} 
+            ({DbConstants.Tables.Client.Columns.Id}
+            ,{DbConstants.Tables.Client.Columns.Preamble}
+            ,{DbConstants.Tables.Client.Columns.LastName}
+            ,{DbConstants.Tables.Client.Columns.FirstName}
+            ,{DbConstants.Tables.Client.Columns.Infix}
+            ,{DbConstants.Tables.Client.Columns.Phone}
+            ,{DbConstants.Tables.Client.Columns.Email}
+            ,{DbConstants.Tables.Client.Columns.Address}
+            ,{DbConstants.Tables.Client.Columns.Number}
+            ,{DbConstants.Tables.Client.Columns.Extension}
+            ,{DbConstants.Tables.Client.Columns.Zipcode}
+            ,{DbConstants.Tables.Client.Columns.City}
+            ,{DbConstants.Tables.Client.Columns.Region}
+            ,{DbConstants.Tables.Client.Columns.Country}
+            ,{DbConstants.Tables.Client.Columns.BoatBrand}
+            ,{DbConstants.Tables.Client.Columns.BoatType}
+            ,{DbConstants.Tables.Client.Columns.Remarks}
+            ,{DbConstants.Tables.Client.Columns.Active}
+            ,{DbConstants.Tables.Client.Columns.CreatedAt}
+            ,{DbConstants.Tables.Client.Columns.CreatedBy}
+            ,{DbConstants.Tables.Client.Columns.ModifiedAt}
+            ,{DbConstants.Tables.Client.Columns.ModifiedBy}
             )
             VALUES
             (@{nameof(data.Entities.Client.Client.Id)}
@@ -83,27 +83,27 @@ public sealed class ClientCommandHandler(IDapperContext dapperContext) : IReques
         request.ClientPostModel.ModifiedAt = request.Timestamp;
         request.ClientPostModel.ModifiedBy = request.UserName;
 
-        var sql = $@"UPDATE {DbConstants.Tables.Client}
+        var sql = $@"UPDATE {DbConstants.Tables.Client.TableName}
         SET
         {DbConstants.Columns.Preamble} = @{nameof(data.Entities.Client.Client.Preamble)}    
-        ,{DbConstants.Columns.LastName} = @{nameof(data.Entities.Client.Client.LastName)}
-        ,{DbConstants.Columns.FirstName} = @{nameof(data.Entities.Client.Client.FirstName)}
-        ,{DbConstants.Columns.Infix} = @{nameof(data.Entities.Client.Client.Infix)}
-        ,{DbConstants.Columns.Phone} = @{nameof(data.Entities.Client.Client.Phone)}
-        ,{DbConstants.Columns.Email} = @{nameof(data.Entities.Client.Client.Email)}
-        ,{DbConstants.Columns.Address} = @{nameof(data.Entities.Client.Client.Address)}
-        ,{DbConstants.Columns.Number} = @{nameof(data.Entities.Client.Client.Number)}
-        ,{DbConstants.Columns.Extension} = @{nameof(data.Entities.Client.Client.Extension)}
-        ,{DbConstants.Columns.Zipcode} = @{nameof(data.Entities.Client.Client.Zipcode)}
-        ,{DbConstants.Columns.City} = @{nameof(data.Entities.Client.Client.City)}
-        ,{DbConstants.Columns.Region} = @{nameof(data.Entities.Client.Client.Region)}
-        ,{DbConstants.Columns.Country} = @{nameof(data.Entities.Client.Client.Country)}
-        ,{DbConstants.Columns.BoatBrand} = @{nameof(data.Entities.Client.Client.BoatBrand)}
-        ,{DbConstants.Columns.BoatType} = @{nameof(data.Entities.Client.Client.BoatType)}
-        ,{DbConstants.Columns.Remarks} = @{nameof(data.Entities.Client.Client.Remarks)}
-        ,{DbConstants.Columns.Active} = @{nameof(data.Entities.Client.Client.Active)}
-        ,{DbConstants.Columns.ModifiedAt} = @{nameof(data.Entities.Client.Client.ModifiedAt)}
-        ,{DbConstants.Columns.ModifiedBy} = @{nameof(data.Entities.Client.Client.ModifiedBy)}
+        ,{DbConstants.Tables.Client.Columns.LastName} = @{nameof(data.Entities.Client.Client.LastName)}
+        ,{DbConstants.Tables.Client.Columns.FirstName} = @{nameof(data.Entities.Client.Client.FirstName)}
+        ,{DbConstants.Tables.Client.Columns.Infix} = @{nameof(data.Entities.Client.Client.Infix)}
+        ,{DbConstants.Tables.Client.Columns.Phone} = @{nameof(data.Entities.Client.Client.Phone)}
+        ,{DbConstants.Tables.Client.Columns.Email} = @{nameof(data.Entities.Client.Client.Email)}
+        ,{DbConstants.Tables.Client.Columns.Address} = @{nameof(data.Entities.Client.Client.Address)}
+        ,{DbConstants.Tables.Client.Columns.Number} = @{nameof(data.Entities.Client.Client.Number)}
+        ,{DbConstants.Tables.Client.Columns.Extension} = @{nameof(data.Entities.Client.Client.Extension)}
+        ,{DbConstants.Tables.Client.Columns.Zipcode} = @{nameof(data.Entities.Client.Client.Zipcode)}
+        ,{DbConstants.Tables.Client.Columns.City} = @{nameof(data.Entities.Client.Client.City)}
+        ,{DbConstants.Tables.Client.Columns.Region} = @{nameof(data.Entities.Client.Client.Region)}
+        ,{DbConstants.Tables.Client.Columns.Country} = @{nameof(data.Entities.Client.Client.Country)}
+        ,{DbConstants.Tables.Client.Columns.BoatBrand} = @{nameof(data.Entities.Client.Client.BoatBrand)}
+        ,{DbConstants.Tables.Client.Columns.BoatType} = @{nameof(data.Entities.Client.Client.BoatType)}
+        ,{DbConstants.Tables.Client.Columns.Remarks} = @{nameof(data.Entities.Client.Client.Remarks)}
+        ,{DbConstants.Tables.Client.Columns.Active} = @{nameof(data.Entities.Client.Client.Active)}
+        ,{DbConstants.Tables.Client.Columns.ModifiedAt} = @{nameof(data.Entities.Client.Client.ModifiedAt)}
+        ,{DbConstants.Tables.Client.Columns.ModifiedBy} = @{nameof(data.Entities.Client.Client.ModifiedBy)}
         WHERE {DbConstants.Columns.Id} = @{nameof(data.Entities.Client.Client.Id)}";
         await dapperContext.Connection.ExecuteAsync(sql, request.ClientPostModel);
     }

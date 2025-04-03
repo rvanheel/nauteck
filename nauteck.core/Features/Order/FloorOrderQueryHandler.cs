@@ -24,19 +24,19 @@ public sealed class FloorOrderQueryHandler(IDapperContext dapperContext) : IRequ
         , o.{DbConstants.Columns.Zipcode}
         , o.{DbConstants.Columns.City}
         , o.{DbConstants.Columns.Country}
-        , o.{DbConstants.Columns.BoatBrand}
-        , o.{DbConstants.Columns.BoatType}
+        , o.{DbConstants.Tables.FloorOrder.Columns.BoatBrand}
+        , o.{DbConstants.Tables.FloorOrder.Columns.BoatType}
         , o.{DbConstants.Columns.Total}
         , o.{DbConstants.Columns.Status}
         , o.{DbConstants.Columns.Provision}
         , o.{DbConstants.Columns.Discount}
         , o.{DbConstants.Columns.CreatedAt}
         , p.{DbConstants.Columns.ConstructionTotal}";
-    private const string modelAndSupplierJoins = $"AS o INNER JOIN {DbConstants.Tables.FloorOrderParts} p ON o.{DbConstants.Columns.Id} = p.{DbConstants.Columns.FloorOrderId}";
+    private const string modelAndSupplierJoins = $"AS o INNER JOIN {DbConstants.Tables.FloorOrderParts.TableName} p ON o.{DbConstants.Columns.Id} = p.{DbConstants.Columns.FloorOrderId}";
 
     public Task<IEnumerable<FloorOrderDto>> Handle(Queries.FloorOrderQuery request, CancellationToken cancellationToken)
     {
-        var query = $"SELECT {modelAndSupplierColumns} FROM {DbConstants.Tables.FloorOrder} {modelAndSupplierJoins}";
+        var query = $"SELECT {modelAndSupplierColumns} FROM {DbConstants.Tables.FloorOrder.TableName} {modelAndSupplierJoins}";
         return dapperContext.Connection.QueryAsync<FloorOrderDto>(query);
     }
 }

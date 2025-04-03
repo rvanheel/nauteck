@@ -52,7 +52,7 @@ public sealed class FloorOrderByIdQueryHandler(IDapperContext dapperContext) : I
     public Task<FloorOrder> Handle(Queries.FloorOrderByIdQuery request, CancellationToken cancellationToken)
     {
         if (request.Id == Guid.Empty.ToString()) return Task.FromResult(new FloorOrder { Id = Guid.Empty.ToString() });
-        var query = $"SELECT {Columns} FROM {DbConstants.Tables.FloorOrder} WHERE {DbConstants.Columns.Id} = @Id";
+        var query = $"SELECT {Columns} FROM {DbConstants.Tables.FloorOrder.TableName} WHERE {DbConstants.Columns.Id} = @Id";
         return dapperContext.Connection.QueryFirstAsync<FloorOrder>(query, new { request.Id });
     }
 }

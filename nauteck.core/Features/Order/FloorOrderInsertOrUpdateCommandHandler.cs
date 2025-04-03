@@ -42,7 +42,7 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDapperContext dapper
         model.Id = Guid.NewGuid().ToString();
         model.Reference = reference;
         var now = helper.AtCurrentTimeZone;
-        var sql = $@"INSERT INTO {DbConstants.Tables.FloorOrder} 
+        var sql = $@"INSERT INTO {DbConstants.Tables.FloorOrder.TableName} 
         (
             {DbConstants.Columns.Id}, 
             {DbConstants.Columns.Reference},
@@ -58,8 +58,8 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDapperContext dapper
             {DbConstants.Columns.City},
             {DbConstants.Columns.Region},
             {DbConstants.Columns.Country},
-            {DbConstants.Columns.BoatBrand},
-            {DbConstants.Columns.BoatType},
+            {DbConstants.Tables.FloorOrder.Columns.BoatBrand},
+            {DbConstants.Tables.FloorOrder.Columns.BoatType},
             {DbConstants.Columns.CreatedAt},
             {DbConstants.Columns.CreatedBy},
             {DbConstants.Columns.ModifiedAt},
@@ -190,12 +190,12 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDapperContext dapper
     private async Task Parts(OrderPostModel model)
     {
         // delete old parts
-        var sql = $"DELETE FROM {DbConstants.Tables.FloorOrderParts} WHERE {DbConstants.Columns.FloorOrderId} = @FloorOrderId";
+        var sql = $"DELETE FROM {DbConstants.Tables.FloorOrderParts.TableName} WHERE {DbConstants.Columns.FloorOrderId} = @FloorOrderId";
         _ = await dapperContext.Connection.ExecuteAsync(sql, new { FloorOrderId = model.Id });
 
         if (model.Parts is null) return;
         model.Parts.FloorOrderId = Guid.Parse(model.Id!);
-        sql = $@"INSERT INTO {DbConstants.Tables.FloorOrderParts}
+        sql = $@"INSERT INTO {DbConstants.Tables.FloorOrderParts.TableName}
            ({DbConstants.Columns.Id}
             ,{DbConstants.Columns.Floor}
             ,{DbConstants.Columns.FloorPrice}
@@ -254,7 +254,7 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDapperContext dapper
 
         model.Provision = model.Status!.Equals(Constants.Status.CANCELLED) ? 0 : model.Provision;
         var sql = $@"
-        UPDATE {DbConstants.Tables.FloorOrder} 
+        UPDATE {DbConstants.Tables.FloorOrder.TableName} 
         SET 
             {DbConstants.Columns.FirstName}=@FirstName  
             ,{DbConstants.Columns.Infix}=@Infix
@@ -267,8 +267,8 @@ public sealed class FloorOrderInsertOrUpdateCommandHandler(IDapperContext dapper
             ,{DbConstants.Columns.Number}=@Number
             ,{DbConstants.Columns.Region}=@Region 
             ,{DbConstants.Columns.Zipcode}=@Zipcode
-            ,{DbConstants.Columns.BoatBrand}=@BoatBrand
-            ,{DbConstants.Columns.BoatType}=@BoatType
+            ,{DbConstants.Tables.FloorOrder.Columns.BoatBrand}=@BoatBrand
+            ,{DbConstants.Tables.FloorOrder.Columns.BoatType}=@BoatType
             ,{DbConstants.Columns.CompanyName}=@CompanyName
             ,{DbConstants.Columns.VatNumber}=@VatNumber
             ,{DbConstants.Columns.Comment}=@Comment

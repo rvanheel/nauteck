@@ -19,7 +19,7 @@ public sealed class ClientDeleteCommandHandler(IDapperContext dapperContext, IBl
         tasks.Add(dapperContext.Connection.ExecuteAsync($"DELETE FROM {DbConstants.Tables.Attachment} WHERE {DbConstants.Columns.ClientId} = @Id", new { request.Id }));
         await Task.WhenAll(tasks);
 
-        await dapperContext.Connection.ExecuteAsync($"DELETE FROM {DbConstants.Tables.Client} WHERE {DbConstants.Columns.Id} = @Id", new { request.Id });
+        await dapperContext.Connection.ExecuteAsync($"DELETE FROM {DbConstants.Tables.Client.TableName} WHERE {DbConstants.Columns.Id} = @Id", new { request.Id });
         
     }
 }

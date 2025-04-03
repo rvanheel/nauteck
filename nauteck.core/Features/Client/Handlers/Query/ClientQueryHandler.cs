@@ -12,24 +12,24 @@ public sealed class ClientQueryHandler(IDapperContext dapperContext) : IRequestH
     public async Task<IEnumerable<data.Dto.Client.ClientDto>> Handle(Queries.ClientQuery request, CancellationToken cancellationToken)
     {
         var sql = $@"SELECT 
-            {DbConstants.Columns.Id}
-            ,{DbConstants.Columns.Preamble}
-            ,{DbConstants.Columns.LastName}
-            ,{DbConstants.Columns.FirstName}
-            ,{DbConstants.Columns.Infix} 
-            ,{DbConstants.Columns.Phone} 
-            ,{DbConstants.Columns.Email} 
-            ,{DbConstants.Columns.Address} 
-            ,{DbConstants.Columns.Number} 
-            ,{DbConstants.Columns.Extension} 
-            ,{DbConstants.Columns.Zipcode}             
-            ,{DbConstants.Columns.City} 
-            ,{DbConstants.Columns.Region}
-            ,{DbConstants.Columns.Country}
-            ,{DbConstants.Columns.BoatBrand}
-            ,{DbConstants.Columns.BoatType} 
-            ,{DbConstants.Columns.Active} 
-            FROM {DbConstants.Tables.Client}";
+            {DbConstants.Tables.Client.Columns.Id}
+            ,{DbConstants.Tables.Client.Columns.Preamble}
+            ,{DbConstants.Tables.Client.Columns.LastName}
+            ,{DbConstants.Tables.Client.Columns.FirstName}
+            ,{DbConstants.Tables.Client.Columns.Infix} 
+            ,{DbConstants.Tables.Client.Columns.Phone} 
+            ,{DbConstants.Tables.Client.Columns.Email} 
+            ,{DbConstants.Tables.Client.Columns.Address} 
+            ,{DbConstants.Tables.Client.Columns.Number} 
+            ,{DbConstants.Tables.Client.Columns.Extension} 
+            ,{DbConstants.Tables.Client.Columns.Zipcode}             
+            ,{DbConstants.Tables.Client.Columns.City} 
+            ,{DbConstants.Tables.Client.Columns.Region}
+            ,{DbConstants.Tables.Client.Columns.Country}
+            ,{DbConstants.Tables.Client.Columns.BoatBrand}
+            ,{DbConstants.Tables.Client.Columns.BoatType} 
+            ,{DbConstants.Tables.Client.Columns.Active} 
+            FROM {DbConstants.Tables.Client.TableName}";
         return await dapperContext.Connection.QueryAsync<data.Dto.Client.ClientDto>(sql);
     }
 }

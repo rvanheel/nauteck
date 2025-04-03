@@ -2,6 +2,99 @@
 
 public static class DbConstants
 {
+    public static class Tables
+    {
+        public const string Agenda = "`agenda`";
+        public const string Attachment = "`attachment`";
+        public const string Dealer = "`dealer`";
+        public const string Floor = "`floor`";
+        public const string FloorColor = "`floorcolor`";
+        public const string FloorColorExclusive = "`floorcolorexclusive`";
+        public const string FloorConstruction = "`floorconstruction`";
+        public const string FloorDesign = "`floordesign`";
+        public const string FloorLogo = "`floorlogo`";
+        public const string FloorMeasurement = "`floormeasurement`";
+        public const string FloorOrderAttachment = "`floororderattachment`";
+        public const string FloorOrderLogo = "`floororderlogo`";
+        public const string FloorOrderStatus = "`floororderstatus`";
+        public const string Status = "`status`";
+        public const string User = "`user`";
+        public static class Client
+        {
+            public const string TableName = "`client`";
+            public static class Columns
+            {
+                public const string Id = "`Id`";
+                public const string Preamble = "`Preamble`";
+                public const string LastName = "`LastName`";
+                public const string FirstName = "`FirstName`";
+                public const string Infix = "`Infix`";                
+                public const string Phone = "`Phone`";
+                public const string Email = "`Email`";
+                public const string Address = "`Address`";
+                public const string Number = "`Number`";
+                public const string Extension = "`Extension`";
+                public const string Zipcode = "`Zipcode`";
+                public const string City = "`City`";
+                public const string Region = "`Region`";
+                public const string Country = "`Country`";
+
+                public const string BoatBrand = "`BoatBrand`";
+                public const string BoatType = "`BoatType`";
+
+                public const string CreatedAt = "`CreatedAt`";
+                public const string CreatedBy = "`CreatedBy`";
+                public const string ModifiedAt = "`ModifiedAt`";
+                public const string ModifiedBy = "`ModifiedBy`";
+                public const string Remarks = "`Remarks`";
+                public const string Active = "`Active`";
+            }
+        }
+        public static class FloorOrderParts
+        {
+            public const string TableName = "`floororderparts`";
+            public static class Columns
+            {
+                
+            }
+        }
+        public static class FloorOrder
+        {
+            public const string TableName = "`floororder`";
+            public static class Columns
+            {
+                public const string BoatBrand = "`BoatBrand`";
+                public const string BoatType = "`BoatType`";
+            }
+        }
+        public static class Quotation
+        {
+
+            public const string TableName = $"`{nameof(Quotation)}`";
+            public static class Columns
+            {
+                public const string Id = "`Id`";
+                public const string ClientId = "`ClientId`";
+                public const string Amount = "`Amount`";
+                public const string Date = "`Date`";
+                public const string Description = "`Description`";
+                public const string Status = "`Status`";
+                public const string Reference = "`Reference`";
+            }
+        }
+        public static class QuotationLine
+        {
+            public const string TableName = $"`{nameof(QuotationLine)}`";
+            public static class Columns
+            {
+                public const string Id = "`Id`";
+                public const string Quantity = "`Quantity`";
+                public const string Amount = "`Amount`";
+                public const string Description = "`Description`";
+                public const string QuotationId = "`QuotationId`";
+            }
+        }
+    }
     public static class Columns
     {
         // agenda
@@ -53,8 +146,7 @@ public static class DbConstants
         public const string Region = "`Region`";
         public const string Zipcode = "`Zipcode`";
         // boat
-        public const string BoatBrand = "`BoatBrand`";
-        public const string BoatType = "`BoatType`";
+        
 
         public const string Comment = "`Comment`";
 
@@ -101,26 +193,5 @@ public static class DbConstants
         public const string Roles = "`Roles`";
         public const string Password = "`Password`";
         public const string ActivationCode = "`ActivationCode`";
-    }
-    public static class Tables
-    {
-        public const string Agenda = "`agenda`";
-        public const string Attachment = "`attachment`";
-        public const string Client = "`client`";
-        public const string Dealer = "`dealer`";
-        public const string Floor = "`floor`";
-        public const string FloorColor = "`floorcolor`";
-        public const string FloorColorExclusive = "`floorcolorexclusive`";
-        public const string FloorConstruction = "`floorconstruction`";
-        public const string FloorDesign = "`floordesign`";
-        public const string FloorLogo = "`floorlogo`";
-        public const string FloorMeasurement = "`floormeasurement`";
-        public const string FloorOrder = "`floororder`";
-        public const string FloorOrderAttachment = "`floororderattachment`";
-        public const string FloorOrderLogo = "`floororderlogo`";
-        public const string FloorOrderParts = "`floororderparts`";
-        public const string FloorOrderStatus = "`floororderstatus`";
-        public const string Status = "`status`";
-        public const string User = "`user`";        
     }
 }

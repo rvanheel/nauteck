@@ -21,7 +21,7 @@ public sealed class FloorOrderDeleteCommandHandler(IDapperContext dapperContext,
         var tasks = attachments.Select(attachment => blobStorage.DeleteBlob(attachment.FileUrl, cancellationToken));
         await Task.WhenAll(tasks);
 
-        query = $"DELETE FROM {DbConstants.Tables.FloorOrder} WHERE {DbConstants.Columns.Id} = @Id";
+        query = $"DELETE FROM {DbConstants.Tables.FloorOrder.TableName} WHERE {DbConstants.Columns.Id} = @Id";
         await dapperContext.Connection.ExecuteAsync(query, new { request.Id });
     }
 }
