@@ -1,7 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 
-namespace nauteck.data.Dto;
+namespace nauteck.data.Dto.Quotation;
 
 public sealed record QuotationDto
 {

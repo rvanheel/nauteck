@@ -4,7 +4,7 @@ using MediatR;
 
 using nauteck.core.Abstraction;
 using nauteck.core.Implementation;
-using nauteck.data.Dto;
+using nauteck.data.Dto.Quotation;
 
 namespace nauteck.core.Features.Handlers.Query.Quotation;
 

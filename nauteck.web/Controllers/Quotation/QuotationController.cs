@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 
-using nauteck.data.Dto;
+using nauteck.data.Dto.Quotation;
 
 using static nauteck.core.Features.Commands.Quotation;
 using static nauteck.core.Features.Queries.Quotation;
@@ -24,7 +24,7 @@ public sealed class QuotationController(IMediator mediator) : BaseController(med
     public async Task<IActionResult> Edit(Guid id, Guid clientId, CancellationToken cancellationToken)
     {
         var record = id.Equals(Guid.Empty) ?
-            new QuotationDto { ClientId = clientId, Date= DateTime.Now }
+            new QuotationDto { ClientId = clientId, Date= DateTime.Now, Status = core.Implementation.Constants.QuotationStats.CONCEPT }
             : await Mediator.Send(new QuotationByIdQuery(id), cancellationToken);
         return View(record);
     }

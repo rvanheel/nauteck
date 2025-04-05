@@ -37,7 +37,22 @@ public static class Constants
         public const string EuropeAmsterdam = "Europe/Amsterdam";
         public const string CentralEuropeanStandardTime = "Central Europe Standard Time";
     }
+    public static class QuotationStats
+    {
+        public const string CONCEPT = "Concept";
+        public const string SENT = "Verzonden";
+        public const string ACCEPTED = "Geaccepteerd";
+        public const string REJECTED = "Afgewezen";
+        public const string INVOICED = "Gefactureerd";
 
+        public static readonly string[] ALL = [
+            CONCEPT,
+            SENT,
+            ACCEPTED,
+            REJECTED,
+            INVOICED
+        ];
+    }
     public static class Status
     {
         public const string CANCELLED = "Geannuleerd";
@@ -50,6 +65,17 @@ public static class Constants
         public const string PAID = "Betaald";
         public const string PROFORMA = "Proforma opdracht";
 
-        public static readonly string[] ALL = [PROFORMA, DEFINITIVE_ORDER, PAID, MEASUREMENT_PLANNED, DEFINITIVE_DESIGN, MONTAGE_PLANNED, FINISHED, IN_PRODUCTION, CANCELLED];
+        public static readonly string[] ALL =
+        [
+            PROFORMA,
+            DEFINITIVE_ORDER,
+            PAID,
+            MEASUREMENT_PLANNED,
+            DEFINITIVE_DESIGN,
+            MONTAGE_PLANNED,
+            FINISHED,
+            IN_PRODUCTION,
+            CANCELLED
+        ];
     }
 }

@@ -1,7 +1,9 @@
 ﻿@using MediatR
+@using nauteck.core.Implementation
+@using nauteck.data.Dto.Quotation
 @using static nauteck.core.Features.Queries.Quotation
 @inject IMediator mediator
-@model nauteck.data.Dto.QuotationDto;
+@model QuotationDto;
 
 @{
     var client = mediator.Send(new nauteck.core.Features.Queries.Client.ClientByIdQuery(Model.ClientId));
@@ -9,6 +11,8 @@
     await Task.WhenAll(client, quotationLinesTask);
     var quotationLines = quotationLinesTask.Result ?? [];
     var quotationSum = quotationLines.Sum(l => l.Quantity * l.Amount);
+
+    var quotationStatusses = Constants.QuotationStats.ALL.Select(x => new SelectListItem(x, x)).ToArray();
 }
 <div class="m-2 p-4 bg-white rounded-3 shadow-lg">
     <div class="row"><div class="col"><p class="lead fw-bold text-uppercase">Offerte</p></div></div>
@@ -51,7 +55,10 @@
                         &nbsp;<span class="text-danger fw-bold">*</span>
                         @Html.TextBox(nameof(Model.Amount), quotationSum, "{0:n2}", htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "text" })
                     </div>
-                    <div></div>
+                    <div>
+                        @Html.LabelFor(x => x.Status, htmlAttributes: new { @class = "form-label fw-bold" })
+                        @Html.DropDownListFor(x => x.Status, quotationStatusses, "", htmlAttributes: new { @class = "form-select" })
+                    </div>
 
                     <div class="grid-col-4">
                         @Html.LabelFor(x => x.Description, htmlAttributes: new { @class = "form-label fw-bold" })

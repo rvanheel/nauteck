@@ -4,7 +4,7 @@ using MediatR;
 
 using nauteck.core.Abstraction;
 using nauteck.core.Implementation;
-using nauteck.data.Dto;
+using nauteck.data.Dto.Quotation;
 
 using static nauteck.core.Features.Commands.Quotation;
 
@@ -61,6 +61,7 @@ public sealed class SaveOrUpdateQuotationCommandHandler(IDapperContext dapperCon
             {DbConstants.Tables.Quotation.Columns.Amount} = @{nameof(QuotationDto.Amount)}
             , {DbConstants.Tables.Quotation.Columns.Description} = @{nameof(QuotationDto.Description)}
             , {DbConstants.Tables.Quotation.Columns.Date} = @{nameof(QuotationDto.Date)}
+            , {DbConstants.Tables.Quotation.Columns.Status} = @{nameof(QuotationDto.Status)}
             WHERE {DbConstants.Tables.Quotation.Columns.Id} = @{nameof(QuotationDto.Id)}";
         return dapperContext.Connection.ExecuteAsync(sql, quotationDto);
     }
