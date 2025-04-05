@@ -1,0 +1,109 @@
+﻿@using MediatR
+@using static nauteck.core.Features.Queries.Quotation
+@inject IMediator mediator
+@model nauteck.data.Dto.QuotationDto;
+
+@{
+    var client = mediator.Send(new nauteck.core.Features.Queries.Client.ClientByIdQuery(Model.ClientId));
+    var quotationLinesTask = mediator.Send(new QuotationLineQuery(Model.Id));
+    await Task.WhenAll(client, quotationLinesTask);
+    var quotationLines = quotationLinesTask.Result ?? [];
+    var quotationSum = quotationLines.Sum(l => l.Quantity * l.Amount);
+}
+<div class="m-2 p-4 bg-white rounded-3 shadow-lg">
+    <div class="row"><div class="col"><p class="lead fw-bold text-uppercase">Offerte</p></div></div>
+
+    <div style="display: grid; grid-template-columns:auto 3fr; gap: 5rem;">
+
+        <div>
+            <span class="fw-bold text-primary-emphasis">
+                <i class="bi bi-person"></i> @Html.DisplayFor(x => x.Preamble)
+                <a asp-controller="Client" asp-action="Edit" asp-route-id="@client.Result.Id" title="Client Bekijken">
+                @Html.DisplayFor(_ => client.Result.FirstName)
+                @Html.DisplayFor(_ => client.Result.Infix)
+                @Html.DisplayFor(_ => client.Result.LastName)
+                </a>
+            </span>
+            <address>
+                @Html.DisplayFor(_ => client.Result.Address) @Html.DisplayFor(_ => client.Result.Number)@Html.DisplayFor(_ => client.Result.Extension)<br />
+                @Html.DisplayFor(_ => client.Result.Zipcode) @Html.DisplayFor(_ => client.Result.City)<br />
+                @Html.DisplayFor(_ => client.Result.Region) @Html.DisplayFor(_ => client.Result.Country)
+            </address>
+        </div>
+
+        <div>
+            @using (Html.BeginForm("SaveOrUpdate", "Quotation", default, FormMethod.Post, antiforgery: true, htmlAttributes: new { @autocomplete = "off", @id = "form-quotation" }))
+            {
+
+                <div style="display: grid; grid-template-columns: auto auto auto 1fr; gap: 1rem;">
+
+                    <div>
+                        @Html.LabelFor(x => x.Reference, htmlAttributes: new { @class = "form-label fw-bold" })
+                        @Html.TextBoxFor(x => x.Reference, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "text" })
+                    </div>
+                    <div>
+                        @Html.LabelFor(x => x.Date, htmlAttributes: new { @class = "form-label fw-bold" })
+                        &nbsp;<span class="text-danger fw-bold">*</span>
+                        @Html.TextBoxFor(x => x.Date, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control", @min = Model.Date.ToString("yyyy-MM-dd"), @type = "date" })
+                    </div>
+                    <div>
+                        @Html.LabelFor(x => x.Amount, htmlAttributes: new { @class = "form-label fw-bold" })
+                        &nbsp;<span class="text-danger fw-bold">*</span>
+                        @Html.TextBox(nameof(Model.Amount), quotationSum, "{0:n2}", htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "text" })
+                    </div>
+                    <div></div>
+
+                    <div class="grid-col-4">
+                        @Html.LabelFor(x => x.Description, htmlAttributes: new { @class = "form-label fw-bold" })
+                        @Html.TextAreaFor(x => x.Description, htmlAttributes: new { @class = "form-control", @rows = "5", @type = "text" })
+                    </div>
+
+                    <div><a asp-action="Index" asp-controller="Quotation" class="btn btn-light" title="Terug"><i class="bi bi-arrow-left"></i>&nbsp;Terug</a></div>
+                    <div class="grid-col-3"><button class="btn btn-primary" title="Opslaan" type="submit"><i class="bi bi-save"></i>&nbsp;Opslaan</button></div>
+
+
+                </div>
+                @Html.HiddenFor(x => x.Id)
+                @Html.HiddenFor(x => x.ClientId)
+            }
+
+        </div>
+
+    </div>
+
+    <div class="row "><div class="col"><p class="lead fw-bold text-uppercase mt-5">Offerte Regels</p></div></div>
+
+    <table class="table table-bordered table-striped table-responsive">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Omschrijving</th>
+                <th style="text-align: right">Aantal</th>
+                <th style="text-align: right">Bedrag</th>
+                <th style="text-align: right">Totaal</th>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var line in quotationLines)
+            {
+                <tr>
+                    <td class="text-center"><button class="btn btn-warning btn-sm" data-id="@line.Id" data-quantity="@line.Quantity" data-amount="@line.Amount" data-description="@line.Description" data-type="edit" title="Bewerken" type="button"><i class="bi bi-pencil"></i></button></td>
+                    <td>@line.Description</td>
+                    <td style="text-align: right">@line.Quantity</td>
+                    <td style="text-align: right">@($"{line.Amount:n2}")</td>
+                    <td style="text-align: right">@($"{line.Amount * line.Quantity:n2}")</td>
+                    <td class="text-center"><a asp-action="DeleteQuotationLine" asp-route-id="@line.Id" asp-route-quotationid="@line.QuotationId" class="btn btn-danger btn-sm" title="Verwijderen"><i class="bi bi-trash"></i></a></td>
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th style="text-align: right">Totaal:</th>
+                <th style="text-align: right">@($"{quotationSum:n2}")</th>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

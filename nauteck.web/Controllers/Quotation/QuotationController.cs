@@ -2,15 +2,43 @@
 
 using Microsoft.AspNetCore.Mvc;
 
+using nauteck.data.Dto;
+
+using static nauteck.core.Features.Commands.Quotation;
 using static nauteck.core.Features.Queries.Quotation;
 
 namespace nauteck.web.Controllers.Quotation;
 
 public sealed class QuotationController(IMediator mediator) : BaseController(mediator)
-{
+{    
+    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+    {
+        var record = await Mediator.Send(new QuotationDeleteCommand(id), cancellationToken);
+        return RedirectToAction(nameof(Index));
+    }
+    public async Task<IActionResult> DeleteQuotationLine(Guid id, Guid quotationId, CancellationToken cancellationToken)
+    {
+        var record = await Mediator.Send(new QuotationLineDeleteCommand(id), cancellationToken);
+        return RedirectToAction(nameof(Edit), new { id = quotationId});
+    }
+    public async Task<IActionResult> Edit(Guid id, Guid clientId, CancellationToken cancellationToken)
+    {
+        var record = id.Equals(Guid.Empty) ?
+            new QuotationDto { ClientId = clientId, Date= DateTime.Now }
+            : await Mediator.Send(new QuotationByIdQuery(id), cancellationToken);
+        return View(record);
+    }
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
         var records = await Mediator.Send(new QuotationQuery(), cancellationToken);
         return View(records);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> SaveOrUpdate(QuotationDto quotation, CancellationToken cancellationToken)
+    {
+        await Mediator.Send(new SaveOrUpdateQuotationCommand(quotation), cancellationToken);
+        return RedirectToAction(nameof(Index));
     }
 }
