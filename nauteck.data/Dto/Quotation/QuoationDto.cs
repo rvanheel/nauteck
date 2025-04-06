@@ -5,7 +5,7 @@ namespace nauteck.data.Dto.Quotation;
 
 public sealed record QuotationDto
 {
-    public Guid Id { get; init; }
+    public Guid Id { get; set; }
     public Guid ClientId { get; init; }
 
     [Display(Name ="Bedrag")]

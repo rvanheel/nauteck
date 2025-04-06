@@ -13,6 +13,8 @@
     var quotationSum = quotationLines.Sum(l => l.Quantity * l.Amount);
 
     var quotationStatusses = Constants.QuotationStats.ALL.Select(x => new SelectListItem(x, x)).ToArray();
+
+    var disabled = Model.Id.Equals(Guid.Empty) ? "disabled" : "";
 }
 <div class="m-2 p-4 bg-white rounded-3 shadow-lg">
     <div class="row"><div class="col"><p class="lead fw-bold text-uppercase">Offerte</p></div></div>
@@ -23,9 +25,9 @@
             <span class="fw-bold text-primary-emphasis">
                 <i class="bi bi-person"></i> @Html.DisplayFor(x => x.Preamble)
                 <a asp-controller="Client" asp-action="Edit" asp-route-id="@client.Result.Id" title="Client Bekijken">
-                @Html.DisplayFor(_ => client.Result.FirstName)
-                @Html.DisplayFor(_ => client.Result.Infix)
-                @Html.DisplayFor(_ => client.Result.LastName)
+                    @Html.DisplayFor(_ => client.Result.FirstName)
+                    @Html.DisplayFor(_ => client.Result.Infix)
+                    @Html.DisplayFor(_ => client.Result.LastName)
                 </a>
             </span>
             <address>
@@ -62,7 +64,7 @@
 
                     <div class="grid-col-4">
                         @Html.LabelFor(x => x.Description, htmlAttributes: new { @class = "form-label fw-bold" })
-                        @Html.TextAreaFor(x => x.Description, htmlAttributes: new { @class = "form-control", @rows = "5", @type = "text" })
+                        @Html.TextBoxFor(x => x.Description, htmlAttributes: new { @class = "form-control", @type = "text" })
                     </div>
 
                     <div><a asp-action="Index" asp-controller="Quotation" class="btn btn-light" title="Terug"><i class="bi bi-arrow-left"></i>&nbsp;Terug</a></div>
@@ -78,7 +80,14 @@
 
     </div>
 
-    <div class="row "><div class="col"><p class="lead fw-bold text-uppercase mt-5">Offerte Regels</p></div></div>
+    <div class="row">
+        <div class="col">
+            <p class="lead fw-bold text-uppercase mt-5">Offerte Regels</p>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-dark" @disabled id="button-add-line" title="Regel toevoegen" type="button"><i class="bi bi-body-text"></i>&nbsp;Regel toevoegen</button>
+        </div>
+    </div>
 
     <table class="table table-bordered table-striped table-responsive">
         <thead>
@@ -114,3 +123,9 @@
         </tbody>
     </table>
 </div>
+
+@await Html.PartialAsync("Partials/QuotationLine", Model)
+
+@section Scripts {
+    <script src="~/js/quotation/edit.js" asp-append-version="true"></script>
+}

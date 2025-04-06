@@ -29,7 +29,7 @@
             @foreach (var q in Model)
             {
                 <tr>
-                    <td><a asp-action="Edit" asp-route-id="@q.Id" class="btn btn-warning btn-sm" title="Bewerken"><i class="bi bi-pencil"></i></a></td>
+                    <td><a asp-action="Edit" asp-route-id="@q.Id" class="btn btn-warning btn-sm" data="@Html.Raw(q)" title="Bewerken"><i class="bi bi-pencil"></i></a></td>
                     <td>@($"{q.Date:dd-MM-yyyy}")</td>
                     <td>
                         @{

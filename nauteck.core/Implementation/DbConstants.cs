@@ -2,6 +2,17 @@
 
 public static class DbConstants
 {
+    public static class Sql
+    {
+        public static string UpdateQuotion(string columnName) => @$"
+        SELECT @SUM:=SUM({Tables.QuotationLine.Columns.Quantity} * {Tables.QuotationLine.Columns.Amount})
+        FROM `QuotationLine`
+        WHERE `QuotationId` = @{columnName};
+
+        UPDATE {Tables.Quotation.TableName}
+        SET {Tables.Quotation.Columns.Amount} = @SUM
+        WHERE {Tables.Quotation.Columns.Id} = @{columnName};";
+    }
     public static class Tables
     {
         public const string Agenda = "`agenda`";

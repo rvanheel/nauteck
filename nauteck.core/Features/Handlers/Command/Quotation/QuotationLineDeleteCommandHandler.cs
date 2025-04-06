@@ -6,6 +6,7 @@ using nauteck.core.Abstraction;
 using nauteck.core.Implementation;
 
 using static nauteck.core.Features.Commands.Quotation;
+using static nauteck.core.Implementation.DbConstants;
 
 namespace nauteck.core.Features.Handlers.Command.Quotation;
 
@@ -13,14 +14,8 @@ public sealed class QuotationLineDeleteCommandHandler(IDapperContext dapperConte
 {
     public Task<int> Handle(QuotationLineDeleteCommand request, CancellationToken cancellationToken)
     {
-        var sql = @$"DELETE FROM {DbConstants.Tables.QuotationLine.TableName} WHERE {DbConstants.Tables.QuotationLine.Columns.Id} = @{nameof(request.Id)};
-            
-            UPDATE {DbConstants.Tables.Quotation.TableName} AS q 
-            INNER JOIN {DbConstants.Tables.QuotationLine.TableName} AS ql
-                ON ql.{DbConstants.Tables.QuotationLine.Columns.QuotationId} = q.{DbConstants.Tables.Quotation.Columns.Id}
-            SET q.{DbConstants.Tables.Quotation.Columns.Amount} = ql.{DbConstants.Tables.QuotationLine.Columns.Quantity}*ql.{DbConstants.Tables.QuotationLine.Columns.Amount}
-            WHERE q.{DbConstants.Tables.Quotation.Columns.Id} = @{nameof(request.Id)};
-        ";
+        var sql = @$"DELETE FROM {Tables.QuotationLine.TableName} WHERE {Tables.QuotationLine.Columns.Id} = @{nameof(request.Id)};
+            {Sql.UpdateQuotion(nameof(QuotationLineDeleteCommand.QuotationId))}";
         return dapperContext.Connection.ExecuteAsync(sql, request);
     }
 }
