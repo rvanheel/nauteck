@@ -14,8 +14,8 @@ public static class Queries
     public static class Quotation
     {
         public sealed record QuotationByIdQuery(Guid Id) : IRequest<QuotationDto>;
+        public sealed record QuotationPdfQuery(Guid Id) : IRequest<(BinaryData, string)>;
         public sealed record QuotationQuery : IRequest<IEnumerable<QuotationDto>>;
-
         public sealed record QuotationLineQuery(Guid Id) : IRequest<IEnumerable<QuotationLineDto>>;
     }
 }

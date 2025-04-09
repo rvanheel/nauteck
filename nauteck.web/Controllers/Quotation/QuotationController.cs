@@ -33,6 +33,12 @@ public sealed class QuotationController(IMediator mediator) : BaseController(med
         var records = await Mediator.Send(new QuotationQuery(), cancellationToken);
         return View(records);
     }
+    [HttpGet]
+    public async Task<IActionResult> Pdf(Guid id, CancellationToken cancellationToken)
+    {
+        var (binaryDate, fileName) = await Mediator.Send(new QuotationPdfQuery(id), cancellationToken);
+        return File(binaryDate.ToArray(), "application/pdf", fileName);
+    }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
