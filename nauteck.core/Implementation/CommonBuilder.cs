@@ -28,7 +28,7 @@ static class CommonBuilder
         // adressering
         var a = new Paragraph()
         .SetFontSize(10)
-        .Add($"{clientDto.Preamble} {clientDto.FirstName} {clientDto.Infix} {clientDto.LastName}".Replace("  " , ""))
+        .Add($"{clientDto.Preamble} {clientDto.FirstName} {clientDto.Infix} {clientDto.LastName}".Replace("  " , " "))
         .Add(Environment.NewLine)
         .Add(GetCompanyStreet(clientDto))
         .Add(Environment.NewLine)
