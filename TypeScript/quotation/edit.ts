@@ -23,7 +23,9 @@ class QuotationEdit {
 		(form.elements.namedItem("Id") as HTMLInputElement).value = button.dataset.id;
 		(form.elements.namedItem("Amount") as HTMLInputElement).value = button.dataset.amount;
 		(form.elements.namedItem("Description") as HTMLInputElement).value = button.dataset.description;
+		(form.elements.namedItem("Tax") as HTMLSelectElement).value = button.dataset.tax;
 		(form.elements.namedItem("Quantity") as HTMLInputElement).value = button.dataset.quantity;
+
 		modal.modal("show");
 	}
 	static Initialize() {

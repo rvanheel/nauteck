@@ -4,14 +4,15 @@ public static class DbConstants
 {
     public static class Sql
     {
-        public static string UpdateQuotion(string columnName) => @$"
-        SELECT @SUM:=SUM({Tables.QuotationLine.Columns.Quantity} * {Tables.QuotationLine.Columns.Amount})
-        FROM `QuotationLine`
-        WHERE `QuotationId` = @{columnName};
+        public static string UpdateQuotation(string columnName) => $"""
+            SELECT @SUM:=SUM({Tables.QuotationLine.Columns.Quantity} * {Tables.QuotationLine.Columns.Amount})
+            FROM `QuotationLine`
+            WHERE `QuotationId` = @{columnName};
 
-        UPDATE {Tables.Quotation.TableName}
-        SET {Tables.Quotation.Columns.Amount} = @SUM
-        WHERE {Tables.Quotation.Columns.Id} = @{columnName};";
+            UPDATE {Tables.Quotation.TableName}
+            SET {Tables.Quotation.Columns.Amount} = @SUM
+            WHERE {Tables.Quotation.Columns.Id} = @{columnName};
+        """;
     }
     public static class Tables
     {
@@ -96,12 +97,14 @@ public static class DbConstants
         public static class QuotationLine
         {
             public const string TableName = $"`{nameof(QuotationLine)}`";
+
             public static class Columns
             {
                 public const string Id = "`Id`";
                 public const string Quantity = "`Quantity`";
                 public const string Amount = "`Amount`";
                 public const string Description = "`Description`";
+                public const string Tax = "`Tax`";
                 public const string QuotationId = "`QuotationId`";
             }
         }

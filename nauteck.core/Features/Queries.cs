@@ -9,7 +9,7 @@ public static class Queries
 {
     public static class Client
     {
-        public sealed record ClientByIdQuery(Guid id) : IRequest<ClientDto>;
+        public sealed record ClientByIdQuery(Guid Id) : IRequest<ClientDto>;
     }
     public static class Quotation
     {

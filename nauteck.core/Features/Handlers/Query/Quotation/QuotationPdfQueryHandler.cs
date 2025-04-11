@@ -29,15 +29,15 @@ public sealed class QuotationPdfQueryHandler(IDapperContext dapperContext) : IRe
     #region Private Methods
     private Task<ClientDto> GetClient(Guid id)
     {
-        return dapperContext.Connection.QueryFirstAsync<ClientDto>("SELECT * FROM client WHERE Id = @Id", new { Id = id });
+        return dapperContext.Connection.QueryFirstAsync<ClientDto>($"SELECT * FROM {DbConstants.Tables.Client.TableName} WHERE {DbConstants.Tables.Client.Columns.Id} = @Id", new { Id = id });
     }
     private Task<QuotationDto> GetQuotation(Guid id)
     {
-        return dapperContext.Connection.QueryFirstAsync<QuotationDto>("SELECT * FROM Quotation WHERE Id = @Id", new { Id = id });
+        return dapperContext.Connection.QueryFirstAsync<QuotationDto>($"SELECT * FROM {DbConstants.Tables.Quotation.TableName} WHERE {DbConstants.Tables.Quotation.Columns.Id} = @Id", new { Id = id });
     }
     private Task<IEnumerable<QuotationLineDto>> GetQuotationLines(Guid id)
     {
-        return dapperContext.Connection.QueryAsync<QuotationLineDto>("SELECT * FROM QuotationLine WHERE QuotationId = @Id", new { Id = id });
+        return dapperContext.Connection.QueryAsync<QuotationLineDto>($"SELECT * FROM {DbConstants.Tables.QuotationLine.TableName} WHERE {DbConstants.Tables.QuotationLine.Columns.QuotationId} = @Id", new { Id = id });
     }
     #endregion
 }

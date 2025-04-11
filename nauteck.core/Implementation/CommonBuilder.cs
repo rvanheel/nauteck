@@ -11,9 +11,9 @@ using nauteck.data.Dto.Client;
 
 namespace nauteck.core.Implementation;
 
-static class CommonBuilder
+internal static class CommonBuilder
 {
-    public static readonly DottedBorder DottedBorderBlack = new(iText.Kernel.Colors.ColorConstants.BLACK, 0.8f);
+    private static readonly DottedBorder DottedBorderBlack = new(iText.Kernel.Colors.ColorConstants.BLACK, 0.8f);
     public static readonly iText.Kernel.Colors.DeviceRgb RgbColorBlue = iText.Kernel.Colors.WebColors.GetRGBColor("#009FE3");
     public static readonly SolidBorder SolidBorderBlack = new(iText.Kernel.Colors.ColorConstants.BLACK, 1);
 
@@ -45,13 +45,14 @@ static class CommonBuilder
     {
         return new Cell().SetBorder(Border.NO_BORDER);
     }
-    public static Paragraph CreateParagraph()
+
+    public static Paragraph CreateParagraph(TextAlignment textAlignment = TextAlignment.LEFT)
     {
-        return new Paragraph();
+        return new Paragraph().SetTextAlignment(textAlignment);
     }
     public static Paragraph CreateBoldParagraph(TextAlignment textAlignment = TextAlignment.LEFT)
     {
-        return new Paragraph().SetBold().SetTextAlignment(textAlignment);
+        return CreateParagraph(textAlignment).SetBold();
     }
     public static Document CreateHeader(this Document document)
     {
@@ -61,9 +62,9 @@ static class CommonBuilder
 
         header.AddCell(CreateLogoCell());
 
-        var p1 = new Paragraph().Add("     ").Add(Environment.NewLine).Add("     ");
-        var p2 = new Paragraph().Add("Spijksedijk 3-186").Add(Environment.NewLine).Add("6917 AB Spijk (GLD)");
-        var p3 = new Paragraph().Add("E: info@nauteckflooring.com").Add(Environment.NewLine).Add("T: +31 (0)6 51 52 24 24");
+        var p1 = CreateParagraph().Add("     ").Add(Environment.NewLine).Add("     ");
+        var p2 = CreateParagraph().Add("Spijksedijk 3-186").Add(Environment.NewLine).Add("6917 AB Spijk (GLD)");
+        var p3 = CreateParagraph().Add("E: info@nauteckflooring.com").Add(Environment.NewLine).Add("T: +31 (0)6 51 52 24 24");
         //var p4 = new Paragraph().Add($"KVK: {Resources.Kvk}").Add(Environment.NewLine).Add($"BTW: {Resources.Vat}");
 
         header.AddCell(CreateBorderlessCell().Add(p1));
@@ -73,10 +74,11 @@ static class CommonBuilder
 
         return document.Add(header);
     }
-    public static Cell CreateLogoCell()
+
+    private static Cell CreateLogoCell()
     {
         var logo = new Image(ImageDataFactory.Create(Resources.Logo)).SetWidth(150);
-        var pLogo = new Paragraph().SetWidth(logo.GetWidth()).Add(logo);
+        var pLogo = CreateParagraph().SetWidth(logo.GetWidth()).Add(logo);
 
         return CreateBorderlessCell().Add(pLogo)
             .SetBorder(Border.NO_BORDER)
@@ -87,14 +89,15 @@ static class CommonBuilder
         var collection = PdfFontFactory.GetRegisteredFonts();
         return PdfFontFactory.CreateRegisteredFont(collection.First(t => t == "helvetica"));
     }
-    public static string GetCompanyStreet(ClientDto clientDto)
+
+    private static string GetCompanyStreet(ClientDto clientDto)
     {
         var extension = "";
         if (int.TryParse(clientDto.Extension, out _)) extension = "-";
         return $"{clientDto.Address} {clientDto.Number}{extension}{clientDto.Extension}".Trim();
     }
 
-    public static string GetCompanyZipAndCity(ClientDto clientDto)
+    private static string GetCompanyZipAndCity(ClientDto clientDto)
     {
         return $"{clientDto.Zipcode} {clientDto.City}".Trim();
     }
@@ -102,9 +105,17 @@ static class CommonBuilder
     {
         return CreateParagraph().Add(Environment.NewLine).SetFontColor(iText.Kernel.Colors.ColorConstants.WHITE);
     }
+    public static string GetDecimalFormat(CultureInfo cInfo, decimal amount)
+    {
+        return string.Format(cInfo, "{0:n0}%", amount);
+    }
     public static string GetMoneyFormat(CultureInfo cInfo, decimal amount)
     {
         return string.Format(cInfo, "{0:c2}", amount);
+    }
+    public static string GetNumberFormat(CultureInfo cInfo, decimal amount)
+    {
+        return string.Format(cInfo, "{0:n2}", amount);
     }
     public static void Write(this Document document)
     {

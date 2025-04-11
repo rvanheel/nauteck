@@ -15,7 +15,7 @@ public sealed class QuotationLineDeleteCommandHandler(IDapperContext dapperConte
     public Task<int> Handle(QuotationLineDeleteCommand request, CancellationToken cancellationToken)
     {
         var sql = @$"DELETE FROM {Tables.QuotationLine.TableName} WHERE {Tables.QuotationLine.Columns.Id} = @{nameof(request.Id)};
-            {Sql.UpdateQuotion(nameof(QuotationLineDeleteCommand.QuotationId))}";
+            {Sql.UpdateQuotation(nameof(QuotationLineDeleteCommand.QuotationId))}";
         return dapperContext.Connection.ExecuteAsync(sql, request);
     }
 }

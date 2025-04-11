@@ -12,11 +12,12 @@ public sealed class QuotationLineQueryHandler(IDapperContext dapperContext): IRe
 {
     public Task<IEnumerable<QuotationLineDto>> Handle(Queries.Quotation.QuotationLineQuery request, CancellationToken cancellationToken)
     {
-        var sql = @$"
-        SELECT 
-            ql.*
-        FROM {DbConstants.Tables.QuotationLine.TableName} ql
-        WHERE ql.{DbConstants.Tables.QuotationLine.Columns.QuotationId} = @{nameof(request.Id)}";
+        const string sql = $"""
+            SELECT 
+                ql.*
+            FROM {DbConstants.Tables.QuotationLine.TableName} ql
+            WHERE ql.{DbConstants.Tables.QuotationLine.Columns.QuotationId} = @{nameof(request.Id)}
+        """;
         return dapperContext.Connection.QueryAsync<QuotationLineDto>(sql, request);
     }
 }

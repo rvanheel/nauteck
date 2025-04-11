@@ -2,9 +2,8 @@
 @model QuotationDto;
 
 <div class="modal" id="modal-quotation-line" tabindex="-1">
-    @using (Html.BeginForm("SaveOrUpdateLine", "Quotation", default, FormMethod.Post, antiforgery: true, htmlAttributes: new { id = "form-quotation-line" }))
+    @using (Html.BeginForm("SaveOrUpdateLine", "Quotation", null, FormMethod.Post, antiforgery: true, htmlAttributes: new { id = "form-quotation-line" }))
     {
-        
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -21,7 +20,15 @@
                         <label class="form-label fw-bold" for="Bedrag_0">Bedrag</label>
                         <input class="form-control" id="Bedrag_0" name="Amount" step="0.01" type="number" />
                     </div>
-
+                    <div>
+                        <label class="form-label fw-bold" for="Btw_0">BTW</label>
+                        <select class="form-select" id="Btw_0" name="Tax">
+                            <option selected disabled>BTW</option>
+                            <option value="0.00">0%</option>
+                            <option value="9.00">9%</option>
+                            <option value="21.00">21%</option>
+                        </select>
+                    </div>
                     <div>
                         <label class="form-label fw-bold" for="Omschrijving_0">Omschrijving</label>
                         <input class="form-control" id="Omschrijving_0" name="Description" placeholder="Omschrijving" type="text" />
