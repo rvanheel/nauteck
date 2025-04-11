@@ -7,13 +7,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Azure.Storage.Blobs" Version="12.23.0" />
+		<PackageReference Include="Azure.Storage.Blobs" Version="12.24.0" />
 		<PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
 		<PackageReference Include="Dapper" Version="2.1.66" />
 		<PackageReference Include="itext7" Version="8.0.5" />
 		<PackageReference Include="itext7.bouncy-castle-adapter" Version="8.0.5" />
-		<PackageReference Include="MediatR" Version="12.4.1" />
-		<PackageReference Include="Microsoft.Extensions.Options" Version="9.0.2" />
+		<PackageReference Include="MediatR" Version="12.5.0" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="9.0.4" />
 		<PackageReference Include="MySql.Data" Version="9.2.0" />
 	</ItemGroup>
 
@@ -38,15 +38,6 @@
 	    <Generator>ResXFileCodeGenerator</Generator>
 	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Reference Include="Microsoft.AspNetCore.Html.Abstractions">
-	    <HintPath>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\9.0.4\Microsoft.AspNetCore.Html.Abstractions.dll</HintPath>
-	  </Reference>
-	  <Reference Include="Microsoft.AspNetCore.Mvc.ViewFeatures">
-	    <HintPath>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\9.0.4\Microsoft.AspNetCore.Mvc.ViewFeatures.dll</HintPath>
-	  </Reference>
 	</ItemGroup>
 
 </Project>

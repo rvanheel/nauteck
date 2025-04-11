@@ -4,15 +4,15 @@ public static class DbConstants
 {
     public static class Sql
     {
-        public static string UpdateQuotation(string columnName) => $"""
-            SELECT @SUM:=SUM({Tables.QuotationLine.Columns.Quantity} * {Tables.QuotationLine.Columns.Amount})
-            FROM `QuotationLine`
-            WHERE `QuotationId` = @{columnName};
+        public static string UpdateQuotation(string propertyId) => $@"
+            SELECT @SUM:=SUM({Tables.QuotationLine.Columns.Quantity} * {Tables.QuotationLine.Columns.Amount} * (1+({Tables.QuotationLine.Columns.Tax} / 100)))
+            FROM {Tables.QuotationLine.TableName}
+            WHERE {Tables.QuotationLine.Columns.QuotationId} = @{propertyId};
 
             UPDATE {Tables.Quotation.TableName}
             SET {Tables.Quotation.Columns.Amount} = @SUM
-            WHERE {Tables.Quotation.Columns.Id} = @{columnName};
-        """;
+            WHERE {Tables.Quotation.Columns.Id} = @{propertyId};
+        ";
     }
     public static class Tables
     {

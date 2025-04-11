@@ -1,7 +1,8 @@
 ﻿using System.Text;
+
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace nauteck.core.Implementation;
+namespace nauteck.web.Implementation;
 
 public static class HtmlHelperExtensions
 {

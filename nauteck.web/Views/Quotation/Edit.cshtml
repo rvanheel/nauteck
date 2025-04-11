@@ -1,6 +1,7 @@
 ﻿@using MediatR
 @using nauteck.core.Implementation
 @using nauteck.data.Dto.Quotation
+@using nauteck.web.Implementation
 @using static nauteck.core.Features.Queries.Quotation
 @inject IMediator Mediator
 @model QuotationDto;
@@ -11,7 +12,9 @@
     await Task.WhenAll(client, quotationLinesTask);
     
     var quotationLines = quotationLinesTask.Result.ToArray();
-    var quotationSum = quotationLines.Sum(l => l.Quantity * l.Amount);
+    var quotationSum = quotationLines.Sum(l => l.Quantity * l.Amount * (1 + (l.Tax / 100.0m)));
+    var quotationTotaal = quotationLines.Sum(l => l.Quantity * l.Amount);
+    var btwSum = quotationLines.Sum(l => l.Quantity * l.Amount * (l.Tax / 100.0m));
     var quotationStatus = Constants.QuotationStats.ALL.Select(x => new SelectListItem(x, x)).ToArray();
 
     var disabled = Model.Id.Equals(Guid.Empty) ? "disabled" : "";
@@ -92,13 +95,14 @@
     <table class="table table-bordered table-striped table-responsive">
         <thead>
             <tr>
-                <th></th>
+                <th style="width: 5rem;"></th>
                 <th>Omschrijving</th>
-                <th style="text-align: right">Aantal</th>
-                <th style="text-align: right">Bedrag</th>
-                <th style="text-align: right">BTW</th>
-                <th style="text-align: right">Totaal</th>
-                <td></td>
+                <th style="text-align: right; width: 10rem;">Aantal</th>
+                <th style="text-align: right; width: 10rem;">Bedrag</th>
+                <th style="text-align: right; width: 10rem;">BTW</th>
+                <th style="text-align: right; width: 5rem;">%</th>
+                <th style="text-align: right; width: 10rem;">Totaal</th>
+                <td style="width: 5rem;"></td>
             </tr>
         </thead>
         <tbody>
@@ -110,8 +114,9 @@
                     <td>@line.Description</td>
                     <td style="text-align: right">@line.Quantity</td>
                     <td style="text-align: right">@($"{line.Amount:n2}")</td>
-                    <td style="text-align: right">@line.Tax</td>
-                    <td style="text-align: right">@($"{line.Amount * line.Quantity:n2}")</td>
+                    <td style="text-align: right">@($"{line.Amount * line.Quantity * (line.Tax / 100.0m):n2}")</td>
+                    <td style="text-align: right">@($"{line.Tax:n0}%")</td>
+                    <td style="text-align: right">@($"{line.Amount * line.Quantity * (1 + (line.Tax / 100.0m)):n2}")</td>
                     <td class="text-center"><a asp-action="DeleteQuotationLine" asp-route-id="@line.Id" asp-route-quotationid="@line.QuotationId" class="btn btn-danger btn-sm" title="Verwijderen"><i class="bi bi-trash"></i></a></td>
                 </tr>
             }
@@ -119,9 +124,10 @@
                 <td></td>
                 <td></td>
                 <td></td>
+                <th style="text-align: right">@($"{quotationTotaal:c2}")</th>
+                <th style="text-align: right">@($"{btwSum:c2}")</th>
                 <td></td>
-                <th style="text-align: right">Totaal:</th>
-                <th style="text-align: right">@($"{quotationSum:n2}")</th>
+                <th style="text-align: right">@($"{quotationSum:c2}")</th>
                 <td></td>
             </tr>
         </tbody>
