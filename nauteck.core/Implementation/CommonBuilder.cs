@@ -57,20 +57,11 @@ internal static class CommonBuilder
     public static Document CreateHeader(this Document document)
     {
         // header table
-        var header = new Table([30, 200, 200, 200, 200])
-            .SetFontSize(9);
+        var header = new Table(3).SetFontSize(9).UseAllAvailableWidth();
 
         header.AddCell(CreateLogoCell());
-
-        var p1 = CreateParagraph().Add("     ").Add(Environment.NewLine).Add("     ");
-        var p2 = CreateParagraph().Add("Spijksedijk 3-186").Add(Environment.NewLine).Add("6917 AB Spijk (GLD)");
-        var p3 = CreateParagraph().Add("E: info@nauteckflooring.com").Add(Environment.NewLine).Add("T: +31 (0)6 51 52 24 24");
-        //var p4 = new Paragraph().Add($"KVK: {Resources.Kvk}").Add(Environment.NewLine).Add($"BTW: {Resources.Vat}");
-
-        header.AddCell(CreateBorderlessCell().Add(p1));
-        header.AddCell(CreateBorderlessCell().Add(p2));
-        header.AddCell(CreateBorderlessCell().Add(p3));
-        //header.AddCell(CreateBorderlessCell().Add(p4));
+        header.AddCell(CreateBorderlessCell().Add(CreateParagraph().Add("Spijksedijk 3-186").Add(Environment.NewLine).Add("6917 AB Spijk (GLD)")));
+        header.AddCell(CreateBorderlessCell().Add(CreateParagraph().Add("E: info@nauteckflooring.com").Add(Environment.NewLine).Add("T: +31 (0)6 51 52 24 24")));
 
         return document.Add(header);
     }
@@ -105,7 +96,7 @@ internal static class CommonBuilder
     {
         return CreateParagraph().Add(Environment.NewLine).SetFontColor(iText.Kernel.Colors.ColorConstants.WHITE);
     }
-    public static string GetDecimalFormat(CultureInfo cInfo, decimal amount)
+    public static string GetPercentageFormat(CultureInfo cInfo, decimal amount)
     {
         return string.Format(cInfo, "{0:n0}%", amount);
     }
