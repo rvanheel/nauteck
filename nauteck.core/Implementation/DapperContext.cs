@@ -1,10 +1,4 @@
-﻿using System.Data;
-
-using MySql.Data.MySqlClient;
-
-using nauteck.core.Abstraction;
-
-namespace nauteck.core.Implementation;
+﻿namespace nauteck.core.Implementation;
 
 public sealed class DapperContext(string connectionString) : IDapperContext
 {

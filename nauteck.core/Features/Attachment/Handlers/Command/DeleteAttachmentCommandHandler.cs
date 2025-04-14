@@ -1,10 +1,4 @@
 ﻿using System.Security.Policy;
-
-using Dapper;
-
-using MediatR;
-
-using nauteck.core.Abstraction;
 using nauteck.core.Implementation;
 
 using static nauteck.core.Features.Attachment.Commands;

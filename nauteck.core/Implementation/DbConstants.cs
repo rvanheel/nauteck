@@ -4,7 +4,7 @@ public static class DbConstants
 {
     public static class Sql
     {
-        public static string UpdateQuotation(string propertyId) => $@"
+        public static string UpdateQuotation(string propertyId) => $"""
             SELECT @SUM:=SUM({Tables.QuotationLine.Columns.Quantity} * {Tables.QuotationLine.Columns.Amount} * (1+({Tables.QuotationLine.Columns.Tax} / 100)))
             FROM {Tables.QuotationLine.TableName}
             WHERE {Tables.QuotationLine.Columns.QuotationId} = @{propertyId};
@@ -12,7 +12,7 @@ public static class DbConstants
             UPDATE {Tables.Quotation.TableName}
             SET {Tables.Quotation.Columns.Amount} = @SUM
             WHERE {Tables.Quotation.Columns.Id} = @{propertyId};
-        ";
+        """;
     }
     public static class Tables
     {
@@ -79,9 +79,37 @@ public static class DbConstants
                 public const string BoatType = "`BoatType`";
             }
         }
-        public static class Quotation
+        public static class Invoice
         {
 
+            public const string TableName = $"`{nameof(Invoice)}`";
+            public static class Columns
+            {
+                public const string Id = "`Id`";
+                public const string ClientId = "`ClientId`";
+                public const string Amount = "`Amount`";
+                public const string Date = "`Date`";
+                public const string Description = "`Description`";
+                public const string Status = "`Status`";
+                public const string Reference = "`Reference`";
+            }
+        }
+        public static class InvoiceLine
+        {
+            public const string TableName = $"`{nameof(InvoiceLine)}`";
+
+            public static class Columns
+            {
+                public const string Id = "`Id`";
+                public const string Quantity = "`Quantity`";
+                public const string Amount = "`Amount`";
+                public const string Description = "`Description`";
+                public const string Tax = "`Tax`";
+                public const string InvoiceId = "`InvoiceId`";
+            }
+        }
+        public static class Quotation
+        {
             public const string TableName = $"`{nameof(Quotation)}`";
             public static class Columns
             {

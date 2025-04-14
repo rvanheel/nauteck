@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-using System.Runtime.InteropServices;
-using nauteck.core.Abstraction;
+﻿using System.Runtime.InteropServices;
 
 namespace nauteck.core.Implementation;
 
@@ -18,15 +16,10 @@ public sealed class Helper : IHelper
         var info = CultureInfo.CurrentCulture.TextInfo;
         return $"{info.ToTitleCase($"{firstName}")} {info.ToLower($"{infix}")} {info.ToTitleCase($"{lastName}")}".Replace("  ", " ").Trim();
     }
-
-    
-
     #region BCrypt
     public string? GenerateHashedPassword(string? password)
-    {   
-        if (string.IsNullOrWhiteSpace(password)) return password;
-
-        return BCrypt.Net.BCrypt.HashPassword(password);
+    {
+        return string.IsNullOrWhiteSpace(password) ? password : BCrypt.Net.BCrypt.HashPassword(password);
     }
     public bool VerifyPassword(string? password, string? hashedPassword)
     {

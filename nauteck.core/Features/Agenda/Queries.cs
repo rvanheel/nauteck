@@ -1,6 +1,4 @@
-﻿using MediatR;
-
-using nauteck.data.Dto.Agenda;
+﻿using nauteck.data.Dto.Agenda;
 
 namespace nauteck.core.Features.Agenda;
 

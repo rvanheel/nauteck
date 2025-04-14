@@ -1,12 +1,10 @@
-﻿using System.Globalization;
-
-namespace nauteck.core.Implementation;
+﻿namespace nauteck.core.Implementation;
 
 public static class Constants
 {
     public static readonly string[] Countries = [
     
-        "Belgie",
+        "België",
         "Denemarken",
         "Duitsland",
         "Engeland",
@@ -14,8 +12,8 @@ public static class Constants
         "Frankrijk",
         "Griekenland",
         "Ierland",
-        "Italie",
-        "Kroatie",
+        "Italië",
+        "Kroatië",
         "Luxemburg",
         "Malta",
         "Monaco", 
@@ -39,43 +37,43 @@ public static class Constants
     }
     public static class QuotationStats
     {
-        public const string CONCEPT = "Concept";
-        public const string SENT = "Verzonden";
-        public const string ACCEPTED = "Geaccepteerd";
-        public const string REJECTED = "Afgewezen";
-        public const string INVOICED = "Gefactureerd";
+        public const string Concept = "Concept";
+        public const string Sent = "Verzonden";
+        public const string Accepted = "Geaccepteerd";
+        public const string Rejected = "Afgewezen";
+        public const string Invoiced = "Gefactureerd";
 
-        public static readonly string[] ALL = [
-            CONCEPT,
-            SENT,
-            ACCEPTED,
-            REJECTED,
-            INVOICED
+        public static readonly string[] All = [
+            Concept,
+            Sent,
+            Accepted,
+            Rejected,
+            Invoiced
         ];
     }
     public static class Status
     {
-        public const string CANCELLED = "Geannuleerd";
-        public const string DEFINITIVE_DESIGN = "Definitief design";
-        public const string DEFINITIVE_ORDER = "Definitieve opdracht";
-        public const string FINISHED = "Afgerond";
-        public const string IN_PRODUCTION = "In produktie";
-        public const string MONTAGE_PLANNED = "Montage gepland";
-        public const string MEASUREMENT_PLANNED = "Inmeten gepland";
-        public const string PAID = "Betaald";
-        public const string PROFORMA = "Proforma opdracht";
+        public const string Cancelled = "Geannuleerd";
+        public const string DefinitiveDesign = "Definitief design";
+        public const string DefinitiveOrder = "Definitieve opdracht";
+        public const string Finished = "Afgerond";
+        public const string InProduction = "In produktie";
+        public const string MontagePlanned = "Montage gepland";
+        public const string MeasurementPlanned = "Inmeten gepland";
+        public const string Paid = "Betaald";
+        public const string Proforma = "Proforma opdracht";
 
-        public static readonly string[] ALL =
+        public static readonly string[] All =
         [
-            PROFORMA,
-            DEFINITIVE_ORDER,
-            PAID,
-            MEASUREMENT_PLANNED,
-            DEFINITIVE_DESIGN,
-            MONTAGE_PLANNED,
-            FINISHED,
-            IN_PRODUCTION,
-            CANCELLED
+            Proforma,
+            DefinitiveOrder,
+            Paid,
+            MeasurementPlanned,
+            DefinitiveDesign,
+            MontagePlanned,
+            Finished,
+            InProduction,
+            Cancelled
         ];
     }
 }

@@ -1,10 +1,4 @@
-﻿using Dapper;
-
-using MediatR;
-
-using Mysqlx.Crud;
-
-using nauteck.core.Abstraction;
+﻿using Mysqlx.Crud;
 using nauteck.core.Implementation;
 
 using static nauteck.core.Features.Status.Commands;

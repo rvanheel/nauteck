@@ -1,17 +1,13 @@
-﻿using Azure.Storage.Blobs;
+﻿namespace nauteck.core.Implementation;
 
-using nauteck.core.Abstraction;
-
-namespace nauteck.core.Implementation;
-
-public sealed class BlobStorage(BlobServiceClient blobServiceClient, string ContainerName) : IBlobStorage
+public sealed class BlobStorage(BlobServiceClient blobServiceClient, string containerName) : IBlobStorage
 {
-    private readonly BlobContainerClient blobContainerClient = blobServiceClient.GetBlobContainerClient(ContainerName);
+    private readonly BlobContainerClient _blobContainerClient = blobServiceClient.GetBlobContainerClient(containerName);
 
     public async Task<Uri> BuildSasUrl(string fileName, int expiresInMinutes, CancellationToken cancellationToken)
     {
-        await blobContainerClient.CreateIfNotExistsAsync(Azure.Storage.Blobs.Models.PublicAccessType.Blob, cancellationToken: cancellationToken);
-        return blobContainerClient.GetBlobClient(fileName)
+        await _blobContainerClient.CreateIfNotExistsAsync(Azure.Storage.Blobs.Models.PublicAccessType.Blob, cancellationToken: cancellationToken);
+        return _blobContainerClient.GetBlobClient(fileName)
             .GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Write, DateTimeOffset.UtcNow.AddMinutes(expiresInMinutes));
     }
 
@@ -26,6 +22,6 @@ public sealed class BlobStorage(BlobServiceClient blobServiceClient, string Cont
 
     public Task DeleteBlobByFileName(string? fileName, CancellationToken cancellationToken)
     {
-        return blobContainerClient.GetBlobClient(fileName).DeleteIfExistsAsync(cancellationToken: cancellationToken);
+        return _blobContainerClient.GetBlobClient(fileName).DeleteIfExistsAsync(cancellationToken: cancellationToken);
     }
 }

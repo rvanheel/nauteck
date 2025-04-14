@@ -1,6 +1,4 @@
-﻿using MediatR;
-
-using nauteck.data.Dto.Attachment;
+﻿using nauteck.data.Dto.Attachment;
 
 namespace nauteck.core.Features.Attachment;
 

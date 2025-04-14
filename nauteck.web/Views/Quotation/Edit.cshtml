@@ -15,7 +15,7 @@
     var quotationSum = quotationLines.Sum(l => l.Quantity * l.Amount * (1 + (l.Tax / 100.0m)));
     var quotationTotaal = quotationLines.Sum(l => l.Quantity * l.Amount);
     var btwSum = quotationLines.Sum(l => l.Quantity * l.Amount * (l.Tax / 100.0m));
-    var quotationStatus = Constants.QuotationStats.ALL.Select(x => new SelectListItem(x, x)).ToArray();
+    var quotationStatus = Constants.QuotationStats.All.Select(x => new SelectListItem(x, x)).ToArray();
 
     var disabled = Model.Id.Equals(Guid.Empty) ? "disabled" : "";
 }

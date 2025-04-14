@@ -1,0 +1,78 @@
+﻿@using nauteck.data.Dto.Invoice
+@model IEnumerable<InvoiceDto>
+
+<div class="m-2 p-2 rounded-3 border shadow-lg">
+
+    <div class="row p-2">
+        <div class="col">
+            <p class="lead fw-bold text-uppercase">Facturen</p>
+        </div>
+        <div class="col-auto">
+        </div>
+    </div>
+
+    <table class="table table-bordered" id="table-quotations">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Datum</th>
+                <th>Status</th>
+                <th>Referentie</th>
+                <th>Klant</th>
+                <th>Omschrijving</th>
+                <th>Bedrag</th>
+                <th>Pdf</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var q in Model)
+            {
+                <tr>
+                    <td><a asp-action="Edit" asp-route-id="@q.Id" class="btn btn-warning btn-sm" data="@Html.Raw(q)" title="Bewerken"><i class="bi bi-pencil"></i></a></td>
+                    <td>@($"{q.Date:dd-MM-yyyy}")</td>
+                    <td>
+                        @{
+                            var status = q.Status switch
+                            {
+                                nauteck.core.Implementation.Constants.Status.Paid => "text-bg-success",
+                                nauteck.core.Implementation.Constants.QuotationStats.Rejected => "text-bg-danger",
+                                nauteck.core.Implementation.Constants.QuotationStats.Sent => "text-bg-warning",
+                                nauteck.core.Implementation.Constants.QuotationStats.Invoiced => "text-bg-dark",
+                                _ => "text-bg-secondary"
+                            };
+                        }
+                        <span class="badge badge @status">@q.Status</span>
+                    </td>
+                    <td>@q.Reference</td>
+                    <td>
+                        <strong>@q.Preamble @q.FirstName @q.Infix @q.LastName</strong>
+                        <address>
+                            @q.Address @q.Number@q.Extension<br />
+                            @q.Zipcode @q.City<br />
+                            @q.Region @q.Country
+                        </address>
+                    </td>
+                    <td>@q.Description</td>
+                    <td>@($"{q.Amount:n2}")</td>
+                    <td><a asp-action="Pdf" asp-route-id="@q.Id" class="btn btn-light btn-outline-secondary btn-sm"><i class="bi bi-file-pdf-fill"></i></a></td>                    
+                </tr>
+            }
+    </table>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', ()=>{
+            $("#table-quotations").DataTable({
+                autoWidth: false,
+                columnDefs:[
+                    { targets: [0,7], className: 'text-center', width: '5rem'},
+                    { targets: [1,2], className: 'text-center', width: '8rem'},
+                    { targets: [3,6], type: 'num', width: '10rem'}
+                ],
+                order: [[3, 'desc']],
+                stateSave: true
+            });
+        });
+    </script>
+}

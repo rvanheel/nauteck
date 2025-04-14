@@ -1,6 +1,4 @@
-﻿using MediatR;
-
-namespace nauteck.core.Features.Status;
+﻿namespace nauteck.core.Features.Status;
 
 public static class Commands
 {

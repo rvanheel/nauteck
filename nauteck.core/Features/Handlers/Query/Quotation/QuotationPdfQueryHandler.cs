@@ -1,10 +1,4 @@
-﻿using Dapper;
-
-using MediatR;
-
-using nauteck.core.Abstraction;
-using nauteck.core.Implementation;
-using nauteck.data.Dto.Client;
+﻿using nauteck.core.Implementation;
 using nauteck.data.Dto.Quotation;
 
 using static nauteck.core.Features.Queries.Quotation;

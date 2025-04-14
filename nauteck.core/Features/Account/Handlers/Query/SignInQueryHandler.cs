@@ -1,11 +1,4 @@
-﻿using System.Data;
-using System.Security.Claims;
-
-using MediatR;
-
-using Dapper;
-
-using nauteck.core.Abstraction;
+﻿using System.Security.Claims;
 using nauteck.data.Enums;
 using nauteck.core.Implementation;
 using static nauteck.core.Features.Account.Queries;

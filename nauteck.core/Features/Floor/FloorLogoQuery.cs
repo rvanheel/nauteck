@@ -1,9 +1,4 @@
-﻿using Dapper;
-
-using MediatR;
-
-using nauteck.core.Abstraction;
-using nauteck.core.Implementation;
+﻿using nauteck.core.Implementation;
 using nauteck.data.Entities.Floor;
 
 namespace nauteck.core.Features.Floor;

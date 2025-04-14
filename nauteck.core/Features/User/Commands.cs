@@ -1,6 +1,4 @@
-﻿using MediatR;
-
-using nauteck.data.Models.User;
+﻿using nauteck.data.Models.User;
 
 namespace nauteck.core.Features.User;
 

@@ -1,6 +1,4 @@
-﻿using System.Data;
-
-namespace nauteck.core.Abstraction;
+﻿namespace nauteck.core.Abstraction;
 
 public interface IDapperContext
 {

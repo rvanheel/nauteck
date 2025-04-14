@@ -1,6 +1,4 @@
-﻿using MediatR;
-
-namespace nauteck.core.Features.Client;
+﻿namespace nauteck.core.Features.Client;
 
 public static class Commands
 {

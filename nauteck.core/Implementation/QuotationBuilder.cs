@@ -1,13 +1,8 @@
-﻿using System.Globalization;
-using System.Resources;
-
-using iText.Kernel.Pdf;
+﻿using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Borders;
 using iText.Layout.Element;
 using iText.Layout.Properties;
-
-using nauteck.data.Dto.Client;
 using nauteck.data.Dto.Quotation;
 
 namespace nauteck.core.Implementation;
@@ -18,7 +13,7 @@ public static class QuotationBuilder
     private static readonly CultureInfo CInfo = new("nl-NL");
     private static readonly DottedBorder DottedBorderLightGray = new(iText.Kernel.Colors.ColorConstants.LIGHT_GRAY, 0.8f);
     private static Table? _quotationTable;
-    private static IEnumerable<IGrouping<decimal, QuotationLineDto>> _taxes;
+    private static IEnumerable<IGrouping<decimal, QuotationLineDto>>? _taxes;
 
     public static BinaryData BuildQuotation(ClientDto clientDto, QuotationDto quotation, QuotationLineDto[] lines)
     {
@@ -116,29 +111,12 @@ public static class QuotationBuilder
         AddCellWithSolidBorderBottom(CommonBuilder.CreateBorderlessCell().Add(CommonBuilder.CreateBoldParagraph(TextAlignment.RIGHT).Add("Totaal")),CommonBuilder.SolidBorderBlack);
 
         return document;
-    }
-    private static void AddCell(Cell tableCell, int paddingTop = 2, int paddingBottom = 2)
-    {
-        _quotationTable?.AddCell(tableCell.SetPaddingTop(paddingTop).SetPaddingBottom(paddingBottom));
-    }
-    private static void AddCellWithSolidBorderBottom(Cell tableCell, SolidBorder solidBorder, int paddingTop = 2, int paddingBottom = 2)
-    {
-        _quotationTable?.AddCell(tableCell.SetPaddingTop(paddingTop).SetPaddingBottom(paddingBottom).SetBorderBottom(solidBorder));
-    }
-    private static void AddCellWithSolidBorderTop(Cell tableCell, SolidBorder solidBorder, int paddingTop = 2, int paddingBottom = 2)
-    {
-        _quotationTable?.AddCell(tableCell.SetPaddingTop(paddingTop).SetPaddingBottom(paddingBottom).SetBorderTop(solidBorder));
-    }
-    private static Paragraph EmptyParagraph()
-    {
-        return new Paragraph().Add("");
-    }
+    }    
     private static Document CreateQuotationTotals(this Document document)
     {
         if (_quotationTable is null) return document;
 
         decimal tax = 0.0m;
-        
         
         AddCell(CommonBuilder.CreateBorderlessCell().Add(EmptyParagraph()));
         AddCell(CommonBuilder.CreateBorderlessCell().Add(EmptyParagraph()));
@@ -173,4 +151,22 @@ public static class QuotationBuilder
         AddCellWithSolidBorderTop(CommonBuilder.CreateBorderlessCell().Add(CommonBuilder.CreateBoldParagraph(TextAlignment.RIGHT).Add(CommonBuilder.GetMoneyFormat(CInfo, _amount + tax))), CommonBuilder.SolidBorderBlack);
         return document.Add(_quotationTable);
     }
+    #region Private Methods
+    private static void AddCell(Cell tableCell, int paddingTop = 2, int paddingBottom = 2)
+    {
+        _quotationTable?.AddCell(tableCell.SetPaddingTop(paddingTop).SetPaddingBottom(paddingBottom));
+    }
+    private static void AddCellWithSolidBorderBottom(Cell tableCell, SolidBorder solidBorder, int paddingTop = 2, int paddingBottom = 2)
+    {
+        _quotationTable?.AddCell(tableCell.SetPaddingTop(paddingTop).SetPaddingBottom(paddingBottom).SetBorderBottom(solidBorder));
+    }
+    private static void AddCellWithSolidBorderTop(Cell tableCell, SolidBorder solidBorder, int paddingTop = 2, int paddingBottom = 2)
+    {
+        _quotationTable?.AddCell(tableCell.SetPaddingTop(paddingTop).SetPaddingBottom(paddingBottom).SetBorderTop(solidBorder));
+    }
+    private static Paragraph EmptyParagraph()
+    {
+        return new Paragraph().Add("");
+    }
+    #endregion
 }

@@ -1,7 +1,5 @@
 ﻿using System.Security.Claims;
 
-using MediatR;
-
 namespace nauteck.core.Features.Account;
 
 public static class Queries

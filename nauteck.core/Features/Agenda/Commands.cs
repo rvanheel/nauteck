@@ -1,6 +1,4 @@
-﻿using MediatR;
-
-namespace nauteck.core.Features.Agenda;
+﻿namespace nauteck.core.Features.Agenda;
 
 public static class Commands
 {

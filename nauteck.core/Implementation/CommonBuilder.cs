@@ -1,13 +1,9 @@
-﻿using System.Globalization;
-
-using iText.IO.Image;
+﻿using iText.IO.Image;
 using iText.Kernel.Font;
 using iText.Layout;
 using iText.Layout.Borders;
 using iText.Layout.Element;
 using iText.Layout.Properties;
-
-using nauteck.data.Dto.Client;
 
 namespace nauteck.core.Implementation;
 

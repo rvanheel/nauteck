@@ -1,9 +1,4 @@
-﻿using Dapper;
-
-using MediatR;
-
-using nauteck.core.Abstraction;
-using nauteck.data.Dto.Quotation;
+﻿using nauteck.data.Dto.Quotation;
 
 using static nauteck.core.Features.Commands.Quotation;
 using static nauteck.core.Implementation.DbConstants;
