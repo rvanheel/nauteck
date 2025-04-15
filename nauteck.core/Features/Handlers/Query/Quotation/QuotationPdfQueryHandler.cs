@@ -15,7 +15,7 @@ public sealed class QuotationPdfQueryHandler(IDapperContext dapperContext) : IRe
         var client = await GetClient(quotation.Result.ClientId);
 
         
-        var binaryData = QuotationBuilder.BuildQuotation(client, quotation.Result, quotationLines.Result.ToArray());
+        var binaryData = QuotationBuilder.BuildQuotation(client, quotation.Result, [.. quotationLines.Result]);
 
         return (binaryData, $"Offerte {quotation.Result.Reference}.pdf");
     }

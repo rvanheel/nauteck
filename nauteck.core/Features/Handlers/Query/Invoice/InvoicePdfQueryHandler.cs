@@ -15,10 +15,9 @@ public sealed class InvoicePdfQueryHandler(IDapperContext dapperContext) : IRequ
         var client = await GetClient(invoice.Result.ClientId);
 
         
-        //var binaryData = InvoiceBuilder.BuildInvoice(client, invoice.Result, invoiceLines.Result.ToArray());
+        var binaryData = InvoiceBuilder.BuildInvoice(client, invoice.Result, [.. invoiceLines.Result]);
 
-        //return (binaryData, $"Offerte {invoice.Result.Reference}.pdf");
-        return (BinaryData.Empty, "");
+        return (binaryData, $"Factuur {invoice.Result.Reference}.pdf");
     }
 
     #region Private Methods

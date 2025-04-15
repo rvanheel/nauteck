@@ -1,13 +1,13 @@
-﻿@using nauteck.data.Dto.Quotation
-@model QuotationDto;
+﻿@using nauteck.data.Dto.Invoice
+@model InvoiceDto;
 
-<div class="modal" id="modal-quotation-line" tabindex="-1">
-    @using (Html.BeginForm("SaveOrUpdateLine", "Quotation", null, FormMethod.Post, antiforgery: true, htmlAttributes: new { id = "form-quotation-line" }))
+<div class="modal" id="modal-invoice-line" tabindex="-1">
+    @using (Html.BeginForm("SaveOrUpdateLine", "Invoice", null, FormMethod.Post, antiforgery: true, htmlAttributes: new { id = "form-invoice-line" }))
     {
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Offerte Regel</h5>
+                    <h5 class="modal-title">Factuur Regel</h5>
                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" style="display: grid; grid-template-columns: 1fr 1fr 1fr 4fr; gap: 1rem;">
@@ -41,6 +41,6 @@
             </div>
         </div>
         <input name="Id" type="hidden" />
-        <input name="QuotationId" type="hidden" value="@Model.Id" />
+        <input name="InvoiceId" type="hidden" value="@Model.Id" />
     }
 </div>

@@ -1,0 +1,142 @@
+﻿@using MediatR
+@using nauteck.core.Implementation
+@using nauteck.data.Dto.Invoice
+@using nauteck.web.Implementation
+@using static nauteck.core.Features.Queries.Invoice
+
+@inject IMediator Mediator
+
+@model InvoiceDto
+@{
+    var client = Mediator.Send(new nauteck.core.Features.Queries.Client.ClientByIdQuery(Model.ClientId));
+    var invoiceLinesTask = Mediator.Send(new InvoiceLineQuery(Model.Id));
+    await Task.WhenAll(client, invoiceLinesTask);
+
+    var invoiceLines = invoiceLinesTask.Result.ToArray();
+    var invoiceSum = invoiceLines.Sum(l => l.Quantity * l.Amount * (1 + (l.Tax / 100.0m)));
+    var invoiceTotaal = invoiceLines.Sum(l => l.Quantity * l.Amount);
+    var btwSum = invoiceLines.Sum(l => l.Quantity * l.Amount * (l.Tax / 100.0m));
+    var invoiceStatus = Constants.Status.All.Select(x => new SelectListItem(x, x)).ToArray();
+
+    var disabled = Model.Id.Equals(Guid.Empty) ? "disabled" : "";
+}
+<div class="m-2 p-4 bg-white rounded-3 shadow-lg">
+    <div class="row"><div class="col"><p class="lead fw-bold text-uppercase">Factuur</p></div></div>
+
+    <div style="display: grid; grid-template-columns: auto 3fr; gap: 5rem;">
+
+        <div>
+            <span class="fw-bold text-primary-emphasis">
+                <i class="bi bi-person"></i> @Html.DisplayFor(x => x.Preamble)
+                <a asp-controller="Client" asp-action="Edit" asp-route-id="@client.Result.Id" title="Client Bekijken">
+                    @Html.DisplayFor(_ => client.Result.FirstName)
+                    @Html.DisplayFor(_ => client.Result.Infix)
+                    @Html.DisplayFor(_ => client.Result.LastName)
+                </a>
+            </span>
+            <address>
+                @Html.DisplayFor(_ => client.Result.Address) @Html.DisplayFor(_ => client.Result.Number)@Html.DisplayFor(_ => client.Result.Extension)<br />
+                @Html.DisplayFor(_ => client.Result.Zipcode) @Html.DisplayFor(_ => client.Result.City)<br />
+                @Html.DisplayFor(_ => client.Result.Region) @Html.DisplayFor(_ => client.Result.Country)
+            </address>
+        </div>
+
+        <div>
+            @using (Html.BeginForm("SaveOrUpdate", "Invoice", null, FormMethod.Post, antiforgery: true, htmlAttributes: new { autocomplete = "off", id = "form-invoice" }))
+            {
+
+                <div style="display: grid; grid-template-columns: auto auto auto 1fr; gap: 1rem;">
+
+                    <div>
+                        @Html.LabelFor(x => x.Reference, htmlAttributes: new { @class = "form-label fw-bold" })
+                        @Html.TextBoxFor(x => x.Reference, htmlAttributes: new { @class = "form-control", @readonly = "readonly", type = "text" })
+                    </div>
+                    <div>
+                        @Html.LabelFor(x => x.Date, htmlAttributes: new { @class = "form-label fw-bold" })
+                        &nbsp;<span class="text-danger fw-bold">*</span>
+                        @Html.TextBoxFor(x => x.Date, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control", min = Model.Date.ToString("yyyy-MM-dd"), type = "date" })
+                    </div>
+                    <div>
+                        @Html.LabelFor(x => x.Amount, htmlAttributes: new { @class = "form-label fw-bold" })
+                        &nbsp;<span class="text-danger fw-bold">*</span>
+                        @Html.TextBox(nameof(Model.Amount), invoiceSum, "{0:n2}", htmlAttributes: new { @class = "form-control", @readonly = "readonly", type = "text" })
+                    </div>
+                    <div>
+                        @Html.LabelFor(x => x.Status, htmlAttributes: new { @class = "form-label fw-bold" })
+                        @Html.DropDownListFor(x => x.Status, invoiceStatus, "", htmlAttributes: new { @class = "form-select" })
+                    </div>
+
+                    <div class="grid-col-4">
+                        @Html.LabelFor(x => x.Description, htmlAttributes: new { @class = "form-label fw-bold" })
+                        @Html.TextBoxFor(x => x.Description, htmlAttributes: new { @class = "form-control", type = "text" })
+                    </div>
+
+                    <div><a asp-action="Index" asp-controller="Invoice" class="btn btn-light" title="Terug"><i class="bi bi-arrow-left"></i>&nbsp;Terug</a></div>
+                    <div class="grid-col-3"><button class="btn btn-primary" title="Opslaan" type="submit"><i class="bi bi-save"></i>&nbsp;Opslaan</button></div>
+
+
+                </div>
+                @Html.HiddenFor(x => x.Id)
+                @Html.HiddenFor(x => x.ClientId)
+            }
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <p class="lead fw-bold text-uppercase mt-5">Factuur Regels</p>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-dark" @disabled id="button-add-line" title="Regel toevoegen" type="button"><i class="bi bi-body-text"></i>&nbsp;Regel toevoegen</button>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped table-responsive">
+        <thead>
+            <tr>
+                <th style="width: 5rem;"></th>
+                <th>Omschrijving</th>
+                <th style="text-align: right; width: 10rem;">Aantal</th>
+                <th style="text-align: right; width: 10rem;">Bedrag</th>
+                <th style="text-align: right; width: 10rem;">BTW</th>
+                <th style="text-align: right; width: 5rem;">%</th>
+                <th style="text-align: right; width: 10rem;">Totaal</th>
+                <td style="width: 5rem;"></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var line in invoiceLines)
+            {
+                var attributes = Html.GenerateDataAttributes(line);
+                <tr>
+                    <td class="text-center"><button class="btn btn-warning btn-sm" @attributes data-type="edit" title="Bewerken" type="button"><i class="bi bi-pencil"></i></button></td>
+                    <td>@line.Description</td>
+                    <td style="text-align: right">@line.Quantity</td>
+                    <td style="text-align: right">@($"{line.Amount:n2}")</td>
+                    <td style="text-align: right">@($"{line.Amount * line.Quantity * (line.Tax / 100.0m):n2}")</td>
+                    <td style="text-align: right">@($"{line.Tax:n0}%")</td>
+                    <td style="text-align: right">@($"{line.Amount * line.Quantity * (1 + (line.Tax / 100.0m)):n2}")</td>
+                    <td class="text-center"><a asp-action="DeleteInvoiceLine" asp-route-id="@line.Id" asp-route-invoiceid="@line.InvoiceId" class="btn btn-danger btn-sm" title="Verwijderen"><i class="bi bi-trash"></i></a></td>
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th style="text-align: right">@($"{invoiceTotaal:c2}")</th>
+                <th style="text-align: right">@($"{btwSum:c2}")</th>
+                <td></td>
+                <th style="text-align: right">@($"{invoiceSum:c2}")</th>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@await Html.PartialAsync("Partials/InvoiceLine", Model)
+
+@section Scripts {
+    <script src="~/js/invoice/edit.js" asp-append-version="true"></script>
+}
