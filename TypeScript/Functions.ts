@@ -32,6 +32,10 @@ class Functions {
       }
     });
   }
+  static FloorDescriptionChange(this: HTMLSelectElement){
+    const form = this.closest("form") as HTMLFormElement;
+    form.elements["Amount"].value = this.options[this.selectedIndex].dataset.price;
+  }
   static async GetBlobSasUrl(origin: string, path: string, extension: string) {
     const uri = new URL(path, origin);
     uri.searchParams.append("extension", extension);
@@ -44,9 +48,6 @@ class Functions {
   static GetHtmlInputElementById(id: string): HTMLInputElement {
     return document.getElementById(id) as HTMLInputElement;
   }
-  static GetHtmlSelectElement(selector: string): HTMLSelectElement {
-    return document.querySelector(selector) as HTMLSelectElement;
-  }
   static GetHtmlSelectElementById(id: string): HTMLSelectElement {
     return document.getElementById(id) as HTMLSelectElement;
   }  
@@ -54,12 +55,49 @@ class Functions {
     const select = Functions.GetHtmlSelectElementById(selector);
     return select.options[select.selectedIndex] as HTMLOptionElement;
 }
+  static InitInvoiceOrQuotationFormLine(identifier: string) {
+    $(identifier).validate({
+      messages: {
+        Amount: "Bedrag is vereist",
+        Description: "Omschrijving is vereist",
+        Quantity: "Aantal is vereist"
+      },
+      rules: {
+        Amount: {
+          required: true,
+          number: true
+        },
+        Description: {
+          required: true
+        },
+        Quantity: {
+          required: true,
+          number: true
+        }
+      }
+    });
+  }
   static RemoveToastr() {
     toastr.clear();
   }
   static SetHtmlTextContent(selector: string, text: string) {
     const element = document.querySelector(selector) as HTMLElement;
     element.textContent = text;
+  }
+  static ShowModalLine(id: string, formId: string){
+    const modal = $(id);
+    const form = document.getElementById(formId) as HTMLFormElement;
+    form.reset();
+
+    (form.elements.namedItem("Id") as HTMLInputElement).value = '00000000-0000-0000-0000-000000000000';
+
+    modal.on("show.bs.modal", function () {
+      setTimeout(() => {
+        (form.elements.namedItem("Quantity") as HTMLInputElement).focus();
+      }, 250);
+    });
+
+    modal.modal("show");
   }
   static ShowToastr(text: string = 'Please wait..', title: string = 'LOADING') {
     toastr.info(text, title, {
@@ -76,7 +114,6 @@ class Functions {
       timeOut: 0
     });
   }
-
   static ToastrError(title: string, message: string) {
     toastr.error(message, title, {
       hideMethod: 'slideUp',

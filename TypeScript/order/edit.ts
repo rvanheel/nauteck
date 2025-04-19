@@ -1,4 +1,4 @@
-import Functions from "../account/Functions";
+import Functions from '../Functions';
 
 class OrderEdit {
   static NumberFormat = new Intl.NumberFormat('en-US', { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 });

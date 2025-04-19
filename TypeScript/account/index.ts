@@ -1,4 +1,5 @@
-import Functions from "./Functions";
+import Functions from '../Functions';
+
 
 class AccountIndex {
   static async Delete(this: HTMLButtonElement) {

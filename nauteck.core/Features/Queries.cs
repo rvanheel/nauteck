@@ -1,5 +1,6 @@
 ﻿using nauteck.data.Dto.Invoice;
 using nauteck.data.Dto.Quotation;
+using nauteck.data.Entities.Floor.Color;
 
 namespace nauteck.core.Features;
 
@@ -8,6 +9,12 @@ public static class Queries
     public static class Client
     {
         public sealed record ClientByIdQuery(Guid Id) : IRequest<ClientDto>;
+    }
+    public static class Floor
+    {
+        public sealed record FloorColorQuery : IRequest<IEnumerable<FloorColor>?>;
+        public sealed record FloorColorExclusiveQuery : IRequest<IEnumerable<FloorColorExclusive>?>;
+        public sealed record FloorQuery() : IRequest<IEnumerable<data.Entities.Floor.Floor>?>;
     }
     public static class Invoice
     {

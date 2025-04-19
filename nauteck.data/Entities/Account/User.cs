@@ -34,9 +34,4 @@ public sealed class User
     public string ModifiedBy { get; set; } = string.Empty;
 
     public Guid ActivationCode { get; set; } = Guid.Empty;
-
-
-    // navigation properties
-    public Guid DealerId { get; set; }
-    public Dealer.Dealer Dealer { get; set; } = null!;
 }

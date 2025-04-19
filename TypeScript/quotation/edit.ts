@@ -1,18 +1,14 @@
+import Functions from '../Functions';
+
 class QuotationEdit {
+	static AddColor() {
+		Functions.ShowModalLine("#modal-quotation-color", "form-color-line");
+	}
+	static AddFloor() {
+		Functions.ShowModalLine("#modal-quotation-floor", "form-floor-line");
+	}
 	static AddLine() {
-		const modal = $("#modal-quotation-line");
-		const form = document.getElementById("form-quotation-line") as HTMLFormElement;
-		form.reset();
-
-		(form.elements.namedItem("Id") as HTMLInputElement).value = '00000000-0000-0000-0000-000000000000';
-
-		modal.on("show.bs.modal", function () {
-			setTimeout(() => {
-				(form.elements.namedItem("Quantity") as HTMLInputElement).focus();
-			}, 250);
-		});
-
-		modal.modal("show");
+		Functions.ShowModalLine("#modal-quotation-line", "form-quotation-line");
 	}
 	static EditLine(this: HTMLElement){
 		const button = this as HTMLButtonElement;
@@ -29,32 +25,13 @@ class QuotationEdit {
 		modal.modal("show");
 	}
 	static Initialize() {
-		QuotationEdit.InitForm("#form-quotation-line");
+		["#form-invoice-line", "#form-floor-line", "#form-color-line"].forEach(Functions.InitInvoiceOrQuotationFormLine);
+		document.getElementById("button-add-color").addEventListener("click", QuotationEdit.AddColor);
+		document.getElementById("button-add-floor").addEventListener("click", QuotationEdit.AddFloor);
 		document.getElementById("button-add-line").addEventListener("click", QuotationEdit.AddLine);
 		document.querySelectorAll("button[data-type='edit']").forEach(button => button.addEventListener("click", QuotationEdit.EditLine));
-	}
-	static InitForm(identifier: string) {
-		$(identifier).validate({
-			messages: {
-				Amount: "Bedrag is vereist",
-				Description: "Omschrijving is vereist",
-				Quantity: "Aantal is vereist"
-			},
-			rules: {
-				Amount: {
-					required: true,
-					number: true
-				},
-				Description: {
-					required: true
-				},
-				Quantity: {
-					required: true,
-					number: true
-				}
-			}
-		});
-	}
 
+		["Omschrijving_1", "Omschrijving_2"].forEach(xid => Functions.GetHtmlSelectElementById(xid).addEventListener("change", Functions.FloorDescriptionChange));
+	}
 }
 document.addEventListener("DOMContentLoaded", QuotationEdit.Initialize);

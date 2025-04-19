@@ -1,4 +1,4 @@
-import Functions from "./Functions";
+import Functions from '../Functions';
 
 class Login {
   static Init() {

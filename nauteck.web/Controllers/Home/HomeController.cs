@@ -1,12 +1,8 @@
 using System.Diagnostics;
-using MediatR;
-
 using Microsoft.AspNetCore.Mvc;
-
 using nauteck.core.Features.Client;
-using nauteck.web.Models;
 
-namespace nauteck.web.Controllers;
+namespace nauteck.web.Controllers.Home;
 
 public class HomeController(IMediator mediator) : BaseController(mediator)
 {

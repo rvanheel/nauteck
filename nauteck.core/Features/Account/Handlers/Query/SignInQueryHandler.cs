@@ -33,7 +33,6 @@ public sealed class SignInQueryHandler(IDapperContext dapperContext, IHelper hel
             new("iat", DateTimeOffset.Now.ToUnixTimeSeconds().ToString()),
             new(ClaimTypes.Email, $"{u.Email}"),
             new(ClaimTypes.Name, helper.GetFullName(u.FirstName, u.Infix, u.LastName)),
-            new(ClaimTypes.PrimaryGroupSid, $"{u.DealerId}"),
             new(ClaimTypes.Sid, $"{u.Id}")
         };
 
@@ -46,7 +45,7 @@ public sealed class SignInQueryHandler(IDapperContext dapperContext, IHelper hel
     }
     private Task<data.Entities.Account.User?> GetUserByEmail(string? email)
     {
-        var query = $"SELECT * FROM {DbConstants.Tables.User} WHERE Email = @Email AND Active = 1 LIMIT 1";
+        const string query = $"SELECT * FROM {DbConstants.Tables.User} WHERE Email = @Email AND Active = 1 LIMIT 1";
         return dapperContext.Connection.QueryFirstOrDefaultAsync<data.Entities.Account.User>(query, new { email });
     }
     #endregion

@@ -1,0 +1,61 @@
+﻿
+@using MediatR
+@using nauteck.data.Dto.Quotation
+@using static nauteck.core.Features.Queries.Floor
+
+@inject IMediator mediator
+@model QuotationDto;
+
+@{
+    var floors = await mediator.Send(new FloorQuery());
+}
+
+
+<div class="modal" id="modal-quotation-floor" tabindex="-1">
+    @using (Html.BeginForm("SaveOrUpdateLine", "Quotation", null, FormMethod.Post, antiforgery: true, htmlAttributes: new { id = "form-floor-line" }))
+    {
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Offerte Vloer</h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="display: grid; grid-template-columns: 1fr 1fr 1fr 4fr; gap: 1rem;">
+                    <div>
+                        <label class="form-label fw-bold" for="Aantal_1">Aantal m2</label>
+                        <input class="form-control" id="Aantal_1" name="Quantity" step="0.01" type="number" />
+                    </div>
+
+                    <div>
+                        <label class="form-label fw-bold" for="Bedrag_1">Bedrag</label>
+                        <input class="form-control" id="Bedrag_1" name="Amount" step="0.01" type="number" />
+                    </div>
+                    <div>
+                        <label class="form-label fw-bold" for="Btw_1">BTW</label>
+                        <select class="form-select" id="Btw_1" name="Tax" title="Tax">
+                            <option value="0.00">0%</option>
+                            <option value="9.00">9%</option>
+                            <option selected value="21.00">21%</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label fw-bold" for="Omschrijving_1">Vloer</label>
+                        <select class="form-select" id="Omschrijving_1" name="Description" title="Vloer">
+                            <option selected disabled></option>
+                            @foreach(var floor in floors ?? [])
+                            {
+                                <option data-price="@floor.Price" value="@floor.Description">@floor.Description</option>
+                            }
+                        </select>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit"><i class="bi bi-save"></i>&nbsp;Opslaan</button>
+                </div>
+            </div>
+        </div>
+        <input name="Id" type="hidden" />
+        <input name="QuotationId" type="hidden" value="@Model.Id" />
+    }
+</div>

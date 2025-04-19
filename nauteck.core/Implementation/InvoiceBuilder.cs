@@ -1,15 +1,10 @@
-﻿using System.Threading;
-
-using iText.Kernel.Pdf;
+﻿using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Borders;
 using iText.Layout.Element;
 using iText.Layout.Properties;
 
-using Mysqlx.Expr;
-
 using nauteck.data.Dto.Invoice;
-using nauteck.data.Dto.Quotation;
 
 namespace nauteck.core.Implementation;
 
@@ -69,7 +64,7 @@ public static class InvoiceBuilder
     public static Document CreateFooter(this Document document)
     {
         var p = new Paragraph()
-            .Add("Wij verzoeken u vriendelijk het bovenstaande bedrag binnen 14 dagen over te maken onder vermelding van het factuurnummer. Op alle diensten zijn onze algemene voorwaarden van toepassing. Deze kunt u downloaden van onze website.")
+            .Add("Wij verzoeken u vriendelijk het verschuldigde bedrag binnen 14 dagen over te maken onder vermelding van het factuurnummer.")
             .SetFixedPosition(1, 70, 100, 450)
             .SetFontSize(10);
 
@@ -104,7 +99,7 @@ public static class InvoiceBuilder
 
         CommonBuilder.AddRow(table, "Factuurnummer", referentie);
         CommonBuilder.AddRow(table, "Factuurdatum", string.Format(CInfo, "{0:dd-MM-yyyy}", factuurDatum));
-        CommonBuilder.AddRow(table, "Vervaldatum", string.Format(CInfo, "{0:dd-MM-yyyy}", factuurDatum.AddMonths(1)));
+        CommonBuilder.AddRow(table, "Vervaldatum", string.Format(CInfo, "{0:dd-MM-yyyy}", factuurDatum.AddDays(14)));
 
         return document.Add(table);
     }
@@ -177,7 +172,7 @@ public static class InvoiceBuilder
 
 
         var p1 = new Paragraph().Add("IBAN");
-        var p2 = CommonBuilder.CreateBoldParagraph(TextAlignment.CENTER).Add("NL01 ABNA 012 34 56 789");
+        var p2 = CommonBuilder.CreateBoldParagraph(TextAlignment.CENTER).Add("NL06 RBRB 0205 0633 57");
 
         var p3 = new Paragraph().Add("FACTUUR");
         var p4 = CommonBuilder.CreateBoldParagraph(TextAlignment.CENTER).Add(reference);

@@ -28,9 +28,6 @@ public static class DbConstants
         public const string Agenda = "`agenda`";
         public const string Attachment = "`attachment`";
         public const string Dealer = "`dealer`";
-        public const string Floor = "`floor`";
-        public const string FloorColor = "`floorcolor`";
-        public const string FloorColorExclusive = "`floorcolorexclusive`";
         public const string FloorConstruction = "`floorconstruction`";
         public const string FloorDesign = "`floordesign`";
         public const string FloorLogo = "`floorlogo`";
@@ -68,6 +65,52 @@ public static class DbConstants
                 public const string ModifiedAt = "`ModifiedAt`";
                 public const string ModifiedBy = "`ModifiedBy`";
                 public const string Remarks = "`Remarks`";
+                public const string Active = "`Active`";
+            }
+        }
+        public static class Floor
+        {
+            public const string TableName = "`floor`";
+            public static class Columns
+            {
+                public const string Id = "`Id`";
+                public const string Description = "`Description`";
+                public const string Comment = "`Comment`";
+                public const string Price = "`Price`";
+                public const string CreatedAt = "`CreatedAt`";
+                public const string CreatedBy = "`CreatedBy`";
+                public const string ModifiedAt = "`ModifiedAt`";
+                public const string ModifiedBy = "`ModifiedBy`";
+                public const string Active = "`Active`";
+            }
+        }
+        public static class FloorColor
+        {
+            public const string TableName = "`floorcolor`";
+            public static class Columns
+            {
+                public const string Id = "`Id`";
+                public const string Description = "`Description`";
+                public const string Comment = "`Comment`";
+                public const string CreatedAt = "`CreatedAt`";
+                public const string CreatedBy = "`CreatedBy`";
+                public const string ModifiedAt = "`ModifiedAt`";
+                public const string ModifiedBy = "`ModifiedBy`";
+                public const string Active = "`Active`";
+            }
+        }
+        public static class FloorColorExclusive
+        {
+            public const string TableName = "`floorcolorexclusive`";
+            public static class Columns
+            {
+                public const string Id = "`Id`";
+                public const string Description = "`Description`";
+                public const string Comment = "`Comment`";
+                public const string CreatedAt = "`CreatedAt`";
+                public const string CreatedBy = "`CreatedBy`";
+                public const string ModifiedAt = "`ModifiedAt`";
+                public const string ModifiedBy = "`ModifiedBy`";
                 public const string Active = "`Active`";
             }
         }

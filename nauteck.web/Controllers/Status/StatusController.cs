@@ -1,6 +1,4 @@
-﻿using MediatR;
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 using static nauteck.core.Features.Status.Commands;
 using static nauteck.core.Features.Status.Queries;

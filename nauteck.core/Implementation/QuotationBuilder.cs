@@ -131,7 +131,7 @@ public static class QuotationBuilder
         AddCell(CommonBuilder.CreateBorderlessCell().Add(CommonBuilder.CreateBoldParagraph(TextAlignment.RIGHT).Add(CommonBuilder.GetNumberFormat(CInfo, _amount))));
 
 
-        foreach (var t in _taxes)
+        foreach (var t in _taxes ?? [])
         {
             var taxTotal = t.Sum(r => r.Quantity * r.Amount * (r.Tax / 100));
             if (taxTotal == 0) continue;

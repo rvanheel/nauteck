@@ -1,6 +1,4 @@
-﻿using MediatR;
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 using nauteck.core.Abstraction;
 using nauteck.data.Models.Attachment;
@@ -19,9 +17,9 @@ public sealed class AttachmentController(IMediator mediator, IBlobStorage blobSt
     }
 
     [HttpDelete]
-    public async Task<IActionResult> Delete(Guid Id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
-        await Mediator.Send(new DeleteAttachmentCommand(Id), cancellationToken);
+        await Mediator.Send(new DeleteAttachmentCommand(id), cancellationToken);
         return Ok();
     }
 

@@ -88,6 +88,12 @@
             <p class="lead fw-bold text-uppercase mt-5">Offerte Regels</p>
         </div>
         <div class="col-auto">
+            <button class="btn btn-light btn-outline-dark" @disabled id="button-add-floor" title="Vloer toevoegen" type="button"><i class="bi bi-body-text"></i>&nbsp;Vloer toevoegen</button>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-close-white btn-outline-primary" @disabled id="button-add-color" title="Vloer toevoegen" type="button"><i class="bi bi-body-text"></i>&nbsp;Kleur toevoegen</button>
+        </div>
+        <div class="col-auto">
             <button class="btn btn-dark" @disabled id="button-add-line" title="Regel toevoegen" type="button"><i class="bi bi-body-text"></i>&nbsp;Regel toevoegen</button>
         </div>
     </div>
@@ -135,6 +141,8 @@
 </div>
 
 @await Html.PartialAsync("Partials/QuotationLine", Model)
+@await Html.PartialAsync("Partials/FloorLine", Model)
+@await Html.PartialAsync("Partials/ColorLine", Model)
 
 @section Scripts {
     <script src="~/js/quotation/edit.js" asp-append-version="true"></script>

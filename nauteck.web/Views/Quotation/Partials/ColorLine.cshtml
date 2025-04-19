@@ -1,0 +1,71 @@
+﻿
+@using MediatR
+@using nauteck.data.Dto.Quotation
+@using static nauteck.core.Features.Queries.Floor
+
+@inject IMediator mediator
+@model QuotationDto;
+
+@{
+    var c1 = mediator.Send(new FloorColorQuery());
+    var c2 = mediator.Send(new FloorColorExclusiveQuery());
+    await Task.WhenAll(c1, c2);
+}
+
+
+<div class="modal" id="modal-quotation-color" tabindex="-1">
+    @using (Html.BeginForm("SaveOrUpdateLine", "Quotation", null, FormMethod.Post, antiforgery: true, htmlAttributes: new { id = "form-color-line" }))
+    {
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Offerte Vloer</h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="display: grid; grid-template-columns: 1fr 1fr 1fr 4fr; gap: 1rem;">
+                    <div>
+                        <label class="form-label fw-bold" for="Aantal_2">Aantal m2</label>
+                        <input class="form-control" id="Aantal_2" name="Quantity" step="0.01" type="number" />
+                    </div>
+
+                    <div>
+                        <label class="form-label fw-bold" for="Bedrag_2">Bedrag</label>
+                        <input class="form-control" id="Bedrag_2" name="Amount" step="0.01" type="number" />
+                    </div>
+                    <div>
+                        <label class="form-label fw-bold" for="Btw_2">BTW</label>
+                        <select class="form-select" id="Btw_2" name="Tax" title="Tax">
+                            <option value="0.00">0%</option>
+                            <option value="9.00">9%</option>
+                            <option selected value="21.00">21%</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label fw-bold" for="Omschrijving_2">Vloer</label>
+                        <select class="form-select" id="Omschrijving_2" name="Description" title="Vloer">
+                            <option selected disabled></option>
+                            <optgroup label="Standaard Kleur">
+                            @foreach(var c in c1.Result ?? [])
+                            {
+                                    <option data-price="0.00" value="Standaard Kleur - @c.Description">Standaard Kleur - @c.Description</option>
+                            }
+                            </optgroup>
+                            <optgroup label="Exclusieve Kleur">
+                                @foreach (var c in c2.Result ?? [])
+                                {
+                                    <option data-price="20.00" value="Exclusieve Kleur - @c.Description">Exclusieve Kleur - @c.Description</option>
+                                }
+                            </optgroup>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit"><i class="bi bi-save"></i>&nbsp;Opslaan</button>
+                </div>
+            </div>
+        </div>
+        <input name="Id" type="hidden" />
+        <input name="QuotationId" type="hidden" value="@Model.Id" />
+    }
+</div>

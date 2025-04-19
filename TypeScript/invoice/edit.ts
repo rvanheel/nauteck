@@ -1,18 +1,14 @@
+import Functions from '../Functions';
+
 class InvoiceEdit {
+	static AddColor() {
+		Functions.ShowModalLine("#modal-invoice-color", "form-color-line");
+	}
+	static AddFloor() {
+		Functions.ShowModalLine("#modal-invoice-floor", "form-floor-line");
+	}
 	static AddLine() {
-		const modal = $("#modal-invoice-line");
-		const form = document.getElementById("form-invoice-line") as HTMLFormElement;
-		form.reset();
-
-		(form.elements.namedItem("Id") as HTMLInputElement).value = '00000000-0000-0000-0000-000000000000';
-
-		modal.on("show.bs.modal", function () {
-			setTimeout(() => {
-				(form.elements.namedItem("Quantity") as HTMLInputElement).focus();
-			}, 250);
-		});
-
-		modal.modal("show");
+		Functions.ShowModalLine("#modal-invoice-line", "form-invoice-line");
 	}
 	static EditLine(this: HTMLElement){
 		const button = this as HTMLButtonElement;
@@ -29,32 +25,14 @@ class InvoiceEdit {
 		modal.modal("show");
 	}
 	static Initialize() {
-		InvoiceEdit.InitForm("#form-invoice-line");
+		["#form-invoice-line", "#form-floor-line", "#form-color-line"].forEach(Functions.InitInvoiceOrQuotationFormLine);
+
+		document.getElementById("button-add-color").addEventListener("click", InvoiceEdit.AddColor);
+		document.getElementById("button-add-floor").addEventListener("click", InvoiceEdit.AddFloor);
 		document.getElementById("button-add-line").addEventListener("click", InvoiceEdit.AddLine);
 		document.querySelectorAll("button[data-type='edit']").forEach(button => button.addEventListener("click", InvoiceEdit.EditLine));
-	}
-	static InitForm(identifier: string) {
-		$(identifier).validate({
-			messages: {
-				Amount: "Bedrag is vereist",
-				Description: "Omschrijving is vereist",
-				Quantity: "Aantal is vereist"
-			},
-			rules: {
-				Amount: {
-					required: true,
-					number: true
-				},
-				Description: {
-					required: true
-				},
-				Quantity: {
-					required: true,
-					number: true
-				}
-			}
-		});
-	}
 
+		["Omschrijving_1", "Omschrijving_2"].forEach(xid => Functions.GetHtmlSelectElementById(xid).addEventListener("change", Functions.FloorDescriptionChange));
+	}
 }
 document.addEventListener("DOMContentLoaded", InvoiceEdit.Initialize);

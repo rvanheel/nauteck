@@ -53,11 +53,12 @@ internal static class CommonBuilder
     public static Document CreateHeader(this Document document)
     {
         // header table
-        var header = new Table(3).SetFontSize(9).UseAllAvailableWidth();
+        var header = new Table(4).SetFontSize(9).UseAllAvailableWidth();
 
         header.AddCell(CreateLogoCell());
         header.AddCell(CreateBorderlessCell().Add(CreateParagraph().Add("Spijksedijk 3-186").Add(Environment.NewLine).Add("6917 AB Spijk (GLD)")));
         header.AddCell(CreateBorderlessCell().Add(CreateParagraph().Add("E: info@nauteckflooring.com").Add(Environment.NewLine).Add("T: +31 (0)6 51 52 24 24")));
+        header.AddCell(CreateBorderlessCell().Add(CreateParagraph().Add("KVK: 81114486").Add(Environment.NewLine).Add("BTW: NL861937429B01")));
 
         return document.Add(header);
     }
