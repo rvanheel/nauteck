@@ -64,7 +64,7 @@ public static class InvoiceBuilder
     public static Document CreateFooter(this Document document)
     {
         var p = new Paragraph()
-            .Add("Wij verzoeken u vriendelijk het verschuldigde bedrag binnen 14 dagen over te maken onder vermelding van het factuurnummer.")
+            .Add("Wij verzoeken u vriendelijk het verschuldigde bedrag per omgaande over te maken onder vermelding van het factuurnummer. Na ontvangst betaling, start het designproces.")
             .SetFixedPosition(1, 70, 100, 450)
             .SetFontSize(10);
 
@@ -169,7 +169,14 @@ public static class InvoiceBuilder
             .UseAllAvailableWidth()
             .SetFixedPosition(1, 70, 150, 490)
             .SetFontSize(10);
-
+        
+        decimal tax = 0.0m;
+        foreach (var t in _taxes ?? [])
+        {
+            var taxTotal = t.Sum(r => r.Quantity * r.Amount * (r.Tax / 100));
+            if (taxTotal == 0) continue;
+            tax += taxTotal;
+        }
 
         var p1 = new Paragraph().Add("IBAN");
         var p2 = CommonBuilder.CreateBoldParagraph(TextAlignment.CENTER).Add("NL06 RBRB 0205 0633 57");
@@ -178,7 +185,7 @@ public static class InvoiceBuilder
         var p4 = CommonBuilder.CreateBoldParagraph(TextAlignment.CENTER).Add(reference);
 
         var p5 = new Paragraph().Add("BEDRAG");
-        var p6 = CommonBuilder.CreateBoldParagraph(TextAlignment.CENTER).Add(CommonBuilder.GetMoneyFormat(CInfo, _amount));
+        var p6 = CommonBuilder.CreateBoldParagraph(TextAlignment.CENTER).Add(CommonBuilder.GetMoneyFormat(CInfo, _amount + tax));
 
         var c1 = new Cell().SetPadding(10).SetTextAlignment(TextAlignment.CENTER).Add(p1).Add(p2);
         var c2 = CommonBuilder.CreateBorderlessCell();
