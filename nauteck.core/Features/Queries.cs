@@ -20,7 +20,7 @@ public static class Queries
     {
         public sealed record InvoiceByIdQuery(Guid Id) : IRequest<InvoiceDto>;
         public sealed record InvoicePdfQuery(Guid Id) : IRequest<(BinaryData, string)>;
-        public sealed record InvoiceQuery : IRequest<IEnumerable<InvoiceDto>>;
+        public sealed record InvoiceQuery(string? Status) : IRequest<IEnumerable<InvoiceDto>>;
         public sealed record InvoiceLineQuery(Guid Id) : IRequest<IEnumerable<InvoiceLineDto>>;
     }
     public static class Quotation

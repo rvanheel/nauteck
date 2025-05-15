@@ -1,4 +1,9 @@
 ﻿@using nauteck.data.Dto.Invoice
+@using nauteck.core.Implementation
+@{
+    var invoiceStatus = Constants.Status.All.Select(x => new SelectListItem(x, x)).ToArray();
+}
+
 @model IEnumerable<InvoiceDto>
 
 <div class="m-2 p-2 rounded-3 border shadow-lg">
@@ -8,6 +13,8 @@
             <p class="lead fw-bold text-uppercase">Facturen</p>
         </div>
         <div class="col-auto">
+            @Html.Label("Status", "Status", htmlAttributes: new { @class = "form-label fw-bold" })
+            @Html.DropDownList("Status", invoiceStatus, "", htmlAttributes: new { @class = "form-select" })
         </div>
     </div>
 
@@ -60,19 +67,6 @@
     </table>
 </div>
 
-@section Scripts {
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', ()=>{
-            $("#table-quotations").DataTable({
-                autoWidth: false,
-                columnDefs:[
-                    { targets: [0,7], className: 'text-center', width: '5rem'},
-                    { targets: [1,2], className: 'text-center', width: '8rem'},
-                    { targets: [3,6], type: 'num', width: '10rem'}
-                ],
-                order: [[3, 'desc']],
-                stateSave: true
-            });
-        });
-    </script>
+@section Scripts {    
+    <script src="~/js/invoice/index.js" asp-append-version="true"></script>
 }

@@ -23,9 +23,9 @@ public class InvoiceController(IMediator mediator) : BaseController(mediator)
             : await Mediator.Send(new Queries.Invoice.InvoiceByIdQuery(id), cancellationToken);
         return View(record);
     }
-    public async Task<IActionResult> Index(CancellationToken cancellationToken)
+    public async Task<IActionResult> Index([FromQuery(Name = "status")] string? status,CancellationToken cancellationToken)
     {
-        var records = await Mediator.Send(new Queries.Invoice.InvoiceQuery(), cancellationToken);
+        var records = await Mediator.Send(new Queries.Invoice.InvoiceQuery(status), cancellationToken);
         return View(records);
     }
     [HttpGet]

@@ -8,6 +8,7 @@ module.exports = {
         "Client.Edit": { import: path.resolve(__dirname, 'TypeScript', 'client', 'edit.ts'), filename: '../nauteck.web/wwwroot/js/client/edit.js' },
         "Home.Index": { import: path.resolve(__dirname, 'TypeScript', 'home', 'index.ts'), filename: '../nauteck.web/wwwroot/js/home/index.js' },
         "Invoice.Edit": { import: path.resolve(__dirname, 'TypeScript', 'invoice', 'edit.ts'), filename: '../nauteck.web/wwwroot/js/invoice/edit.js' },
+        "Invoice.Index": { import: path.resolve(__dirname, 'TypeScript', 'invoice', 'index.ts'), filename: '../nauteck.web/wwwroot/js/invoice/index.js' },
         "Quotation.Edit": { import: path.resolve(__dirname, 'TypeScript', 'quotation', 'edit.ts'), filename: '../nauteck.web/wwwroot/js/quotation/edit.js' },
         "Status.Index": { import: path.resolve(__dirname, 'TypeScript', 'status', 'index.ts'), filename: '../nauteck.web/wwwroot/js/status/index.js' },
     },    
