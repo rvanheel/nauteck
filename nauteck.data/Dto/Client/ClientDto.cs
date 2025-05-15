@@ -20,4 +20,5 @@ public sealed record ClientDto
     public string BoatBrand { get; init; } = "";
     public string BoatType { get; init; } = "";
     public bool Active { get; init; }
+    public DateTime CreatedAt { get; init; }
 }

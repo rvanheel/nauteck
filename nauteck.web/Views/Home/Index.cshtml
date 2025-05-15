@@ -43,6 +43,7 @@
                     <td>@record.BoatBrand</td>
                     <td>@record.BoatType</td>
                     <td><button data-url="@Url.Action("Delete", "Client", new {@record.Id})" class="btn btn-sm btn-danger" title="Verwijderen klant" type="button"><i class="bi bi-trash"></i></button></td>
+                    <td>@($"{record.CreatedAt:u}")</td>
                 </tr>
             }
         </tbody>

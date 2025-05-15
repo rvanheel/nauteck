@@ -33,6 +33,7 @@ public sealed class SignInQueryHandler(IDapperContext dapperContext, IHelper hel
             new("iat", DateTimeOffset.Now.ToUnixTimeSeconds().ToString()),
             new(ClaimTypes.Email, $"{u.Email}"),
             new(ClaimTypes.Name, helper.GetFullName(u.FirstName, u.Infix, u.LastName)),
+            new(ClaimTypes.GroupSid, $"{u.DealerId}"),
             new(ClaimTypes.Sid, $"{u.Id}")
         };
 

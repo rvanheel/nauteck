@@ -5,6 +5,7 @@ namespace nauteck.data.Entities.Account;
 public sealed class User
 {
     public Guid Id { get; set; }
+    public Guid DealerId { get; set; } = Guid.Empty;
 
     public string FirstName { get; set; } = string.Empty;
 

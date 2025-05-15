@@ -12,9 +12,10 @@ class HomeIndex {
     $('#table-orders').DataTable({
       autoWidth: false,
       columnDefs: [
-        { targets: [0, 10], className: "text-center", orderable: false, searchable: false, width: "2rem" }
+        { targets: [0, 10], className: "text-center", orderable: false, searchable: false, width: "2rem" },
+        { targets: [11], visible: true, searchable: false },
       ],
-      order: [[1, 'asc'], [3, 'asc'], [4, 'asc']],
+      orderFixed: [[11, 'desc']],
       deferRender: true,
       language: {
         url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Dutch.json'

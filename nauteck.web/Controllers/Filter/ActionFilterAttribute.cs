@@ -21,7 +21,7 @@ public class ActionFilterAttribute : Attribute, IActionFilter
         c.DisplayName = c.User.FindFirstValue(ClaimTypes.Name) ?? string.Empty;
         c.Email = c.User.FindFirstValue(ClaimTypes.Email) ?? string.Empty;
         c.Id = Guid.TryParse(c.User.FindFirstValue(ClaimTypes.Sid), out var id) ? id : Guid.Empty;
-        c.DealerId = c.User.FindFirstValue(ClaimTypes.PrimaryGroupSid) ?? string.Empty;
+        c.DealerId = c.User.FindFirstValue(ClaimTypes.GroupSid) ?? string.Empty;
         // Roles
         c.IsEditor = c.User.IsInRole(nameof(RoleType.Editor));
         c.IsAdministrator = c.User.IsInRole(nameof(RoleType.Administrator));

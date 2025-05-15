@@ -4,7 +4,7 @@ namespace nauteck.core.Features.Client.Handlers.Query;
 
 public sealed class ClientQueryHandler(IDapperContext dapperContext) : IRequestHandler<Queries.ClientQuery, IEnumerable<data.Dto.Client.ClientDto>>
 {
-    public async Task<IEnumerable<data.Dto.Client.ClientDto>> Handle(Queries.ClientQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<ClientDto>> Handle(Queries.ClientQuery request, CancellationToken cancellationToken)
     {
         var sql = $@"SELECT 
             {DbConstants.Tables.Client.Columns.Id}
@@ -24,7 +24,8 @@ public sealed class ClientQueryHandler(IDapperContext dapperContext) : IRequestH
             ,{DbConstants.Tables.Client.Columns.BoatBrand}
             ,{DbConstants.Tables.Client.Columns.BoatType} 
             ,{DbConstants.Tables.Client.Columns.Active} 
+            ,{DbConstants.Tables.Client.Columns.CreatedAt} 
             FROM {DbConstants.Tables.Client.TableName}";
-        return await dapperContext.Connection.QueryAsync<data.Dto.Client.ClientDto>(sql);
+        return await dapperContext.Connection.QueryAsync<ClientDto>(sql);
     }
 }
